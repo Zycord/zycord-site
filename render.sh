@@ -45,11 +45,20 @@ for v in $VARS; do
         echo "render: $v is not set in $env_file" >&2
         exit 1
     fi
-    # The example value is not a value. Without this the placeholder ships as a
-    # working-looking link to a domain that cannot resolve.
+    # A placeholder host is not a value. .env.example now ships the real URLs,
+    # but a fork that puts a stand-in back must not have it reach production as
+    # a working-looking link to a domain that cannot resolve.
     case "$value" in
-        *example.invalid*)
-            echo "render: $v still holds the .env.example placeholder" >&2
+        *example.invalid*|*example.com*)
+            echo "render: $v still holds a placeholder host" >&2
+            exit 1
+            ;;
+    esac
+    # A trailing slash doubles up against the paths appended in the HTML --
+    # ".../zycord-node//tree/main/spec" -- which some forges 404 on.
+    case "$value" in
+        */)
+            echo "render: $v must not end in a slash" >&2
             exit 1
             ;;
     esac

@@ -10,8 +10,8 @@ in the repository.
 
 | Secret | Contents |
 |---|---|
-| `ZYCORD_RELEASES_URL` | Where the download buttons point: the releases page, not one archive. A release publishes two tiers across several platforms and the file names carry the version, so a link to a single file rots at the next tag. No trailing slash. |
-| `ZYCORD_SOURCE_URL` | Where "View Source Code" points: the repository. No trailing slash. |
+| `ZYCORD_RELEASES_URL` | Where the download buttons point: `https://github.com/Zycord/zycord-node/releases/latest`. The releases page, not one archive. A release publishes two tiers across several platforms and the file names carry the version, so a link to a single file rots at the next tag. No trailing slash. |
+| `ZYCORD_SOURCE_URL` | Where "View Source Code" points: `https://github.com/Zycord/zycord-node`. The node repository, which is also where the docs, `spec/`, `packaging/` and `attestations/` paths linked throughout the site resolve. No trailing slash. |
 | `DEPLOY_SSH_KEY` | Private half of the CI-only SSH key, OpenSSH format, including the header and trailer lines. |
 | `DEPLOY_HOST` | Hostname or address of the production node. |
 | `DEPLOY_KNOWN_HOSTS` | The node's `known_hosts` line, used to pin its host key. |

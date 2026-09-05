@@ -160,7 +160,7 @@ worth less without the one before it.</p>
 
 <h2 id="the-checksum">The checksum<a class="doc-anchor" href="#the-checksum" aria-label="Link to this section">#</a></h2>
 
-<pre><code>curl -fsSLO {{ZYCORD_RELEASES_URL}}/download/v&lt;version&gt;/SHA256SUMS.randomx
+<pre><code>curl -fsSLO {{ZYCORD_SOURCE_URL}}/releases/download/v&lt;version&gt;/SHA256SUMS.randomx
 sha256sum --check --ignore-missing SHA256SUMS.randomx
 
 <span class="c"># on macOS:</span>
@@ -213,7 +213,7 @@ looked.</p>
 gpg --import packaging/zycord-release-key.asc
 
 <span class="c"># 2. The release page, as an asset beside the archives.</span>
-curl -fsSLO {{ZYCORD_RELEASES_URL}}/download/v&lt;version&gt;/zycord-release-key.asc
+curl -fsSLO {{ZYCORD_SOURCE_URL}}/releases/download/v&lt;version&gt;/zycord-release-key.asc
 gpg --import zycord-release-key.asc
 
 <span class="c"># 3. A keyserver. Use this one.</span>
