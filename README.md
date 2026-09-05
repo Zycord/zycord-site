@@ -54,8 +54,8 @@ The workflow needs five repository secrets.
 
 | Secret | Purpose |
 | --- | --- |
-| `ZYCORD_RELEASES_URL` | Where the download buttons point, no trailing slash |
-| `ZYCORD_SOURCE_URL` | Where "View Source Code" points, no trailing slash |
+| `ZYCORD_RELEASES_URL` | `https://github.com/Zycord/zycord-node/releases/latest`, no trailing slash |
+| `ZYCORD_SOURCE_URL` | `https://github.com/Zycord/zycord-node`, no trailing slash |
 | `DEPLOY_HOST` | The production node |
 | `DEPLOY_SSH_KEY` | Private key for the rsync-restricted deploy account |
 | `DEPLOY_KNOWN_HOSTS` | Pinned host key for that node |
