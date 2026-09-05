@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wire protocol — Zycord Documentation</title>
+  <meta name="description" content="The Zycord peer protocol: TLS 1.3 transport with Ed25519 peer identity, message framing and kinds, the cost-ordering and every-outcome-is-priced rules, and the eclipse defences in connection management." />
+  <link rel="canonical" href="https://zycord.com/docs/protocol/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Wire protocol — Zycord Documentation" />
+  <meta property="og:description" content="The Zycord peer protocol: TLS 1.3 transport with Ed25519 peer identity, message framing and kinds, the cost-ordering and every-outcome-is-priced rules, and the eclipse defences in connection management." />
+  <meta property="og:url" content="https://zycord.com/docs/protocol/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Wire protocol — Zycord Documentation" />
+  <meta name="twitter:description" content="The Zycord peer protocol: TLS 1.3 transport with Ed25519 peer identity, message framing and kinds, the cost-ordering and every-outcome-is-priced rules, and the eclipse defences in connection management." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Wire protocol",
+      "description": "The Zycord peer protocol: TLS 1.3 transport with Ed25519 peer identity, message framing and kinds, the cost-ordering and every-outcome-is-priced rules, and the eclipse defences in connection management.",
+      "url": "https://zycord.com/docs/protocol/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wire protocol",
+          "item": "https://zycord.com/docs/protocol/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/" aria-current="page">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Wire protocol</span>
+          </div>
+          <h1>Wire protocol</h1>
+          <p class="doc-lede">What Zycord nodes say to each other, and the rules that keep a peer protocol from becoming an amplifier. A guide to the normative specification, not a replacement for it.</p>
+<div class="callout info">
+<div class="callout-title">This page is a guide to a normative document</div>
+<p>The requirements below are stated in full, with their measurements and their reasoning, in
+<a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/spec/wire.md">docs/spec/wire.md</a>, which is authoritative for
+the peer layer. Where this page and that file disagree, that file wins. Nothing here changes what
+a conforming implementation must do; it is a map of where the requirements are.</p>
+</div>
+
+<h2 id="transport">Transport<a class="doc-anchor" href="#transport" aria-label="Link to this section">#</a></h2>
+
+<p><strong>TCP, then TLS 1.3.</strong> Peer identity is an Ed25519 key carried in a self-signed
+X.509 certificate, presented by both sides. Certificate <em>chains</em> are not validated &mdash;
+there is no certificate authority and nothing for one to attest &mdash; so verification requires
+exactly one certificate, requires its public key to be Ed25519, and extracts that key as the
+peer's identity.</p>
+
+<p>The property obtained is <strong>channel binding to a key, not authorisation</strong>: TLS
+guarantees that whoever completed the handshake holds the private key for the identity presented,
+and that the stream cannot be read or modified in transit. It says nothing about whether that peer
+is honest. <strong>Nothing in the protocol grants authority on the basis of identity.</strong></p>
+
+<p>Certificate validity dates are fixed constants rather than a window around the current time, on
+purpose: a relative window makes certificate acceptance depend on clock agreement, and a network
+that partitions along clock skew is a network that partitions for a reason unrelated to
+consensus.</p>
+
+<p>Implementations <strong>must not</strong> reuse a key from any other layer as the peer
+identity. The node generates a fresh one on every start and never writes it to disk.</p>
+
+<h2 id="framing">Framing<a class="doc-anchor" href="#framing" aria-label="Link to this section">#</a></h2>
+
+<pre><code>offset  size  field
+0       4     length   uint32, little-endian - payload length, excluding this header
+4       1     kind     uint8  - see below
+5       n     payload</code></pre>
+
+<ul>
+<li><code>length</code> <strong>must</strong> be checked against <code>MaxMessageBytes</code> = 8 MiB <strong>before any allocation</strong>. A receiver that allocates on a claimed length has a remote memory-exhaustion bug regardless of what follows.</li>
+<li><code>kind</code> <strong>must</strong> be in <code>[1, 9]</code>. Zero and anything above the highest known kind are a protocol violation, <em>not</em> an unknown extension: there is no forward-compatibility escape hatch at protocol 1, because a version field checked at the handshake makes one unnecessary.</li>
+</ul>
+
+<h2 id="message-kinds">Message kinds<a class="doc-anchor" href="#message-kinds" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Value</th><th>Name</th><th>Direction</th><th>Payload</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>hello</code></td><td>both, first</td><td>Handshake</td></tr>
+<tr><td>2</td><td><code>certificate</code></td><td>gossip</td><td><code>ssz(Certificate)</code></td></tr>
+<tr><td>3</td><td><code>block-announce</code></td><td>gossip</td><td>Header plus certificate ids</td></tr>
+<tr><td>4</td><td><code>get-block</code></td><td>request</td><td>32-byte block id &Vert; u32 chunk index</td></tr>
+<tr><td>5</td><td><code>block</code></td><td>response</td><td>One chunk of <code>ssz(Block)</code></td></tr>
+<tr><td>6</td><td><code>get-headers</code></td><td>request</td><td>Locator</td></tr>
+<tr><td>7</td><td><code>headers</code></td><td>response</td><td>Header run</td></tr>
+<tr><td>8</td><td><code>get-peers</code></td><td>request</td><td>empty</td></tr>
+<tr><td>9</td><td><code>peers</code></td><td>response</td><td>Address list</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>There is no network-specific encoding of a consensus object</strong>, which is what makes
+"the id of what I received" a checkable statement.</p>
+
+<h2 id="every-inbound-message-costs-its-sender">Every inbound message costs its sender<a class="doc-anchor" href="#every-inbound-message-costs-its-sender" aria-label="Link to this section">#</a></h2>
+
+<p>This is the part of the specification most worth reading in full, because it is where a peer
+protocol usually leaks. Two rules govern it.</p>
+
+<h3 id="the-cost-ordering-rule">The cost-ordering rule<a class="doc-anchor" href="#the-cost-ordering-rule" aria-label="Link to this section">#</a></h3>
+
+<p>Work is done in increasing order of cost, and a message is charged before the expensive step
+that follows it. A receiver that verifies first and scores afterwards has built an amplifier: the
+cheap thing to send is the expensive thing to check.</p>
+
+<h3 id="every-outcome-is-priced">Every outcome is priced<a class="doc-anchor" href="#every-outcome-is-priced" aria-label="Link to this section">#</a></h3>
+
+<p><strong>There is no unnamed <code>Free</code>.</strong> Every message kind, crossed with every
+outcome it can produce, appears in a table with a score attached. An outcome that falls through the
+table without being charged is the defect this rule exists to prevent &mdash; and it has been
+reached in practice by narrower routes than an unpriced row: an implementation that diverted a
+malformed frame away from its only scorer made that frame free for as long as a request was
+outstanding, without adding a row to any table.</p>
+
+<p>Serving is metered too. Block bytes are the one response orders of magnitude larger than the
+request that asks for it, so they carry their own byte budget on top of the request count.</p>
+
+<h2 id="connection-management-and-the-eclipse-defence">Connection management, and the eclipse defence<a class="doc-anchor" href="#connection-management-and-the-eclipse-defence" aria-label="Link to this section">#</a></h2>
+
+<p>This section carries more measured failures than any other, and each requirement below exists
+because an implementation without it was eclipsed in a measurement.</p>
+
+<ul>
+<li><strong>Outbound targets must be selected with address diversity</strong>, so one hosting range cannot fill a node's outbound slots.</li>
+<li><strong>Outbound targets must also be bounded per gossip source.</strong> Address diversity alone is not enough, for a reason that is arithmetic rather than judgement: an address group is a property of an address an attacker <em>owns</em>, but an address a peer <em>claims</em> is bytes it invented, and any four bytes are a valid IPv4 host. An attacker with no addresses at all mints a fresh diversity group per string for the price of one frame. <strong>What it cannot invent is the connection the claim arrived on.</strong></li>
+<li><strong>The socket an inbound connection arrived on must not become an outbound target.</strong> It is the peer's <em>source</em> address &mdash; an ephemeral port its OS chose, not something it listens on &mdash; so a slot spent dialling it is a slot spent on an address that cannot answer.</li>
+<li><strong>Both bounds must be counted against the connections a node holds</strong>, not against one selection call. Otherwise a dial loop that excludes already-connected peers rebuilds both budgets full every round, and the bound delays an attacker by one round per allowance instead of bounding it. Measured: one teller took 2, then 4, then 6, then 8 of 8 outbound slots over four rounds.</li>
+<li><strong>The peer store must be persisted, and must be bounded.</strong> A node that starts blank after every restart hands an attacker a fresh opportunity on every restart; one that starts with the attacker's slate hands it the same opportunity permanently.</li>
+<li><strong>A bounded store must not refuse a well-formed address because it is full; it evicts for it.</strong> A never-contacted honest address is never better than a never-contacted invented one, so an attacker who fills the store first locks it shut against everything offered afterwards &mdash; the operator's own bootstrap list included.</li>
+<li><strong>What eviction chooses matters more than that it happens.</strong> "Take the victim from the largest population" reads as <em>a flood displaces itself</em>, and is that only while the flood is the largest thing in the store. On a node bootstrapped from one helpful peer, the largest population is that peer's address book. Measured on an implementation ordered that way: 200 invented addresses from one source evicted 200 honest ones at no cost to the attacker.</li>
+<li><strong>Among indistinguishable entries the final tie-break must not be anything the gossiping peer chooses</strong> &mdash; the address included &mdash; and this applies to selection exactly as it applies to eviction. Measured on an implementation whose selector fell through to the address string: 8 honest addresses against 8 invented ones returned <strong>8 of 8 invented</strong>, and zero honest outbound connections over ten rounds.</li>
+</ul>
+
+<h2 id="what-is-deliberately-absent">What is deliberately absent<a class="doc-anchor" href="#what-is-deliberately-absent" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Absent</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><strong>NAT traversal</strong></td><td>The cost is stated and the reopen condition is measured rather than assumed: the share of dialable nodes on the public testnet is the first condition on reopening the decision.</td></tr>
+<tr><td><strong>Compression</strong></td><td>A compressor on an attacker-controlled stream is an attack surface, for a bandwidth saving nobody has measured a need for.</td></tr>
+<tr><td><strong>Message-level signatures</strong></td><td>The transport authenticates the channel; consensus objects carry their own signatures. A third layer would authenticate the relay, which is not something any decision depends on.</td></tr>
+<tr><td><strong>Request ids</strong></td><td>Request and response are matched by connection and order, so sync runs on its own connection &mdash; which removes a state machine. Where a peer is not dialable, sync may run over an existing gossip connection and must then match responses <em>by content</em>.</td></tr>
+<tr><td><strong>A forward-compatible extension mechanism</strong></td><td>Protocol 1 checks its version at the handshake and disconnects on mismatch. Extensions arrive as protocol 2.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="what-a-certificate-id-does-not-cover">What a certificate id does not cover<a class="doc-anchor" href="#what-a-certificate-id-does-not-cover" aria-label="Link to this section">#</a></h2>
+
+<p>Worth restating here because it decides a relay rule. A certificate's id commits to what it
+<em>authorizes</em> and never to what it merely <em>demonstrates</em>, so signatures sit outside
+the id's preimage. That makes evidence something anyone in transit can replace: take a
+certificate, substitute garbage for its signature, and propagate &mdash; same id, now-invalid
+exemplar.</p>
+
+<p>Two rules close it. A <strong>block commits to the evidence it carries</strong>, through a root
+over exemplar hashes rather than over ids. And <strong>relay treats exemplars, not ids</strong>: a
+node that receives an exemplar whose evidence fails verification discards <em>that exemplar</em>
+without prejudice to the id &mdash; the id is not marked, not cached as invalid, and a later
+exemplar that verifies relays normally. A mutilated copy costs its mutilator the bandwidth of
+sending it and costs the certificate nothing.</p>
+
+<h2 id="implementing-this-from-scratch">Implementing this from scratch<a class="doc-anchor" href="#implementing-this-from-scratch" aria-label="Link to this section">#</a></h2>
+
+<p>An independent implementation that passes
+<a href="{{ZYCORD_SOURCE_URL}}/tree/main/spec/vectors">the golden vectors</a> is a peer, not a fork &mdash; that
+is the whole point of specifying it this way. Start with
+<a href="{{ZYCORD_SOURCE_URL}}/blob/main/spec/README.md">spec/README.md</a> for the consensus objects, then
+<a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/spec/wire.md">docs/spec/wire.md</a> for the peer layer, and check
+your work with <code>zcd vectors</code>.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/testnet/"><span class="dir">Previous</span><span class="ttl">Public testnet</span></a>
+        <a class="next" href="/docs/glossary/"><span class="dir">Next</span><span class="ttl">Glossary</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#transport">Transport</a>
+        <a class="lvl-2" href="#framing">Framing</a>
+        <a class="lvl-2" href="#message-kinds">Message kinds</a>
+        <a class="lvl-2" href="#every-inbound-message-costs-its-sender">Every inbound message costs its sender</a>
+        <a class="lvl-3" href="#the-cost-ordering-rule">The cost-ordering rule</a>
+        <a class="lvl-3" href="#every-outcome-is-priced">Every outcome is priced</a>
+        <a class="lvl-2" href="#connection-management-and-the-eclipse-defence">Connection management, and the eclipse defence</a>
+        <a class="lvl-2" href="#what-is-deliberately-absent">What is deliberately absent</a>
+        <a class="lvl-2" href="#what-a-certificate-id-does-not-cover">What a certificate id does not cover</a>
+        <a class="lvl-2" href="#implementing-this-from-scratch">Implementing this from scratch</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

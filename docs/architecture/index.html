@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture — Zycord Documentation</title>
+  <meta name="description" content="How the Zycord reference node is built: the stateless pipeline and the sequential fold, engineering principles, cryptographic primitives, SSZ encoding and certificate identity, the cell model, and the testing strategy." />
+  <link rel="canonical" href="https://zycord.com/docs/architecture/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Architecture — Zycord Documentation" />
+  <meta property="og:description" content="How the Zycord reference node is built: the stateless pipeline and the sequential fold, engineering principles, cryptographic primitives, SSZ encoding and certificate identity, the cell model, and the testing strategy." />
+  <meta property="og:url" content="https://zycord.com/docs/architecture/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Architecture — Zycord Documentation" />
+  <meta name="twitter:description" content="How the Zycord reference node is built: the stateless pipeline and the sequential fold, engineering principles, cryptographic primitives, SSZ encoding and certificate identity, the cell model, and the testing strategy." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Architecture",
+      "description": "How the Zycord reference node is built: the stateless pipeline and the sequential fold, engineering principles, cryptographic primitives, SSZ encoding and certificate identity, the cell model, and the testing strategy.",
+      "url": "https://zycord.com/docs/architecture/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Architecture",
+          "item": "https://zycord.com/docs/architecture/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/" aria-current="page">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Architecture</span>
+          </div>
+          <h1>Architecture</h1>
+          <p class="doc-lede">The engineering companion to the whitepaper &mdash; how the reference node realises the design, and the decisions behind it. Explanatory, not normative.</p>
+<div class="callout info">
+<div class="callout-title">This document is not normative</div>
+<p>The protocol is <a href="{{ZYCORD_SOURCE_URL}}/tree/main/spec">the parameter files and the golden
+vectors</a>, plus the named rules wherever they are defined;
+<a href="/docs/protocol/">the wire specification</a> carries the peer layer's requirements. This
+page explains that surface and records the decisions behind it. Where it disagrees with the
+normative surface, <strong>the normative surface wins</strong> and this text is corrected. The
+full engineering companion is <a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/ARCHITECTURE.md">docs/ARCHITECTURE.md</a>.</p>
+</div>
+
+<h2 id="two-predicates-two-engines">Two predicates, two engines<a class="doc-anchor" href="#two-predicates-two-engines" aria-label="Link to this section">#</a></h2>
+
+<p>The life of a certificate, end to end:</p>
+
+<pre><code> wallet                      network                        every full node
++------------+   gossip   +--------------+               +---------------------+
+| build cert | ---------&gt; | cert topic   | ------------&gt; | STATELESS PIPELINE  |
+| (reads,    |            | (TLS gossip) |               | V1..V8, batch sigs, |
+| writes,    |            +--------------+               | native re-exec      |
+| sigs, seq, |                                           |  -&gt; mark VALID      |
+| deposit)   |                                           +----------+----------+
++------------+                                                      | mempool
+                                                                    v
+                            miner (any node)              +---------------------+
+                          +-------------------+  block    | FOLD (sequential)   |
+                          | assemble ordered  | --------&gt; | F-rules per cert:   |
+                          | hash list + bodies|  gossip   | APPLY / SKIP / DROP |
+                          | + RandomX solve   |           |  -&gt; new state       |
+                          +-------------------+           +---------------------+</code></pre>
+
+<p><strong>Validity</strong> is stateless and parallel: it runs once per certificate per node,
+before and independent of blocks. <strong>Applicability</strong> is stateful and sequential: it
+runs inside the fold at the certificate's committed position. The miner runs no execution; it
+orders hashes it has already seen validated and solves proof of work. The fold is a tight loop
+over an in-memory working set &mdash; compare, add, write.</p>
+
+<h2 id="engineering-principles">Engineering principles<a class="doc-anchor" href="#engineering-principles" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th></th><th>Principle</th></tr></thead>
+<tbody>
+<tr><td><strong>P1</strong></td><td><strong>The fold is sacred.</strong> The state-transition function lives in one pure package with no I/O, no clocks, no goroutines, no map iteration and no floating point. It is the only code whose bugs are unfixable after the fact. Everything else in the node is replaceable plumbing.</td></tr>
+<tr><td><strong>P2</strong></td><td><strong>Determinism beats performance.</strong> Any optimisation that risks nondeterminism is rejected in consensus code. Performance belongs in the stateless pipeline, where it is safe.</td></tr>
+<tr><td><strong>P3</strong></td><td><strong>No admin keys, no privileged RPC.</strong> There is no code path by which any key can pause, upgrade, mint or reorganise. If it is not in the fold rules, it does not exist.</td></tr>
+<tr><td><strong>P4</strong></td><td><strong>Small consensus surface.</strong> <code>core/</code> imports nothing outside the standard library. The rest of the node may use ecosystem libraries; the core may not.</td></tr>
+<tr><td><strong>P5</strong></td><td><strong>Spec-first.</strong> The golden vectors are the protocol. The Go code is <em>a</em> reference implementation; an independent implementation that passes the vectors is a peer, not a fork. This is what allows the maintainer to eventually be nobody in particular.</td></tr>
+<tr><td><strong>P6</strong></td><td><strong>Reproducible from v0.1.</strong> Pinned Go toolchain, <code>-trimpath</code>, pinned dependencies. Trust moves from the binary to the code, which is the only trust an anonymous author can offer.</td></tr>
+<tr><td><strong>P7</strong></td><td><strong>Era 0 ships nothing it does not need.</strong> No VM, no bonds, no sequencers in the genesis binary. <strong>Unreachable code is unauditable code</strong> and is excluded.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>P3 is the one a sceptical reader should press hardest, and the treasury is where to press it:
+genesis contains <strong>no key and no spend path at all</strong>, so there is no privilege to
+hold, delegate or steal. The 3-of-5 quorum of Era 2 is pinned by a <em>future hard fork</em>
+&mdash; the same social mechanism as any other consensus change, subject to the same refusal, and
+able to move exactly one cell even then. A quorum that only appears if the network agrees to write
+it in, and that then holds one cell, is a spending rule. An admin key is one that exists before
+anyone consented and reaches everything.</p>
+
+<h2 id="cryptographic-primitives">Cryptographic primitives<a class="doc-anchor" href="#cryptographic-primitives" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Role</th><th>Choice</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Signatures</td><td><strong>Ed25519</strong></td><td>Batch verification (the GPU on-ramp), no malleability, tiny keys. Strict rules fixed at genesis: canonical encodings required for the public key and <em>R</em>, the public key torsion-free and not of low order, and verification cofactorless.</td></tr>
+<tr><td>Hashing</td><td><strong>BLAKE3</strong></td><td>Certificate and block ids, addresses, state root. Fast enough to hash at relay line rate; parallel-friendly for the epoch state root.</td></tr>
+<tr><td>Proof of work</td><td><strong>RandomX</strong></td><td>CPU-optimised. The only cgo in the tree, behind a build tag, and absent from a build without it. <code>pow_engine</code> is in the consensus root, so a binary holding the wrong engine <em>refuses to start</em> rather than accepting the wrong proof.</td></tr>
+<tr><td>Domain separation</td><td>mandatory</td><td>Every hash is <code>blake3(tag &Vert; payload)</code>. Signatures sign over the chain id <em>and</em> the consensus root, which kills replay both between networks and across two incarnations of one network.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Torsion rejection is what makes the batch path safe.</strong> A mixed-order key is not
+small-order, so no blocklist reaches it, and it is exactly where a cofactored batch verifier and a
+cofactorless single verifier disagree. With the key and <em>R</em> in the prime-order subgroup the
+two are provably equivalent &mdash; so a batch verifier may be cofactored <em>provided it applies
+the same encoding and torsion rules before batching</em>. That obligation is the price of the
+choice, and the batch verifier does not exist yet.</p>
+
+<h2 id="canonical-encoding-and-identifiers">Canonical encoding and identifiers<a class="doc-anchor" href="#canonical-encoding-and-identifiers" aria-label="Link to this section">#</a></h2>
+
+<p>All consensus objects are <strong>SSZ</strong> containers: a single canonical byte encoding, no
+map ordering, no optional-field ambiguity, fixed offsets for cheap partial parsing, and native
+merkleization.</p>
+
+<pre><code>cert_id       = blake3("zcd/certid/v1" || ssz(certificate with an empty signature list))
+cert_exemplar = blake3("zcd/cert/v1"   || ssz(certificate))
+block_id      = blake3("zcd/block/v1"  || ssz(header))</code></pre>
+
+<p><strong>The first two are different digests answering different questions, and an
+implementation that uses one where the other belongs is monetarily broken.</strong> The id answers
+<em>has this authorization been billed</em>; the exemplar hash answers <em>do these bytes prove
+it</em>. The two never share a key.</p>
+
+<p>Signatures are outside the id's preimage because a signature is a randomized demonstration: the
+signer picks the nonce, every nonce yields another valid and perfectly canonical signature over the
+same body, and no verifier can check which was used. Were they inside, one authorization would
+have unboundedly many ids, each billable, each producible by any <em>one</em> of its required
+signers out of the others' authority.</p>
+
+<div class="callout warn">
+<div class="callout-title">The fee bid is inside the id, and that is a monetary decision</div>
+<p>A bid outside the id would be a bid anyone in transit could rewrite &mdash; inflated to burn the
+signer's balance through the base fee, or zeroed to keep the certificate out of every block. What a
+certificate pays is part of what its signer authorized, so it is hashed and it is signed. A later
+encoding change that "moves the fee out of the signed body for relay flexibility" would look like
+an optimisation and would be a theft vector.</p>
+</div>
+
+<p>The rule that follows: <strong>parse, don't validate twice.</strong> Decoding enforces canonical
+form, so a decoded object is structurally valid by construction and the rule engines never
+re-check shape.</p>
+
+<h2 id="the-cell-model">The cell model<a class="doc-anchor" href="#the-cell-model" aria-label="Link to this section">#</a></h2>
+
+<p>A <strong>cell</strong> is the value at a slot. Cell values are unsigned 256-bit integers stored
+big-endian in 32 bytes. Absent cells read as zero &mdash; <em>zero is absence</em>, which is a
+consensus requirement rather than an implementation convenience: it keeps the state root a function
+of the state rather than of the history that produced it.</p>
+
+<p>Separately, the protocol keeps a <strong>spent-address registry</strong>: a permanent consensus
+set of one-shot addresses whose signing authority has been burned.</p>
+
+<pre><code>Addr = version || blake3("zcd/addr/v1" || version || payload)[:31]</code></pre>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Version</th><th>Kind</th><th>Debit authorization</th></tr></thead>
+<tbody>
+<tr><td><code>0x01</code></td><td>one-shot user</td><td>Owner signature; any debiting certificate must also carry an explicit <code>MARK_SPENT</code>. After it applies, every read and write under the address fails forever.</td></tr>
+<tr><td><code>0x02</code></td><td>persistent user</td><td>Owner signature; reusable forever. Can never enter the spent registry.</td></tr>
+<tr><td><code>0x03</code></td><td>asset</td><td>Governed by the asset's immutable authority cells.</td></tr>
+<tr><td><code>0x00</code></td><td>protocol</td><td>Fold-only: epoch beacon, base-fee cells, coinbase maturity ring, treasury cell.</td></tr>
+<tr><td><code>0x04</code></td><td><strong>reserved</strong> &mdash; hidden-value cell (Era S)</td><td>Unreachable in Era 0.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong><code>0x04</code> is reserved now rather than allocated later</strong>, because a hidden
+value must be distinguishable from an ordinary one <em>by its address</em>: a Pedersen commitment
+and a 256-bit balance are both 32 bytes, so a guarded delta aimed by error or malice at a
+commitment slot would have the fold add an integer to a curve-point encoding &mdash; arithmetic
+that passes every check and leaves a cell nobody can ever spend. This table is frozen at genesis,
+so the byte is claimed here and left unreachable.</p>
+
+<p><strong>The registry entry is never compacted.</strong> Cell <em>values</em> under a spent
+address may be pruned after the undo horizon, but the entry that records the address as spent is
+what stops it being resurrected. It is append-only consensus state, about 33 bytes per address,
+forever &mdash; <strong>the protocol's honest open problem</strong>, shared structurally with every
+nullifier-set design.</p>
+
+<h2 id="stateless-validity-and-the-billing-law">Stateless validity, and the billing law<a class="doc-anchor" href="#stateless-validity-and-the-billing-law" aria-label="Link to this section">#</a></h2>
+
+<p>The V-rules run on every certificate, in parallel, before mempool admission and during block
+verification, and require zero state: canonical form and chain id; every signature verifying over
+the signing root; authorization derivable from the certificate alone; the declared reads equalling
+what the program derives; and the refund destination checked against what the certificate itself
+burns.</p>
+
+<p>The system's billing law is one sentence, and it is the thing to hold on to:</p>
+
+<div class="callout">
+<p><strong>One signature, at most one bill, never at a position its signer could not avoid.</strong></p>
+</div>
+
+<p>This spec adds one term to the whitepaper's vocabulary: <strong>drop</strong>, a non-billed
+non-event. A certificate reaching application with its deposit already consumed is dropped &mdash;
+not billed, not marked seen, free to resubmit against a fresh deposit &mdash; so honest users lose
+nothing to races on their own deposit cell.</p>
+
+<h2 id="repository-layout">Repository layout<a class="doc-anchor" href="#repository-layout" aria-label="Link to this section">#</a></h2>
+
+<pre><code>zycord/
+  spec/       params.json, golden vectors, test-vector schema   <span class="c">&lt;- THE PROTOCOL</span>
+  core/       consensus-critical; standard library only (P4)
+    types/  crypto/  fold/  validity/  pow/  state/
+    pow/randomx/   the network engine: vendored C++, cgo, behind a build tag
+  node/       mempool/  p2p/  storage/  rpc/  miner/  sync/  verify/
+  wallet/     key management, certificate builders (reference; not consensus)
+  sim/        adversarial simulator, fuzz harnesses, differential runner
+  cmd/        zycordd, zcd
+  docs/       architecture, whitepaper, adversarial reviews</code></pre>
+
+<p><strong>Dependency arrows point inward only</strong> &mdash; <code>node &rarr; core</code>,
+<code>wallet &rarr; core</code>, never the reverse &mdash; and nothing inside <code>core/</code>
+reaches outside <code>core/</code> and the standard library. One exception, named and enforced:
+<code>core/pow/randomx</code> is the only cgo in the tree, and it compiles only under the build
+tag, so every build without the tag is still standard-library-only and needs no C toolchain. CI
+runs the check that enforces it, because the third-party check greps module paths and cgo has
+none &mdash; which left the rule enforced by nobody until it was added.</p>
+
+<h2 id="how-it-is-tested">How it is tested<a class="doc-anchor" href="#how-it-is-tested" aria-label="Link to this section">#</a></h2>
+
+<ul>
+<li><strong>Golden vectors.</strong> Every fold, block and validity rule has positive and negative cases as <code>(pre-state, block) &rarr; (post-state | invalid, outcomes, fees)</code>. The suite is the compatibility contract for independent implementations.</li>
+<li><strong>The griefing suite.</strong> Re-inclusion of applied and skipped certificates, expired inclusion, under-bid inclusion, dependent chains under proposer shuffling, burn-and-refund cycles, third-party credit storms, mint-cap boundary races.</li>
+<li><strong>Property-based.</strong> Fold determinism under proposer-order permutation, delta commutativity, ABA tolerance, and conservation &mdash; including deposits in flight, the maturity ring and the treasury cell, since a conservation check that omits the treasury reports every block as creating value.</li>
+<li><strong>Differential.</strong> A deliberately naive second fold implementation, written for obviousness rather than speed, fuzzed against the real one. Divergence is a release blocker.</li>
+<li><strong>Adversarial simulation.</strong> Skip storms, deposit-drain races, drop-stuffing miners, reorg torture, timestamp manipulation, eclipse-lite relay scenarios. Scenario configs are committed; runs are reproducible by seed.</li>
+<li><strong>Concurrency, deliberately.</strong> Every component more than one goroutine touches has a test that <em>is</em> concurrent, in the shape the process actually uses. <code>-race</code> on a single-goroutine suite measures nothing and reports success.</li>
+<li><strong>The chaos soak.</strong> Real node processes over real sockets behind a proxy injecting latency, jitter, loss and partitions, with nodes killed by <code>SIGKILL</code> at random. This is the surface that found the data race the entire <code>-race</code> suite missed.</li>
+</ul>
+
+<h2 id="genesis-is-an-artifact-not-a-ceremony">Genesis is an artifact, not a ceremony<a class="doc-anchor" href="#genesis-is-an-artifact-not-a-ceremony" aria-label="Link to this section">#</a></h2>
+
+<p><code>zcd genesis</code> emits the genesis block &mdash; empty state, beacon cells initialised,
+empty spent registry, <strong>no allocations of any kind</strong> &mdash; and its id. The announced
+launch commits, weeks in advance, to the code tag, the parameter hash, the genesis id, and the
+launch time. Anyone can rebuild all four in milliseconds, from source, on any machine.
+<strong>There is nothing else to trust.</strong></p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/whitepaper/"><span class="dir">Previous</span><span class="ttl">Whitepaper</span></a>
+        <a class="next" href="/docs/install/"><span class="dir">Next</span><span class="ttl">Installation</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#two-predicates-two-engines">Two predicates, two engines</a>
+        <a class="lvl-2" href="#engineering-principles">Engineering principles</a>
+        <a class="lvl-2" href="#cryptographic-primitives">Cryptographic primitives</a>
+        <a class="lvl-2" href="#canonical-encoding-and-identifiers">Canonical encoding and identifiers</a>
+        <a class="lvl-2" href="#the-cell-model">The cell model</a>
+        <a class="lvl-2" href="#stateless-validity-and-the-billing-law">Stateless validity, and the billing law</a>
+        <a class="lvl-2" href="#repository-layout">Repository layout</a>
+        <a class="lvl-2" href="#how-it-is-tested">How it is tested</a>
+        <a class="lvl-2" href="#genesis-is-an-artifact-not-a-ceremony">Genesis is an artifact, not a ceremony</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

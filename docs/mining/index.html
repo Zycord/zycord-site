@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mining — Zycord Documentation</title>
+  <meta name="description" content="Mine Zycord with RandomX on an ordinary CPU: payout addresses, why a node waits for genesis on its own, memory budgets for verifying and mining, key-epoch rebuilds, and coinbase maturity." />
+  <link rel="canonical" href="https://zycord.com/docs/mining/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Mining — Zycord Documentation" />
+  <meta property="og:description" content="Mine Zycord with RandomX on an ordinary CPU: payout addresses, why a node waits for genesis on its own, memory budgets for verifying and mining, key-epoch rebuilds, and coinbase maturity." />
+  <meta property="og:url" content="https://zycord.com/docs/mining/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mining — Zycord Documentation" />
+  <meta name="twitter:description" content="Mine Zycord with RandomX on an ordinary CPU: payout addresses, why a node waits for genesis on its own, memory budgets for verifying and mining, key-epoch rebuilds, and coinbase maturity." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Mining",
+      "description": "Mine Zycord with RandomX on an ordinary CPU: payout addresses, why a node waits for genesis on its own, memory budgets for verifying and mining, key-epoch rebuilds, and coinbase maturity.",
+      "url": "https://zycord.com/docs/mining/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Mining",
+          "item": "https://zycord.com/docs/mining/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/" aria-current="page">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Mining</span>
+          </div>
+          <h1>Mining</h1>
+          <p class="doc-lede">Proof of work with RandomX, on the processor already in your computer. No ASIC farm to compete with and no premine &mdash; coins come from mining and nowhere else.</p>
+<h2 id="the-whole-of-it">The whole of it<a class="doc-anchor" href="#the-whole-of-it" aria-label="Link to this section">#</a></h2>
+
+<pre><code><span class="c"># A payout address. The node never sees the key behind it.</span>
+zcd wallet new --out miner.json
+
+<span class="c"># Mine to it.</span>
+zycordd --testnet --dir ./testnet \
+  --mine --payout $(zcd wallet address --key miner.json)</code></pre>
+
+<p>On the public testnet and on mainnet those are the <code>-randomx</code> binaries &mdash;
+<code>zcd-randomx</code> and <code>zycordd-randomx</code>. A binary built without the tag refuses
+to start rather than falling back to the development engine. See
+<a href="/docs/install/#which-binary-can-join-a-network">Installation</a>.</p>
+
+<h2 id="start-it-whenever-you-like">Start it whenever you like<a class="doc-anchor" href="#start-it-whenever-you-like" aria-label="Link to this section">#</a></h2>
+
+<p>A node started before its network's first block is due <strong>does not mine early and does not
+need to be started again at the hour</strong>. It refuses to build a block whose timestamp its own
+clock has not reached, waits, and begins on its own. It says so while it waits, with the time it
+is waiting for and how long is left:</p>
+
+<pre><code>waiting to mine: the next block cannot be dated before 2026-08-30T00:00:01Z
+(unix 1788048001), and this node's clock reads 2026-08-29T20:12:31Z - 3h47m30s
+to wait. Leave this running: mining starts on its own and there is nothing to
+restart or reconfigure.</code></pre>
+
+<p>That is a refusal to <em>mine</em>, not a refusal to run: the node peers, syncs and serves its
+RPC throughout. The message repeats every ten minutes so a long wait does not look like a hang.</p>
+
+<div class="callout warn">
+<div class="callout-title">If it never stops saying this, your clock is wrong</div>
+<p>The wait is computed against this machine's clock, so a clock set days behind waits days. Check
+it before you check anything else.</p>
+</div>
+
+<p>That refusal is also why it is safe to publish a start time at all. Without it the miner dated
+its header forward to the median floor instead, which before genesis is <code>genesis_time</code>
+itself &mdash; so an early start produced a private chain nobody else could judge and, because the
+difficulty rule measures <em>declared</em> solve times, one whose target hardened every block
+against intervals that had nothing to do with real elapsed time. Nobody had to be dishonest for
+that; it is what leaving it running overnight used to do.</p>
+
+<h2 id="the-payout-address-must-be-persistent">The payout address must be persistent<a class="doc-anchor" href="#the-payout-address-must-be-persistent" aria-label="Link to this section">#</a></h2>
+
+<p>It must be a <strong>persistent (<code>0x02</code>) address</strong> &mdash; <code>zcd wallet
+address</code> prints one by default &mdash; and <code>zycordd</code> <strong>refuses anything
+else</strong> rather than warning. The node never sees the key that controls it, and could not
+spend the reward if it wanted to.</p>
+
+<div class="callout warn">
+<div class="callout-title">Why a one-shot payout address loses money silently</div>
+<p>A one-shot (<code>0x01</code>) payout mines correctly right up until you spend from it once.
+That debit marks the address spent forever, and the fold burns every maturing reward addressed to
+it from that same block on &mdash; the maturity ring rolls after the block's certificates land, so
+the block carrying the spend is already the first block that loses money, and whatever of your
+last <code>coinbase_maturity</code> blocks is still in the ring goes with it.</p>
+<p><strong>Nothing errors.</strong> The only trace is on that node's own block line:
+<code>matured=0</code>, which is also what an ordinary empty ring slot prints, and a
+<code>burned=</code> that has quietly absorbed the whole producer share alongside the base and
+skip fees it normally reports. Neither field says "coinbase". A persistent address can never enter
+the spent registry at all, so the failure is removed rather than narrowed &mdash; see
+<a href="/docs/wallet/#rule-3-one-address-one-expected-payment">wallet rule 3</a>.</p>
+</div>
+
+<h2 id="coinbase-maturity">Coinbase maturity<a class="doc-anchor" href="#coinbase-maturity" aria-label="Link to this section">#</a></h2>
+
+<p>Rewards mature after <code>coinbase_maturity</code> blocks &mdash; <strong>100</strong> on both
+mainnet and the public testnet. Until then they are visible in state and unspendable, which is
+what funds the first deposits on a chain with no premine: <strong>for roughly the first hundred
+blocks, only miners can transact.</strong></p>
+
+<p><strong>Mainnet has no faucet and will not have one</strong>, so on mainnet that ramp is the
+whole of the distribution: mine to play. The public testnet has
+<a href="/faucet/">a faucet</a>, funded by mining like everything else on it, because a network
+whose coins are worth nothing loses nothing by letting somebody rehearse a wallet before they
+rehearse a miner.</p>
+
+<h2 id="what-it-costs-to-run">What it costs to run<a class="doc-anchor" href="#what-it-costs-to-run" aria-label="Link to this section">#</a></h2>
+
+<p>The work function is a <strong>consensus parameter</strong>, not a setting. <code>zcd
+params</code> prints it:</p>
+
+<pre><code>proof of work    randomx-v1 (re-keyed every 2048 blocks, 64-block lag)</code></pre>
+
+<h3 id="memory">Memory<a class="doc-anchor" href="#memory" aria-label="Link to this section">#</a></h3>
+
+<p>Verifying needs about <strong>256 MiB per key epoch held</strong>, and the table holds two so
+that a reorg across a key boundary does not rebuild one per block. <strong>Budget more than that
+table, because the table is not the bound.</strong> A cache is resident from the moment it is
+allocated and the Argon2 fill that makes it expensive comes after &mdash; so up to two more are
+live while they are being built &mdash; and an entry evicted while something is still using it
+keeps everything it has until that user lets go, which is what a miner does across a dataset
+fill.</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Role</th><th>Budget</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Verifying node</td><td><strong>~1 GiB</strong> for the engine</td><td>Peak cache against the two-entry table was measured at 1280 MiB with both effects at once &mdash; not the 512 MiB the table suggests.</td></tr>
+<tr><td>Mining node</td><td><strong>~3.3 GiB</strong></td><td>Additionally allocates the ~2 GiB dataset, and is the case that pins a borrower across the fill.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>A machine that can verify comfortably cannot necessarily mine.</strong></p>
+
+<h3 id="threads">Threads<a class="doc-anchor" href="#threads" aria-label="Link to this section">#</a></h3>
+
+<p><code>--mine-threads</code> defaults to one per core. It changes nothing about validity; it is
+how fast this node looks for a solution.</p>
+
+<h3 id="what-happens-at-a-key-change">What happens at a key change<a class="doc-anchor" href="#what-happens-at-a-key-change" aria-label="Link to this section">#</a></h3>
+
+<p>The work function is re-keyed every <code>randomx_key_interval</code> blocks. A mining node
+rebuilds the ~2 GiB dataset then and <strong>stops mining while it does</strong> &mdash; order of
+ten seconds, machine-dependent; measure yours from the first boundary in the log.</p>
+
+<p><strong>It keeps verifying throughout</strong>, and a rebuild cannot stall it: a header from any
+key epoch other than the one being mined is verified on that epoch's own 256 MiB cache, which the
+dataset does not touch. The two compute identical digests, so the only difference a rebuild makes
+to verification is speed. The next epoch's cache is warmed over the last
+<code>randomx_key_lag</code> blocks of the epoch.</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Network</th><th><code>randomx_key_interval</code></th><th>Mining pause, roughly</th></tr></thead>
+<tbody>
+<tr><td>mainnet</td><td>2048 blocks</td><td>one every ~17 hours</td></tr>
+<tr><td>public testnet</td><td>512 blocks</td><td>one every ~4 hours</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The testnet's shorter interval is deliberate: rehearsing that boundary more often is part of
+what the network exists to measure. Building the next epoch's dataset <em>in advance</em> is
+possible &mdash; the key comes from the height, so it is known well before the boundary &mdash;
+and is deliberately not done: it means holding two of them, 4 GiB, to save a pause that costs a
+miner a few seconds a day.</p>
+
+<h3 id="stopping-a-mining-node">Stopping a mining node<a class="doc-anchor" href="#stopping-a-mining-node" aria-label="Link to this section">#</a></h3>
+
+<p><code>SIGTERM</code> (or <kbd>Ctrl-C</kbd>) stops it, and it stops <em>promptly</em>: one signal
+reaches every loop, not whichever one happens to be waiting on the channel.</p>
+
+<p>A stop that lands during a key change <strong>waits for the dataset fill to finish</strong>
+&mdash; the engine will not release a ~2 GiB buffer while hash calls are still reading it, which
+is a use-after-free in C that no Go tooling would report. It is a stop waiting for a fixed event
+rather than one racing it: measured over ten runs, the exit instant did not move however early the
+signal arrived, while the wait shrank from 4.5 s to 0.7 s, with no <code>SIGSEGV</code>.</p>
+
+<p>So budget a stop timeout above your machine's fill time. <strong>A second <code>SIGTERM</code>
+does not wait</strong> &mdash; the first one hands the signal back to the operating system, so
+pressing <kbd>Ctrl-C</kbd> again during that pause kills the process immediately.</p>
+
+<h2 id="pools-and-why-there-are-none">Pools, and why there are none<a class="doc-anchor" href="#pools-and-why-there-are-none" aria-label="Link to this section">#</a></h2>
+
+<p>None exist at launch and none are official. The node solo-mines out of the box, and at genesis
+difficulty that is the sensible way in. If pools appear they are third parties; apply the
+scepticism you would anywhere.</p>
+
+<h2 id="botnets-named-rather-than-denied">Botnets, named rather than denied<a class="doc-anchor" href="#botnets-named-rather-than-denied" aria-label="Link to this section">#</a></h2>
+
+<p>CPU mining invites them. Every CPU-minable coin has fought them and this project does not
+expect to be the exception. The trade is taken with open eyes: <strong>a distribution skewed by
+botnets is still broader than one decided in a sale</strong>, and keeping the laptop you already
+own competitive is the entire reason RandomX exists.</p>
+
+<h2 id="watching-it-work">Watching it work<a class="doc-anchor" href="#watching-it-work" aria-label="Link to this section">#</a></h2>
+
+<p>The <a href="https://testnet.zycord.com">testnet explorer</a> renders every block and every certificate,
+including the page no other chain's explorer can render: whether each certificate was applied, or
+skipped and billed, and which declared read stopped holding. Your own node answers the same
+questions on <code>/status</code>, <code>/head</code> and <code>/metrics</code> &mdash; see
+<a href="/docs/running-a-node/#the-read-only-surface">the read-only surface</a>.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/running-a-node/"><span class="dir">Previous</span><span class="ttl">Running a node</span></a>
+        <a class="next" href="/docs/wallet/"><span class="dir">Next</span><span class="ttl">Wallet</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#the-whole-of-it">The whole of it</a>
+        <a class="lvl-2" href="#start-it-whenever-you-like">Start it whenever you like</a>
+        <a class="lvl-2" href="#the-payout-address-must-be-persistent">The payout address must be persistent</a>
+        <a class="lvl-2" href="#coinbase-maturity">Coinbase maturity</a>
+        <a class="lvl-2" href="#what-it-costs-to-run">What it costs to run</a>
+        <a class="lvl-3" href="#memory">Memory</a>
+        <a class="lvl-3" href="#threads">Threads</a>
+        <a class="lvl-3" href="#what-happens-at-a-key-change">What happens at a key change</a>
+        <a class="lvl-3" href="#stopping-a-mining-node">Stopping a mining node</a>
+        <a class="lvl-2" href="#pools-and-why-there-are-none">Pools, and why there are none</a>
+        <a class="lvl-2" href="#botnets-named-rather-than-denied">Botnets, named rather than denied</a>
+        <a class="lvl-2" href="#watching-it-work">Watching it work</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

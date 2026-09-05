@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Public testnet — Zycord Documentation</title>
+  <meta name="description" content="Join the Zycord public testnet: genesis parameters and how to verify them, bootstrapping, being dialable, the faucet, self-mining, and the six values that differ from mainnet." />
+  <link rel="canonical" href="https://zycord.com/docs/testnet/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Public testnet — Zycord Documentation" />
+  <meta property="og:description" content="Join the Zycord public testnet: genesis parameters and how to verify them, bootstrapping, being dialable, the faucet, self-mining, and the six values that differ from mainnet." />
+  <meta property="og:url" content="https://zycord.com/docs/testnet/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Public testnet — Zycord Documentation" />
+  <meta name="twitter:description" content="Join the Zycord public testnet: genesis parameters and how to verify them, bootstrapping, being dialable, the faucet, self-mining, and the six values that differ from mainnet." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Public testnet",
+      "description": "Join the Zycord public testnet: genesis parameters and how to verify them, bootstrapping, being dialable, the faucet, self-mining, and the six values that differ from mainnet.",
+      "url": "https://zycord.com/docs/testnet/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Public testnet",
+          "item": "https://zycord.com/docs/testnet/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/" aria-current="page">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Public testnet</span>
+          </div>
+          <h1>Public testnet</h1>
+          <p class="doc-lede">The public testnet carries mainnet's consensus rules under its own chain id, so what it measures is mainnet's behaviour and not its own. Its coins are worth nothing and are meant to be.</p>
+<h2 id="what-it-is">What it is<a class="doc-anchor" href="#what-it-is" aria-label="Link to this section">#</a></h2>
+
+<pre><code>zcd genesis --testnet</code></pre>
+
+<pre><code>network        zycord-testnet
+chain id       2
+params hash    0xce415e2d992c44d60adc0ae0b75775901b26c29e4acba081728e9ed3b505915a
+genesis id     0x0c3cdc8b74cd65eae9604f49ee206a952a089b2c025d4f04a90fa38072738935
+state root     0x3c8f97c8ef50991522feb4f89cd15e8fe1e0b98cec5adb1a2344ee64115a0df8
+genesis time   1788048000
+cells written  6
+allocations    0</code></pre>
+
+<p><strong>Run that command before you trust this page.</strong> A build that prints a different
+genesis id is a build on a different chain, and it will not connect to this one &mdash; the
+handshake refuses before a block is evaluated. <code>allocations 0</code> is the premine claim,
+checkable rather than promised.</p>
+
+<p>Genesis was <strong>2026-08-30T00:00:00Z</strong> (unix <code>1788048000</code>). You can watch
+the chain at <a href="https://testnet.zycord.com">testnet.zycord.com</a>.</p>
+
+<h3 id="it-differs-from-mainnet-in-six-values-and-nowhere-else">It differs from mainnet in six values and nowhere else<a class="doc-anchor" href="#it-differs-from-mainnet-in-six-values-and-nowhere-else" aria-label="Link to this section">#</a></h3>
+
+<p><code>name</code>, <code>chain_id</code>, <code>genesis_target</code>, <code>max_target</code>,
+<code>genesis_time</code> and <code>randomx_key_interval</code>. Everything else &mdash;
+<code>undo_depth</code>, <code>target_block_seconds</code>, <code>coinbase_maturity</code>, and
+<strong>the whole gas schedule</strong> &mdash; is mainnet's on purpose. The gas schedule
+especially, because it is what makes the base-fee behaviour measured here mainnet's rather than
+this network's own. <em>A testnet on its own gas schedule measures a different chain.</em></p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Parameter</th><th>Public testnet</th><th>Mainnet</th></tr></thead>
+<tbody>
+<tr><td><code>name</code></td><td><code>zycord-testnet</code></td><td><code>zycord</code></td></tr>
+<tr><td><code>chain_id</code></td><td>2</td><td>1</td></tr>
+<tr><td><code>genesis_time</code></td><td>1788048000 &mdash; 2026-08-30T00:00:00Z</td><td>1789430400 &mdash; 2026-09-15T00:00:00Z</td></tr>
+<tr><td><code>randomx_key_interval</code></td><td>512 blocks</td><td>2048 blocks</td></tr>
+<tr><td><code>target_block_seconds</code></td><td colspan="2">30 &mdash; identical</td></tr>
+<tr><td><code>coinbase_maturity</code></td><td colspan="2">100 &mdash; identical</td></tr>
+<tr><td><code>epoch_length</code></td><td colspan="2">2880 blocks, about a day &mdash; identical</td></tr>
+<tr><td><code>ttl_max</code></td><td colspan="2">240 blocks, about two hours &mdash; identical</td></tr>
+<tr><td><code>treasury_share_bps</code></td><td colspan="2">300, i.e. 3% &mdash; identical</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+<div class="callout-title">Delete your data directory before joining a reset network</div>
+<p>A testnet may be reset from genesis. When it is, its coins, its history and its peer lists are
+gone, the network takes a fresh chain id, and a data directory holding the old chain is refused at
+startup rather than silently mixed. The two networks also disconnect at the handshake, so nothing
+carries over quietly.</p>
+</div>
+
+<h2 id="joining">Joining<a class="doc-anchor" href="#joining" aria-label="Link to this section">#</a></h2>
+
+<pre><code>make build-randomx        <span class="c"># the testnet is randomx-v1; see below</span>
+                          <span class="c">#   -> bin/zcd-randomx, bin/zycordd-randomx</span>
+
+./bin/zycordd-randomx --testnet --dir ./testnet</code></pre>
+
+<p><strong><code>make build-randomx</code>, not <code>make build</code>.</strong> The testnet's
+<code>pow_engine</code> is <code>randomx-v1</code>, the same work function as mainnet. A binary
+built without the tag refuses to start against it rather than falling back to the development
+engine, which would accept a single BLAKE3 pass as proof of work for every header it ever saw.</p>
+
+<p>The tagged binaries carry the tag <strong>in their names</strong>, so that building both leaves
+both on disk and the file name says which engine is inside it. Elsewhere on these pages the
+commands are written <code>zcd</code> and <code>zycordd</code> for brevity; on this network those
+are the <code>-randomx</code> pair.</p>
+
+<h3 id="bootstrap">Bootstrap<a class="doc-anchor" href="#bootstrap" aria-label="Link to this section">#</a></h3>
+
+<p><strong>The binary ships one seed address for this network, and nothing for any other.</strong>
+You do not have to find a peer before you can start &mdash; the command above joins from the
+built-in seed. To supply your own instead, or as well:</p>
+
+<pre><code>zycordd --testnet --dir ./testnet --peers-file peers.txt
+zycordd --testnet --dir ./testnet --peers host:9421,host2:9421
+zycordd --testnet --dir ./testnet --no-seeds --peers-file peers.txt</code></pre>
+
+<h3 id="be-dialable-if-you-can">Be dialable if you can<a class="doc-anchor" href="#be-dialable-if-you-can" aria-label="Link to this section">#</a></h3>
+
+<p>Zycord does not do NAT traversal. A node with <code>--listen</code> on a reachable port is
+somewhere others can bootstrap <em>from</em>, and the share of such nodes is the falsifiable
+condition the whole no-traversal decision rests on &mdash; it is measured, not assumed.</p>
+
+<pre><code>zycordd --testnet --dir ./testnet \
+  --listen 0.0.0.0:9421 --advertise &lt;public-address&gt;:9421</code></pre>
+
+<p>If you cannot forward a port, leave <code>--listen</code> off and be periphery. That is a
+perfectly good way to participate. Check which you are with <code>curl -s
+localhost:9420/network</code> &mdash; <code>listening: true</code> with <code>inbound: 0</code>
+after a few minutes means the port is not actually reachable.</p>
+
+<h2 id="getting-coins">Getting coins<a class="doc-anchor" href="#getting-coins" aria-label="Link to this section">#</a></h2>
+
+<p>Two routes, and the second is the one this network was designed around.</p>
+
+<h3 id="the-faucet">The faucet<a class="doc-anchor" href="#the-faucet" aria-label="Link to this section">#</a></h3>
+
+<p>The <a href="https://testnet.zycord.com/faucet/">testnet explorer</a> runs one. It pays a small
+amount to any address you give it, so that a send, a refund and a sweep can be rehearsed without
+allocating two gibibytes to RandomX first. <a href="/faucet/">What it is and why it is built that
+way</a> is a page of its own.</p>
+
+<p><strong>It exists on this network and on no other.</strong> The faucet is a feature of the
+explorer that is off by default, and enabling it requires naming a network &mdash; a name checked
+against the chain that explorer is actually indexing, with <code>mainnet</code> refused outright.
+Mainnet has no faucet and no premine, and that is a check in the binary rather than a policy
+somebody has to remember.</p>
+
+<p>Nothing is minted for it. The faucet holds an ordinary key, signs an ordinary transfer through
+the same <code>wallet/session</code> the command line uses, and pays one claim per block because a
+certificate carries the state it read and two built against one reading of its cell would race.
+Its balance comes from mining, so an empty faucet stays empty until somebody refills it.</p>
+
+<h3 id="self-mining">Self-mining<a class="doc-anchor" href="#self-mining" aria-label="Link to this section">#</a><span id="faucetless-self-mining"></span></h3>
+
+<p>The route with no queue and no operator, and the same distribution mainnet gets:</p>
+
+<pre><code>zcd wallet new --out miner.json
+zycordd --testnet --dir ./testnet \
+  --mine --payout $(zcd wallet address --key miner.json)</code></pre>
+
+<p><strong>Start it before the network opens if you like &mdash; that is the intended way to use
+it.</strong> A node whose clock has not reached the earliest timestamp the next block may carry
+refuses to build one, says how long the wait is, and starts mining by itself when the time comes.
+There is nothing to schedule and nothing to restart, and it peers and syncs the whole time it
+waits.</p>
+
+<p>The payout must be a <strong>persistent (<code>0x02</code>)</strong> address &mdash;
+<code>zcd wallet address</code> prints one by default, and <code>zycordd</code> refuses anything
+else rather than warning. <a href="/docs/mining/#the-payout-address-must-be-persistent">Why</a>.</p>
+
+<p><code>coinbase_maturity</code> is 100, so for roughly the first hundred blocks after your first
+reward only miners can transact. That ramp is mainnet's and is part of what this network is
+rehearsing &mdash; and it is the reason the faucet exists here and cannot exist there: the faucet
+shortens the ramp for someone who wants to exercise a wallet, on the one network where shortening
+it costs nothing.</p>
+
+<p>Mining allocates the RandomX dataset &mdash; about <strong>2 GiB</strong>, plus ~256 MiB per
+key epoch held. A machine that can verify comfortably cannot necessarily mine; the budgets are
+under <a href="/docs/mining/#what-it-costs-to-run">Mining</a>.</p>
+
+<h2 id="the-testnet-coins-are-worth-nothing">The testnet coins are worth nothing<a class="doc-anchor" href="#the-testnet-coins-are-worth-nothing" aria-label="Link to this section">#</a></h2>
+
+<p>By design, and permanently. The network can be reset from genesis, which is what a testnet is
+for. Anyone offering to buy or sell them is running a scam that does not even need a story.</p>
+
+<h2 id="what-this-network-is-measuring">What this network is measuring<a class="doc-anchor" href="#what-this-network-is-measuring" aria-label="Link to this section">#</a></h2>
+
+<p>It is not a demo. Four things it exists to produce numbers for:</p>
+
+<ul>
+<li><strong>The key-change pause.</strong> At 512 blocks the RandomX re-key lands roughly every four hours instead of mainnet's seventeen, so the dataset rebuild is rehearsed often enough to measure rather than theorise about.</li>
+<li><strong>Base-fee behaviour under the mainnet gas schedule</strong>, which is why the schedule is not adjusted here.</li>
+<li><strong>The share of dialable nodes</strong>, which is the first reopen condition on the no-NAT-traversal decision.</li>
+<li><strong>The pre-genesis wait</strong>, and whether an honest early start really does become an on-time start with nothing to restart.</li>
+</ul>
+
+<h2 id="when-something-looks-wrong">When something looks wrong<a class="doc-anchor" href="#when-something-looks-wrong" aria-label="Link to this section">#</a></h2>
+
+<p>The full operational guide &mdash; resets, metrics formats, and the diagnosis path when a node
+will not sync &mdash; is in <a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/TESTNET.md">docs/TESTNET.md</a>, which
+is authoritative for this network. Findings and reproductions belong in
+<a href="{{ZYCORD_SOURCE_URL}}/issues">the issue tracker</a>; the project would rather have the report than the
+benefit of the doubt.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/wallet/"><span class="dir">Previous</span><span class="ttl">Wallet</span></a>
+        <a class="next" href="/docs/protocol/"><span class="dir">Next</span><span class="ttl">Wire protocol</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#what-it-is">What it is</a>
+        <a class="lvl-3" href="#it-differs-from-mainnet-in-six-values-and-nowhere-else">It differs from mainnet in six values and nowhere else</a>
+        <a class="lvl-2" href="#joining">Joining</a>
+        <a class="lvl-3" href="#bootstrap">Bootstrap</a>
+        <a class="lvl-3" href="#be-dialable-if-you-can">Be dialable if you can</a>
+        <a class="lvl-2" href="#getting-coins">Getting coins</a>
+        <a class="lvl-3" href="#the-faucet">The faucet</a>
+        <a class="lvl-3" href="#self-mining">Self-mining</a>
+        <a class="lvl-2" href="#the-testnet-coins-are-worth-nothing">The testnet coins are worth nothing</a>
+        <a class="lvl-2" href="#what-this-network-is-measuring">What this network is measuring</a>
+        <a class="lvl-2" href="#when-something-looks-wrong">When something looks wrong</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

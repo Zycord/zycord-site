@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zycord Documentation</title>
+  <meta name="description" content="Complete documentation for Zycord: the whitepaper, the node architecture, and guides for installing, verifying, running, mining and holding keys on a proof-of-work network of self-certifying state transitions." />
+  <link rel="canonical" href="https://zycord.com/docs/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Zycord Documentation" />
+  <meta property="og:description" content="Complete documentation for Zycord: the whitepaper, the node architecture, and guides for installing, verifying, running, mining and holding keys on a proof-of-work network of self-certifying state transitions." />
+  <meta property="og:url" content="https://zycord.com/docs/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Zycord Documentation" />
+  <meta name="twitter:description" content="Complete documentation for Zycord: the whitepaper, the node architecture, and guides for installing, verifying, running, mining and holding keys on a proof-of-work network of self-certifying state transitions." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Documentation",
+      "description": "Complete documentation for Zycord: the whitepaper, the node architecture, and guides for installing, verifying, running, mining and holding keys on a proof-of-work network of self-certifying state transitions.",
+      "url": "https://zycord.com/docs/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/" aria-current="page">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a>
+          </div>
+          <h1>Zycord documentation</h1>
+          <p class="doc-lede">Everything published about Zycord, in reading order &mdash; the design argument, the engineering specification, and the operator guides for actually running it.</p>
+<div class="callout warn">
+<div class="callout-title">Before you read anything else</div>
+<p>There is no coin yet on mainnet, and <strong>anyone selling you ZCD today is scamming
+you</strong>. The public testnet's coins are worth nothing by design. Mainnet genesis is
+<strong>2026-09-15T00:00:00Z</strong>, and that instant is the <code>genesis_time</code> in the
+published parameter file rather than an announcement &mdash; a node that disagrees with it is on a
+different chain. Every official announcement is signed with <code>E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29</code> and posted to
+<a href="https://bitcointalk.org/index.php?topic=5592720.0">the forum thread</a>. Nowhere else.</p>
+</div>
+
+<p>Zycord is a proof-of-work network in which every transaction &mdash; called a
+<a href="/docs/glossary/#certificate">certificate</a> &mdash; carries the state it read and the
+state it wrote. Verifying one is therefore a pure function of its bytes: no disk, no history, no
+shared state, and no bound on how many machines check it at once. The chain never executes
+anything. It orders certificates and commits them with a
+<a href="/docs/glossary/#fold">deterministic fold</a> that applies each certificate whose declared
+inputs still hold, and <a href="/docs/glossary/#skip">skips</a> the rest.</p>
+
+<p>These pages are the documentation for that system: the design argument, the engineering
+specification, and the operational guides for running it. They are written from the same sources
+the reference implementation is built from, and every one of them links back to the file in
+<a href="{{ZYCORD_SOURCE_URL}}">the repository</a> that is authoritative for it.</p>
+
+<h2 id="start-here">Start here<a class="doc-anchor" href="#start-here" aria-label="Link to this section">#</a></h2>
+<a class="doc-card doc-card-feature" href="/docs/how-it-works/">
+  <span class="doc-card-kicker">Start with the picture</span>
+  <h3>How the network works</h3>
+  <p>The whole system on one page: a transaction assembled off-chain between servers, verified in parallel from its bytes alone, and committed by a single sequential fold. The certificate, the two verbs, the roles, the two gas markets and the shielded rail &mdash; diagrammed.</p>
+</a>
+<div class="doc-cards">
+  <a class="doc-card" href="/docs/whitepaper/">
+    <h3>Whitepaper</h3>
+    <p>The design argument in full.</p>
+  </a>
+  <a class="doc-card" href="/docs/architecture/">
+    <h3>Architecture</h3>
+    <p>How the reference node is built.</p>
+  </a>
+</div>
+<h2 id="run-it">Run it<a class="doc-anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
+<div class="doc-cards">
+  <a class="doc-card" href="/docs/install/">
+    <h3>Installation</h3>
+    <p>Getting the binaries onto a machine.</p>
+  </a>
+  <a class="doc-card" href="/docs/verify/">
+    <h3>Verifying a download</h3>
+    <p>Checksums, signatures, reproducible builds.</p>
+  </a>
+  <a class="doc-card" href="/docs/running-a-node/">
+    <h3>Running a node</h3>
+    <p>Operating zycordd.</p>
+  </a>
+  <a class="doc-card" href="/docs/mining/">
+    <h3>Mining</h3>
+    <p>RandomX, payouts, and what it costs to run.</p>
+  </a>
+  <a class="doc-card" href="/docs/wallet/">
+    <h3>Wallet</h3>
+    <p>Keys, sending, and the eight rules.</p>
+  </a>
+  <a class="doc-card" href="/docs/testnet/">
+    <h3>Public testnet</h3>
+    <p>Joining the network that is running now.</p>
+  </a>
+</div>
+<h2 id="reference">Reference<a class="doc-anchor" href="#reference" aria-label="Link to this section">#</a></h2>
+<div class="doc-cards">
+  <a class="doc-card" href="/docs/protocol/">
+    <h3>Wire protocol</h3>
+    <p>What nodes say to each other.</p>
+  </a>
+  <a class="doc-card" href="/docs/glossary/">
+    <h3>Glossary</h3>
+    <p>Certificate, fold, skip, underwriter, cell.</p>
+  </a>
+  <a class="doc-card" href="/docs/faq/">
+    <h3>FAQ</h3>
+    <p>The questions that actually get asked.</p>
+  </a>
+</div>
+
+<h2 id="the-shortest-useful-path">The shortest useful path<a class="doc-anchor" href="#the-shortest-useful-path" aria-label="Link to this section">#</a></h2>
+
+<p>If you want to be on the network today rather than read about it, this is the whole of it. The
+public testnet is running now; it is the same consensus rules as mainnet under a different chain
+id.</p>
+
+<pre><code><span class="c"># Build the binary that can join a RandomX network.</span>
+<span class="c"># `make build` produces a devnet-only binary -- see Installation, "Two tiers".</span>
+make build-randomx
+
+<span class="c"># A payout address. The node never sees the key behind it.</span>
+./bin/zcd-randomx wallet new --out miner.json
+
+<span class="c"># Join, and mine to yourself. Coins come from mining; on testnet there is</span>
+<span class="c"># also a faucet at zycord.com/faucet/ for a first, small balance.</span>
+./bin/zycordd-randomx --testnet --dir ./testnet \
+  --mine --payout $(./bin/zcd-randomx wallet address --key miner.json)</code></pre>
+
+<p>Start it whenever you like, including before a network's first block is due: the node refuses
+to build a block its own clock has not reached, says how long the wait is, and begins mining on
+its own. There is nothing to schedule and nothing to restart. The full version of this is
+<a href="/docs/testnet/">Public testnet</a>, and what it costs to run is under
+<a href="/docs/mining/">Mining</a>.</p>
+
+<h2 id="what-is-authoritative-and-what-is-only-explanation">What is authoritative, and what is only explanation<a class="doc-anchor" href="#what-is-authoritative-and-what-is-only-explanation" aria-label="Link to this section">#</a></h2>
+
+<p>This matters more here than on most projects, because the network has no admin key and
+therefore no way to correct a mistake after the fact. The documents are ranked, and the ranking is
+not a formality:</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Layer</th><th>What it is</th><th>Where it lives</th></tr></thead>
+<tbody>
+<tr><td><strong>The protocol</strong></td><td>The parameter files and the golden test vectors. An independent implementation that passes the vectors is a peer, not a fork.</td><td><a href="{{ZYCORD_SOURCE_URL}}/tree/main/spec">spec/</a></td></tr>
+<tr><td><strong>The peer layer</strong></td><td>The normative requirements for what nodes say to each other.</td><td><a href="/docs/protocol/">Wire protocol</a></td></tr>
+<tr><td><strong>The argument</strong></td><td>Why the design is shaped this way, with measurements and open questions named.</td><td><a href="/docs/whitepaper/">Whitepaper</a></td></tr>
+<tr><td><strong>The implementation</strong></td><td>How the reference node realises all of the above. Explanatory, not normative.</td><td><a href="/docs/architecture/">Architecture</a></td></tr>
+<tr><td><strong>The operator guides</strong></td><td>Installing, running, mining, and holding keys.</td><td>These pages</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Where any two disagree, the more precise one wins and the disagreement is a bug worth
+reporting. No number written by hand in the explanatory layers is a source of truth; it is
+generated from code, asserted by a named test, or an illustration that nothing else may cite.</p>
+
+<h2 id="read-the-criticism-too">Read the criticism too<a class="doc-anchor" href="#read-the-criticism-too" aria-label="Link to this section">#</a></h2>
+
+<p>The record of this design being attacked is published unedited, alongside the design itself
+&mdash; the reviews that found real defects, and the instruments that reported success while
+measuring nothing, side by side. For a project whose author will not vouch for it in person, a
+design with no visible history of being attacked reads as a design nobody attacked.</p>
+
+<div class="doc-cards">
+  <a class="doc-card" href="{{ZYCORD_SOURCE_URL}}/tree/main/docs/adversarial">
+    <span class="doc-card-kicker">Unedited</span>
+    <h3>Adversarial review history</h3>
+    <p>Every finding, every measurement, every argument and every rejected alternative, as it was written.</p>
+  </a>
+  <a class="doc-card" href="https://testnet.zycord.com">
+    <span class="doc-card-kicker">Live</span>
+    <h3>Testnet explorer</h3>
+    <p>Watch the running network produce blocks, and see per-certificate outcomes no other chain's explorer can render.</p>
+  </a>
+  <a class="doc-card" href="https://doi.org/10.5281/zenodo.22167490">
+    <span class="doc-card-kicker">Archived</span>
+    <h3>Whitepaper, of record</h3>
+    <p>The versioned, citable deposit: doi:10.5281/zenodo.22167490.</p>
+  </a>
+</div>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="next" href="/docs/whitepaper/"><span class="dir">Next</span><span class="ttl">Whitepaper</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#start-here">Start here</a>
+        <a class="lvl-2" href="#run-it">Run it</a>
+        <a class="lvl-2" href="#reference">Reference</a>
+        <a class="lvl-2" href="#the-shortest-useful-path">The shortest useful path</a>
+        <a class="lvl-2" href="#what-is-authoritative-and-what-is-only-explanation">What is authoritative, and what is only explanation</a>
+        <a class="lvl-2" href="#read-the-criticism-too">Read the criticism too</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

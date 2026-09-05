@@ -1,0 +1,1068 @@
+/* ============================================================
+   ZYCORD — quantum-grade landing page
+   ============================================================ */
+
+:root {
+  --bg: #04050a;
+  --bg-2: #0a0c18;
+  --ink: #e8ecf8;
+  --ink-dim: #9aa3bd;
+  --ink-faint: #5c6480;
+  --cyan: #6ee7ff;
+  --violet: #8b5cf6;
+  --pink: #f472b6;
+  --grad: linear-gradient(100deg, var(--cyan), var(--violet) 55%, var(--pink));
+  --glass-bg: rgba(13, 16, 30, 0.56);
+  --glass-border: rgba(140, 160, 255, 0.14);
+  --glass-border-hover: rgba(140, 160, 255, 0.32);
+  --radius: 18px;
+  --nav-h: 72px;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(139, 92, 246, 0.45); color: #fff; }
+
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- background layers ---------- */
+
+/* centered square canvas — sized by JS, far cheaper than full-screen */
+#strings-bg {
+  position: fixed;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  z-index: -3;
+  display: block;
+  pointer-events: none;
+}
+
+/* static nebula tint — pure gradients, zero per-frame cost; stays with
+   the ring for the whole page */
+.bg-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 45% at 18% 22%, rgba(139, 92, 246, 0.07), transparent 65%),
+    radial-gradient(45% 40% at 84% 58%, rgba(110, 231, 255, 0.05), transparent 65%),
+    radial-gradient(50% 45% at 50% 96%, rgba(244, 114, 182, 0.05), transparent 65%),
+    radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(4, 5, 10, 0.55) 100%);
+}
+
+/* ---------- glass cards ---------- */
+
+/* Frosted glass: the background canvas stays sharp, and each card
+   blurs only the part of it that passes behind the card. The fill is
+   kept fairly transparent so the blur is actually visible through it. */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.glass:hover {
+  border-color: var(--glass-border-hover);
+}
+
+/* ---------- gradient text ---------- */
+
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--grad);
+  /* must follow the shorthand, which resets it. Without this the
+     gradient is sized to the padding box but painted out to the border
+     box, so the 1px transparent border renders as flat clamped color —
+     two vertical streaks at the left and right of the pill. */
+  background-origin: border-box;
+  color: #060814;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+}
+
+.btn-ghost {
+  background: rgba(140, 160, 255, 0.07);
+  border-color: var(--glass-border);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  border-color: var(--glass-border-hover);
+  background: rgba(140, 160, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.btn-large { padding: 15px 34px; font-size: 16px; }
+.btn-small { padding: 9px 20px; font-size: 14px; }
+
+/* ---------- nav ---------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+
+/* deliberately opaque rather than frosted: the nav is on screen for
+   every single scroll frame, so a backdrop-filter here is the one blur
+   the browser can never skip */
+.nav.scrolled {
+  background: rgba(5, 6, 12, 0.94);
+  border-bottom-color: rgba(140, 160, 255, 0.1);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: var(--nav-h);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.brand-mark { display: grid; place-items: center; }
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.22em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink-dim);
+}
+
+.nav-links a {
+  position: relative;
+  transition: color 0.25s ease;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: -6px;
+  height: 2px;
+  background: var(--grad);
+  border-radius: 2px;
+  transition: right 0.3s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { right: 0; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--nav-h) + 40px) 24px 60px;
+  position: relative;
+}
+
+.hero-inner { max-width: 900px; }
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.85;
+  margin-bottom: 22px;
+}
+
+.hero-title {
+  font-size: clamp(42px, 6.2vw, 74px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 26px;
+  text-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--ink-dim);
+  max-width: 640px;
+  margin: 0 auto 38px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(28px, 6vw, 72px);
+  flex-wrap: wrap;
+}
+
+.stat { text-align: center; }
+
+.stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat-label {
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* the benchmark above is a reference-implementation figure, not a live
+   network stat — the page says so where the number is, not in a footnote
+   nobody reaches */
+.hero-note {
+  margin: 30px auto 0;
+  max-width: 580px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-faint);
+}
+
+/* ---------- sections ---------- */
+
+.section { padding: clamp(90px, 12vh, 150px) 24px; }
+
+.section-inner { max-width: 1200px; margin: 0 auto; }
+
+.section-head { max-width: 720px; margin-bottom: 56px; }
+
+.section-eyebrow {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+
+.section h2 {
+  font-size: clamp(30px, 4.4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  color: var(--ink-dim);
+  font-size: 17px;
+  max-width: 600px;
+}
+
+/* scope and caveat that belongs with the claim it qualifies, set quietly
+   at the foot of the section rather than dropped from the page */
+.section-note {
+  margin-top: 30px;
+  max-width: 760px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+}
+
+.section-note em { color: var(--ink-dim); font-style: italic; }
+.section-note code { font-size: 0.92em; color: var(--ink-dim); }
+
+/* ---------- about ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.card { padding: 40px; }
+
+.card-lead {
+  font-size: 19px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.card p { color: var(--ink-dim); }
+.card .card-lead { color: var(--ink); }
+.card strong { color: var(--ink); }
+
+.about-side {
+  display: grid;
+  gap: 18px;
+}
+
+.mini-card { padding: 24px 26px; }
+
+.mini-icon {
+  display: inline-block;
+  font-size: 22px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+
+.mini-card h3 { font-size: 17px; margin-bottom: 6px; }
+.mini-card p { font-size: 14px; color: var(--ink-dim); }
+
+/* ---------- features ---------- */
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.feature {
+  padding: 32px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.feature:hover::before { opacity: 0.7; }
+.feature:hover { transform: translateY(-4px); }
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 18px;
+  color: var(--cyan);
+}
+.feature:nth-child(2) .feature-icon { color: var(--violet); }
+.feature:nth-child(3) .feature-icon { color: var(--pink); }
+.feature:nth-child(4) .feature-icon { color: var(--pink); }
+.feature:nth-child(5) .feature-icon { color: var(--cyan); }
+.feature:nth-child(6) .feature-icon { color: var(--violet); }
+
+.feature-icon svg { width: 100%; height: 100%; }
+
+.feature h3 { font-size: 19px; margin-bottom: 10px; }
+.feature p { font-size: 14.5px; color: var(--ink-dim); }
+
+/* which era each piece arrives in — four of the nine do not exist at
+   launch, and the card says which without the reader opening the paper */
+.feature-era {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+
+.feature-era.is-live {
+  border-color: rgba(110, 231, 255, 0.35);
+  color: var(--cyan);
+}
+
+/* not shipped at genesis */
+.feature-era.is-later {
+  border-color: rgba(244, 114, 182, 0.32);
+  color: var(--pink);
+}
+
+/* ---------- why ---------- */
+
+/* the four reasons sit in a 2x2 block, which fills the width the
+   orb visual used to occupy */
+.why-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.why-list li {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 30px 32px;
+}
+
+.why-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: var(--glass-bg);
+  background-image: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  flex-shrink: 0;
+}
+
+.why-list h3 { font-size: 18px; margin-bottom: 8px; }
+.why-list p { font-size: 14.5px; color: var(--ink-dim); }
+
+/* ---------- launch / eras ---------- */
+
+.eras {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin: 22px 0;
+}
+
+.era { padding: 28px 26px; }
+
+.era-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  /* Two lines' worth, so the one card whose note wraps does not drop its
+     title below the other three. */
+  min-height: 38px;
+}
+
+.era-tag {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.era-tag.era-live {
+  border-color: rgba(110, 231, 255, 0.45);
+  color: var(--cyan);
+}
+
+.era-tag.era-cond {
+  border-color: rgba(244, 114, 182, 0.4);
+  color: var(--pink);
+}
+
+.era-when {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  text-align: right;
+}
+
+.era h3 { font-size: 19px; margin-bottom: 10px; }
+.era p { font-size: 14px; color: var(--ink-dim); }
+
+.issuance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+/* A flex column so the `align-self: flex-start` on .tag means something --
+   as a plain block the pill spanned the card and sat flush against the h3. */
+.issuance {
+  padding: 32px 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.issuance .tag { margin-top: 0; margin-bottom: 15px; }
+.issuance h3 { font-size: 19px; margin-bottom: 12px; }
+.issuance p { font-size: 15px; color: var(--ink-dim); }
+.issuance strong { color: var(--ink); }
+
+/* ---------- explore ---------- */
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.explore-card {
+  padding: 30px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explore-card:hover { transform: translateY(-4px); }
+
+.explore-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.explore-card h3 { font-size: 20px; }
+
+.explore-arrow {
+  font-size: 20px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.explore-card:hover .explore-arrow { transform: translateX(6px); }
+
+.explore-card p { font-size: 14.5px; color: var(--ink-dim); }
+
+.tag {
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid var(--glass-border);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-top: 6px;
+}
+
+/* what actually exists today, versus what is announced */
+.tag-live {
+  color: var(--cyan);
+  border-color: rgba(110, 231, 255, 0.35);
+}
+
+/* .tag outside a flex parent, where align-self does nothing */
+.tag-inline {
+  display: inline-block;
+  margin-top: 24px;
+}
+
+.explore-card code {
+  font-size: 11.5px;
+  color: var(--ink);
+  word-break: break-all;
+}
+
+/* ---------- download ---------- */
+
+.download-panel {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: clamp(36px, 5vw, 64px);
+  overflow: hidden;
+  position: relative;
+}
+
+.download-panel::after {
+  content: "";
+  position: absolute;
+  right: -20%;
+  top: -40%;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 65%);
+  pointer-events: none;
+}
+
+.download-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.download-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.download-visual { display: grid; place-items: center; }
+
+.coin {
+  animation: coin-float 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.35));
+}
+
+@keyframes coin-float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-18px) rotate(3deg); }
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  border-top: 1px solid rgba(140, 160, 255, 0.1);
+  background: rgba(5, 6, 12, 0.85);
+  padding: 64px 24px 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 48px;
+  padding-bottom: 48px;
+}
+
+.footer-brand .brand-name { font-size: 17px; }
+.footer-brand p { color: var(--ink-faint); font-size: 14px; margin-top: 12px; max-width: 260px; }
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.footer-col { display: grid; gap: 10px; align-content: start; }
+
+.footer-col h4 {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 6px;
+}
+
+.footer-col a {
+  font-size: 14.5px;
+  color: var(--ink-faint);
+  transition: color 0.25s ease;
+}
+.footer-col a:hover { color: var(--ink); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(140, 160, 255, 0.08);
+  padding: 22px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ---------- reveal on scroll ---------- */
+
+/* hidden state only applies when JS is running (html.js) so content
+   is never lost if scripts fail to load */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.65, 0.25, 1), transform 0.9s cubic-bezier(0.2, 0.65, 0.25, 1);
+}
+
+html.js .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 960px) {
+  .about-grid, .download-panel, .issuance-grid { grid-template-columns: 1fr; }
+  .features-grid, .eras { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  /* The links collapse into the panel; the call to action does not. It is one
+     of five things in this header and the only one that leads anywhere a
+     visitor came here to go, so hiding it on the narrow screens where most
+     people arrive would leave a header of two items and a hamburger. */
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-inner { gap: 12px; }
+  /* Push the pair right as a group. The icon precedes the call to action in
+     the markup, so the margin belongs on it -- putting it on the button alone
+     strands the icon beside the wordmark. */
+  .nav-inner > .btn-icon { margin-left: auto; }
+  .btn-icon { width: 36px; height: 36px; }
+  /* Only the panel needs this: on wider screens the icon button says it. */
+  .nav-links.open .nav-only-narrow { display: block; }
+  .btn-small { padding: 8px 15px; font-size: 13.5px; }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    background: rgba(5, 6, 12, 0.96);
+    padding: 28px 24px;
+    gap: 22px;
+    border-bottom: 1px solid rgba(140, 160, 255, 0.1);
+  }
+
+  .features-grid, .explore-grid, .why-list, .eras { grid-template-columns: 1fr; }
+  .card { padding: 28px 24px; }
+}
+
+/* ---------- adaptive fallback ----------
+   strings.js measures whether the machine keeps up with the hero
+   animation and sets .lofi if it does not. Weaker hardware gets a
+   cheaper blur, compensated with a more opaque fill so the cards still
+   read as frosted rather than merely transparent. */
+
+html.lofi {
+  --glass-bg: rgba(13, 16, 30, 0.76);
+}
+
+html.lofi .glass {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .coin { animation: none; }
+}
+
+/* ---------- community, donations, volunteers (section 07) ---------- */
+
+.community-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.community-grid .card h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.community-grid .card p { margin-bottom: 16px; }
+.community-grid .card p:last-child { margin-bottom: 0; }
+
+/* Donation addresses. These are the one place on the page where a rendering
+   detail is a money detail: an address that wraps mid-string invites a
+   half-copied paste, so each one stays on a line of its own and scrolls. */
+.donate {
+  margin: 22px 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+.donate-row {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.donate dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.donate dd {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.donate dd code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  color: #b9e9ff;
+  white-space: nowrap;
+  user-select: all;
+}
+
+.donate-pending {
+  font-size: 14px;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.donate-note {
+  font-size: 14.5px;
+  color: var(--ink-dim);
+  line-height: 1.65;
+}
+
+.donate-note a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+
+.volunteer-list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.volunteer-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 13px;
+  color: var(--ink-dim);
+  line-height: 1.62;
+}
+
+.volunteer-list li::before {
+  content: "\2022";
+  position: absolute;
+  left: 4px;
+  color: var(--violet);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.volunteer-list a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+
+.community-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+@media (max-width: 860px) {
+  .community-grid { grid-template-columns: 1fr; }
+  .donate-row { flex-direction: column; gap: 6px; }
+  .donate dt { width: auto; }
+}
+
+/* ---------- footer notice ---------- */
+
+/* Sits under the wordmark and the one-line description, as a third step in the
+   same column: the name, what this is, and the one operational fact a reader
+   needs in order to tell a real announcement from someone claiming to make one.
+   It belongs against the identity it qualifies rather than beside the closing
+   line, which is why it is inside .footer-brand and not a band of its own. */
+.footer-brand .footer-notice { margin-top: 28px; }
+
+.footer-brand .footer-notice h4 {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 10px;
+}
+
+.footer-brand .footer-notice p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+  /* Wider than the description above it, which is a single tight line. */
+  max-width: 420px;
+  margin-top: 0;
+}
+
+.footer-notice code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.94em;
+  color: var(--ink-dim);
+  word-break: break-word;
+}
+
+.footer-notice a {
+  color: var(--ink-dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.25s ease;
+}
+.footer-notice a:hover { color: var(--cyan); }
+
+
+/* ---------- GitHub buttons ---------- */
+
+/* Lives in the collapsed menu only. */
+.nav-only-narrow { display: none; }
+
+/* Header: icon only. The bar was deliberately cut to five items, so this
+   earns its place by not being a sixth word competing with them -- the mark
+   is recognised without one, and the accessible name carries the label for
+   anyone who needs it. */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-dim);
+  flex-shrink: 0;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.btn-icon:hover {
+  color: var(--ink);
+  border-color: var(--glass-border-hover);
+  background: rgba(140, 160, 255, 0.08);
+}
+.btn-icon:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Footer: the same destination, labelled, because the closing line has room
+   and a reader who got that far is looking for where the code lives. */
+.footer-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-dim);
+  font-size: 13px;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.footer-github:hover {
+  color: var(--ink);
+  border-color: var(--glass-border-hover);
+  background: rgba(140, 160, 255, 0.08);
+}
+.footer-github svg { flex-shrink: 0; }
+
+@media (max-width: 860px) {
+  /* The closing line stacks; the button should not stretch across it. */
+  .footer-github { align-self: flex-start; }
+}
+
+@media (max-width: 400px) {
+  /* Wordmark, icon, call to action and toggle stop fitting on one line here,
+     and the toggle is the one that gets pushed off -- so the icon steps aside.
+     The link is in the menu it opens, and in the footer. */
+  .nav-inner > .btn-icon { display: none; }
+  .nav-inner { padding: 0 16px; }
+  .nav-inner > .btn { margin-left: auto; }
+}

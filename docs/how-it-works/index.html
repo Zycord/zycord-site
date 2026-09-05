@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How the network works — Zycord</title>
+  <meta name="description" content="Zycord in one picture: transactions assembled off-chain between servers, verified in parallel from their bytes alone, and committed by a single sequential fold. The certificate, the two verbs, the roles, the two gas markets and the shielded rail." />
+  <link rel="canonical" href="https://zycord.com/docs/how-it-works/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="How the network works — Zycord" />
+  <meta property="og:description" content="Assembled off-chain. Verified in parallel. Committed in order. The whole network on one page." />
+  <meta property="og:url" content="https://zycord.com/docs/how-it-works/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How the network works — Zycord" />
+  <meta name="twitter:description" content="Assembled off-chain. Verified in parallel. Committed in order." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <link rel="stylesheet" href="/css/infographic.css" />
+</head>
+<body class="docs infographic">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content">
+
+  <header class="info-hero">
+    <div class="info-wrap">
+      <div class="info-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>How the network works</span>
+      </div>
+      <div class="info-eyebrow">Zycord (ZCD) &mdash; how the network works</div>
+      <h1 class="grad-text">Assembled off-chain.<br>Verified in parallel.<br>Committed in order.</h1>
+      <p class="info-lead">Every large blockchain makes every node re-execute every transaction against a global state. Zycord takes execution off the chain: the transaction is assembled between servers outside it, arrives complete with everything it read and wrote, any machine checks it from the bytes alone, and a single loop commits the result.</p>
+
+      <div class="lanes glass" aria-label="Three-phase animation: the transaction bounces between servers to be assembled, crosses parallel verification lanes, and enters a single sequential loop">
+        <svg viewBox="0 0 1300 320" role="img"><title>Three phases: construction between servers, parallel verification, sequential fold</title>
+
+          <rect x="20" y="20" width="380" height="280" rx="14" fill="rgba(140,160,255,0.06)" stroke="rgba(140,160,255,0.16)"/>
+          <text x="40" y="52" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="600" fill="#c3cce4">Construction &mdash; off-chain</text>
+          <text x="40" y="74" font-family="Inter, sans-serif" font-size="13" fill="#93a0c0">The transaction bounces between servers until it closes</text>
+
+          <g stroke="rgba(147,160,192,0.45)" stroke-width="1.2" fill="none">
+            <path d="M160 162 L 230 102"/><path d="M160 162 L 230 172"/><path d="M160 162 L 230 242"/><path d="M290 124 L 290 150"/><path d="M290 194 L 290 220"/>
+          </g>
+          <rect x="50" y="140" width="110" height="44" rx="8" fill="rgba(13,16,30,0.9)" stroke="rgba(140,160,255,0.24)"/>
+          <text x="105" y="167" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="500" fill="#e8ecf8">Wallet</text>
+          <rect x="230" y="80" width="130" height="44" rx="8" fill="rgba(13,16,30,0.9)" stroke="rgba(140,160,255,0.24)"/>
+          <text x="295" y="98" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="500" fill="#e8ecf8">Sequencer</text>
+          <text x="295" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#93a0c0">contract A</text>
+          <rect x="230" y="150" width="130" height="44" rx="8" fill="rgba(13,16,30,0.9)" stroke="rgba(140,160,255,0.24)"/>
+          <text x="295" y="168" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="500" fill="#e8ecf8">Sequencer</text>
+          <text x="295" y="184" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#93a0c0">contract B</text>
+          <rect x="230" y="220" width="130" height="44" rx="8" fill="rgba(13,16,30,0.9)" stroke="rgba(140,160,255,0.24)"/>
+          <text x="295" y="238" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="500" fill="#e8ecf8">Underwriter</text>
+          <text x="295" y="254" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#93a0c0">co-signs</text>
+          <g>
+            <rect class="build-dot" x="90" y="154" width="30" height="16" rx="4" fill="#93a0c0"/>
+            <rect class="build-dot" x="90" y="154" width="30" height="16" rx="4" fill="#93a0c0" opacity=".6"/>
+          </g>
+
+          <path d="M400 172 L 428 172" stroke="#5c6480" stroke-width="1.5" fill="none"/>
+          <path d="M422 166 L 430 172 L 422 178" stroke="#5c6480" stroke-width="1.5" fill="none"/>
+
+          <rect x="432" y="20" width="480" height="280" rx="14" fill="rgba(110,231,255,0.07)" stroke="rgba(110,231,255,0.22)"/>
+          <text x="452" y="52" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="600" fill="#9beeff">Verification &mdash; parallel, stateless</text>
+          <text x="452" y="74" font-family="Inter, sans-serif" font-size="13" fill="#6ee7ff">Many nodes, each checking its slice</text>
+          <g fill="#6ee7ff" opacity=".22">
+            <rect x="452" y="110" width="440" height="2"/><rect x="452" y="145" width="440" height="2"/><rect x="452" y="180" width="440" height="2"/><rect x="452" y="215" width="440" height="2"/><rect x="452" y="250" width="440" height="2"/>
+          </g>
+          <g>
+            <rect class="cert-dot" x="452" y="103" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="138" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="173" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="208" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="243" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="138" width="30" height="16" rx="4" fill="#6ee7ff"/>
+            <rect class="cert-dot" x="452" y="208" width="30" height="16" rx="4" fill="#6ee7ff"/>
+          </g>
+
+          <path d="M912 110 C 950 110, 950 180, 985 180" fill="none" stroke="#5c6480" stroke-width="1.5"/>
+          <path d="M912 145 C 950 145, 950 180, 985 180" fill="none" stroke="#5c6480" stroke-width="1.5"/>
+          <path d="M912 180 L 985 180" fill="none" stroke="#5c6480" stroke-width="1.5"/>
+          <path d="M912 215 C 950 215, 950 180, 985 180" fill="none" stroke="#5c6480" stroke-width="1.5"/>
+          <path d="M912 250 C 950 250, 950 180, 985 180" fill="none" stroke="#5c6480" stroke-width="1.5"/>
+
+          <rect x="988" y="20" width="292" height="280" rx="14" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.3)"/>
+          <text x="1008" y="52" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="600" fill="#c4b5fd">Fold &mdash; sequential</text>
+          <text x="1008" y="74" font-family="Inter, sans-serif" font-size="13" fill="#a78bfa">One loop, compares and adds</text>
+          <rect x="1008" y="179" width="252" height="2" fill="#a78bfa" opacity=".35"/>
+          <g>
+            <rect class="fold-dot" x="998" y="172" width="30" height="16" rx="4" fill="#a78bfa"/>
+            <rect class="fold-dot" x="998" y="172" width="30" height="16" rx="4" fill="#a78bfa"/>
+            <rect class="fold-dot" x="998" y="172" width="30" height="16" rx="4" fill="#a78bfa"/>
+            <rect class="fold-dot" x="998" y="172" width="30" height="16" rx="4" fill="#a78bfa"/>
+          </g>
+          <text x="1008" y="268" font-family="ui-monospace, monospace" font-size="13" fill="#c4b5fd">9.9 ms per 2,900-certificate block</text>
+        </svg>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--off)"></i>Ordinary servers, web2, no consensus</span>
+          <span><i class="sw" style="background:var(--par)"></i>Grows with every core that joins the network</span>
+          <span><i class="sw" style="background:var(--seq)"></i>The only scarce resource</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>The transaction is a certificate</h2>
+      <p class="info-lead">It does not ask &ldquo;execute this&rdquo;. It states &ldquo;I read this, I wrote that, and here is the proof&rdquo;. Anyone recomputes and compares.</p>
+      <div class="cert glass" role="figure" aria-label="Structure of the certificate">
+<span class="k">Certificate</span> {
+  <span class="k">reads</span>:       [(slot, access, operand)]   <span class="c">// what I read, and how</span>
+  <span class="k">writes</span>:      [(slot, op, value)]         <span class="c">// what I write</span>
+  <span class="k">program</span>:     bytes                        <span class="c">// code or native operation</span>
+  <span class="k">sigs</span>:        [signature]                  <span class="c">// spending authority</span>
+  <span class="k">underwriter</span>: (id, sig, seq)              <span class="c">// who carries the risk</span>
+  <span class="k">ttl</span>:         height                       <span class="c">// expires if not included by here</span>
+  <span class="k">fee</span>:         (<span class="h">seq_gas</span>, <span class="h">par_gas</span>)          <span class="c">// two markets</span>
+}
+      </div>
+      <div class="cert-notes">
+        <div class="note par"><b>Valid = a pure function of the bytes</b>Signatures ok, underwriter ok, and re-executing <code>program</code> over the <code>reads</code> produces exactly the <code>writes</code>. No disk, no history.</div>
+        <div class="note seq"><b>Applicable = decided by position</b>Do the declared <code>reads</code> still match the state when the certificate reaches its turn in the block?</div>
+        <div class="note off"><b>The ID excludes the signatures</b>Re-signing with a different nonce gives the same ID. The seen set catches the copy. Nobody is charged twice.</div>
+        <div class="note hide"><b>Access types per slot</b><code>EXACT</code> pins the value. <code>GUARD</code> only states &ldquo;balance &ge; x&rdquo;. <code>DELTA</code> adds without reading. Payments and tips commute and never conflict.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>Two verbs, two stages</h2>
+      <p class="info-lead">The entire design is separating these two questions &mdash; and answering each in the cheapest place.</p>
+      <div class="verbs glass">
+        <div class="verb par">
+          <span class="pill par">parallel</span>
+          <h3>Is it valid?</h3>
+          <p>Answered by looking at the certificate alone. Thousands at once, on any machine.</p>
+          <ul>
+            <li>Canonical signatures check out</li>
+            <li>Re-execution matches the writes</li>
+            <li>Range proofs close (shielded rail)</li>
+            <li>Invalid: <b>never enters the block</b></li>
+          </ul>
+        </div>
+        <div class="verb seq">
+          <span class="pill seq">sequential</span>
+          <h3>Is it applicable?</h3>
+          <p>Answered at the certificate's position in the block, comparing bytes against the state table.</p>
+          <ul>
+            <li>Reads still match &rarr; the writes are committed</li>
+            <li>Stale reads &rarr; <b>skip</b>, burns the underwriter's fee</li>
+            <li>Cell already spent &rarr; skip</li>
+            <li>The block stays valid in every case</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>The flow, from birth to ledger</h2>
+      <div class="steps">
+        <div class="step glass"><div class="num off">1</div><div><h3>Construction between servers</h3><p>The wallet opens the request. Every hot contract has its own sequencer &mdash; an ordinary application server &mdash; that keeps a copy of the state, serialises who moves first, and chains each certificate onto the previous one's writes. A transaction touching two contracts is co-built by both sequencers and reaches the chain as a single atomic certificate.</p></div></div>
+        <div class="step glass"><div class="num off">2</div><div><h3>The underwriter signs</h3><p>An underwriter with bonded funds checks against fresh state, co-signs, and takes on the skip risk. It charges the sender out of band and sells, in effect, a pre-confirmation. Anyone who wants no intermediary self-underwrites with their own deposit &mdash; always available, without asking permission.</p></div></div>
+        <div class="step glass"><div class="num par">3</div><div><h3>The network receives and verifies in parallel</h3><p>Every node checks validity from the bytes before relaying. With sampling, a VRF-drawn committee verifies each certificate; any node can check anything, and a single message is enough to punish an underwriter who attested to garbage.</p>
+          <div class="branch"><div class="no">Invalid &rarr; discarded, never reaches the block</div></div></div></div>
+        <div class="step glass"><div class="num off">4</div><div><h3>The proposer orders</h3><p>A PoS committee picks valid certificates and assembles the block. It executes nothing and holds no application state. It only remembers the IDs seen within the TTL window. Certificates in the forced queue must be included within F blocks.</p></div></div>
+        <div class="step glass"><div class="num seq">5</div><div><h3>Sequential fold</h3><p>Orders by <code>(underwriter, seq, id)</code> &mdash; the proposer does not choose the order. For each certificate: do the reads match the state? Checkpoints finalise every 32 blocks.</p>
+          <div class="branch"><div class="ok">Applied &mdash; writes committed, fee paid to the proposer</div><div class="no">Skipped &mdash; fee burned, charged to the underwriter, the block stays valid</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>Who does what</h2>
+      <p class="info-lead">No role is required for the network's security. If they all vanish, the forced queue keeps the system alive.</p>
+      <div class="info-grid g3">
+        <div class="info-card glass off role"><h3>Wallet</h3><dl><dt>Does</dt><dd>Builds the certificate, declares reads and writes, signs</dd><dt>Sees</dt><dd>The public state it needs to read</dd><dt>Trusts</dt><dd>Nobody</dd></dl></div>
+        <div class="info-card glass off role"><h3>Sequencer</h3><dl><dt>Does</dt><dd>Serialises a hot contract off-chain, packs batches into one certificate</dd><dt>Trusted for</dt><dd>Liveness only. If it lies, the certificate skips and the bond pays</dd><dt>Captures</dt><dd>Its own application's MEV, explicitly</dd></dl></div>
+        <div class="info-card glass off role"><h3>Underwriter</h3><dl><dt>Does</dt><dd>Co-signs and takes on the skip risk with a bond</dd><dt>Sees</dt><dd>Cells live or spent &mdash; never the hidden value</dd><dt>Loses</dt><dd>Only for a fault provable in the bytes (equivocation)</dd></dl></div>
+        <div class="info-card glass par role"><h3>Verifying node</h3><dl><dt>Does</dt><dd>Checks validity from the bytes, relays, syncs</dd><dt>Needs</dt><dd>Cores. State only if it is going to commit</dd><dt>Cost</dt><dd>Falls as the network grows, because it verifies a slice</dd></dl></div>
+        <div class="info-card glass seq role"><h3>Proposer (PoS)</h3><dl><dt>Does</dt><dd>Orders valid certificates, runs the fold, proposes the block</dd><dt>Sees</dt><dd>Bytes, not meaning</dd><dt>Earns</dt><dd>Subsidy + priority fee from the applied ones</dd></dl></div>
+        <div class="info-card glass skip role"><h3>Forced queue</h3><dl><dt>Does</dt><dd>A permissionless exit: deposit, included within F blocks, applied guaranteed</dd><dt>Cost</dt><dd>Latency and privacy</dd><dt>Guarantees</dt><dd>No operator is a prison</dd></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>Privacy without touching the sequential path</h2>
+      <p class="info-lead">Confidential Transactions with a throwaway address, over a public graph. It hides the value. It defers the link to the recipient. It is not Monero, and the paper says so.</p>
+      <div class="vis">
+        <div class="info-card glass hide"><h3>What stays hidden</h3><ul><li>The value: commitment <code>C = vG + rH</code></li><li>The recipient, until the first spend (stealth address)</li><li>The balance of each hidden cell &mdash; only the owner can spend it, nobody can &ldquo;ask&rdquo;</li></ul></div>
+        <div class="info-card glass off"><h3>What stays public</h3><ul><li>That a payment happened, and who underwrote it</li><li>Which output was spent, at the moment of spending</li><li>Every crossing between the public rail and the shielded one, with the value in the open</li><li>Fees, coinbase, payments to contracts</li></ul></div>
+      </div>
+      <div class="pool glass">
+        <h3>The shielded pool is a fence, not an alarm</h3>
+        <svg viewBox="0 0 900 170" role="img"><title>Shielded pool with an exit guard</title>
+          <rect x="20" y="30" width="250" height="110" rx="12" fill="rgba(140,160,255,0.07)" stroke="rgba(140,160,255,0.18)"/>
+          <text x="145" y="72" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="600" fill="#c3cce4">Public rail</text>
+          <text x="145" y="96" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#93a0c0">values in u256, checked arithmetic</text>
+          <rect x="330" y="20" width="240" height="130" rx="12" fill="rgba(244,114,182,0.10)" stroke="rgba(244,114,182,0.30)"/>
+          <text x="450" y="60" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="600" fill="#f9a8d4">Shielded pool</text>
+          <text x="450" y="84" text-anchor="middle" font-family="ui-monospace, monospace" font-size="14" fill="#f472b6">pool = &Sigma; in &minus; &Sigma; out</text>
+          <text x="450" y="108" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#f472b6">a public integer, moved by delta</text>
+          <path d="M270 65 L 328 65" stroke="#f472b6" stroke-width="2" fill="none" marker-end="url(#a1)"/>
+          <text x="299" y="55" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#f472b6">shield +v</text>
+          <path d="M330 115 L 272 115" stroke="#f0b45a" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+          <text x="301" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#f0b45a">unshield: guard pool &ge; v</text>
+          <rect x="630" y="30" width="250" height="110" rx="12" fill="rgba(240,180,90,0.10)" stroke="rgba(240,180,90,0.30)"/>
+          <text x="755" y="66" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="15" font-weight="600" fill="#f0b45a">If the cryptography breaks</text>
+          <text x="755" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#e6c893">forged value does not cross the guard.</text>
+          <text x="755" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#e6c893">Inflation stays trapped inside the pool.</text>
+          <defs>
+            <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke="#f472b6" stroke-width="1.5"/></marker>
+            <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke="#f0b45a" stroke-width="1.5"/></marker>
+          </defs>
+        </svg>
+        <p>The fold never does curve arithmetic. It stores 32 bytes of commitment and compares for equality. All the heavy cryptography &mdash; range proofs, the balance equation &mdash; is verified in the parallel stage and paid for in the cheap market.</p>
+      </div>
+      <div class="info-grid g2" style="margin-top:18px">
+        <div class="info-card glass skip"><h3>The trade-off the paper admits</h3><p>Privacy and censorship resistance do not coexist in the same certificate. The private mode (co-signed) has an operator who can refuse you. The permissionless mode (self-underwritten or forced) reveals your deposit wallet. Anyone refused by every underwriter keeps the right to spend and loses privacy in the same gesture.</p></div>
+        <div class="info-card glass off"><h3>Why no ring signatures</h3><p>A ring references other people's outputs &mdash; that makes validity a function of history, and kills stateless verification. Zycord does not give up that property, so its privacy is weaker than Monero's by decision, not by oversight.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>The network: two gas markets</h2>
+      <p class="info-lead">A chain that charges for everything in a single auction makes a proof verification compete with a state write. Here each resource has its own price.</p>
+      <div class="gas">
+        <div class="info-card glass par"><h3>Parallel gas</h3><p>Pays for verification: signatures, re-execution, bytes, heavy proofs, post-quantum schemes.</p><div class="bar par-bar"><i></i></div><div class="tiny">Supply grows with every core and GPU that joins. High ceiling, low price.</div></div>
+        <div class="info-card glass seq"><h3>Sequential gas</h3><p>Pays for the fold: checking reads, writes, leases. The one loop every node runs in order.</p><div class="bar seq-bar"><i></i></div><div class="tiny">Scarce. Elastic ceiling: at most a doubling per year of full, healthy blocks. Nobody votes.</div></div>
+      </div>
+      <div class="info-card glass skip" style="margin-top:18px"><h3>The skip fee is burned, never paid</h3><p>If a skipped certificate paid the proposer, whoever assembles the block would profit by manufacturing conflicts. Burning inverts the incentive: a skip takes up space and earns nothing, so maximising revenue means maximising application.</p></div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-wrap">
+      <h2>The network from above</h2>
+      <p class="info-lead">Four layers that do not overlap: who serialises, who underwrites, who verifies, who orders. Each scales with a different resource.</p>
+      <div class="final glass">
+        <div class="fcol"><span class="pill off">off-chain</span><h3>Per-application sequencers</h3><p>Ordinary web2: websockets, queues, autoscaling. They serialise hot contracts and pack batches into the shape GPUs verify well. They never custody data &mdash; the state is always reconstructible from the chain alone.</p></div>
+        <div class="fcol"><span class="pill off">off-chain</span><h3>Underwriter market</h3><p>Bonded underwriters sell pre-confirmation: &ldquo;applied in seconds or my bond pays&rdquo;. Equivocation is punished by a proof in the bytes; slowness only costs reputation. Latency never becomes confiscation.</p></div>
+        <div class="fcol"><span class="pill par">parallel</span><h3>Verification committees</h3><p>Drawn by VRF per certificate, sized so that an invalid certificate escaping is negligible. Any full node can audit anything. One message is enough to punish.</p></div>
+        <div class="fcol"><span class="pill seq">sequential</span><h3>PoS committee + fold</h3><p>Proposes blocks, runs the fold, finalises checkpoints. The forced queue compels inclusion within F blocks and guarantees application &mdash; the mechanism that makes the network survive any operator, including the author.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="info-footer">
+    <div class="info-wrap">
+      <p>This page is a summary. The argument in full is in <a href="/docs/whitepaper/">the whitepaper</a>, and how the reference node is built is in <a href="/docs/architecture/">architecture</a>. Terms used here are defined in <a href="/docs/glossary/">the glossary</a>.</p>
+    </div>
+  </footer>
+
+  </main>
+
+</body>
+</html>

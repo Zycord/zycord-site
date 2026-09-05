@@ -1,0 +1,82 @@
+name: Deploy site
+
+# Renders the landing page and publishes it to the production node.
+#
+# There is deliberately no `pull_request` trigger. A workflow that runs on pull
+# requests and holds deploy credentials can be reached by anyone who opens one.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time: two overlapping `rsync --delete` runs against the same
+# directory can interleave and leave the site in a mixed state.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+# The job reads the tree and nothing else. It never needs to write to the repo.
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # Pinned to a commit, not a tag: tags move, and a moved tag in a workflow
+      # with deploy credentials is a supply-chain problem.
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Render
+        env:
+          ZYCORD_RELEASES_URL: ${{ secrets.ZYCORD_RELEASES_URL }}
+          ZYCORD_SOURCE_URL: ${{ secrets.ZYCORD_SOURCE_URL }}
+        run: |
+          set -eu
+          # Checked here as well as in render.sh: an unset secret arrives as an
+          # empty string, and the message a reader needs names the secret rather
+          # than the variable render.sh went looking for.
+          for v in ZYCORD_RELEASES_URL ZYCORD_SOURCE_URL; do
+              eval "value=\${$v:-}"
+              if [ -z "$value" ]; then
+                  echo "$v secret is empty or unset" >&2
+                  exit 1
+              fi
+          done
+          umask 077
+          {
+              printf 'ZYCORD_RELEASES_URL=%s\n' "$ZYCORD_RELEASES_URL"
+              printf 'ZYCORD_SOURCE_URL=%s\n' "$ZYCORD_SOURCE_URL"
+          } > .env
+          ./render.sh dist
+          rm -f .env
+
+      - name: Publish
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -eu
+          umask 077
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY"     > ~/.ssh/id_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts_deploy
+          chmod 600 ~/.ssh/id_deploy ~/.ssh/known_hosts_deploy
+
+          # StrictHostKeyChecking with a pinned known_hosts: without it the
+          # deploy would trust whatever host answers, and the credential would
+          # go to it.
+          rsync -a --delete \
+                -e "ssh -4 -i ~/.ssh/id_deploy \
+                    -o IdentitiesOnly=yes \
+                    -o StrictHostKeyChecking=yes \
+                    -o UserKnownHostsFile=~/.ssh/known_hosts_deploy" \
+                dist/ "deploy@${DEPLOY_HOST}:."
+
+      - name: Wipe credentials from the runner
+        if: always()
+        run: rm -f ~/.ssh/id_deploy ~/.ssh/known_hosts_deploy .env

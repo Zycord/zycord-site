@@ -1,0 +1,362 @@
+/* ============================================================
+   ZYCORD — "How the network works"
+   Shares the landing page's tokens (css/style.css) and adds the
+   one full-width page in the documentation.
+   ============================================================ */
+
+/* The five things this page colours, and they are the reason it has a palette
+   at all: every hue below carries meaning, and none of them is decoration.
+   They are drawn from the site's own three — cyan, violet, pink — plus a
+   slate for what is not on the chain, so the page reads as part of the site
+   rather than as a diagram pasted into it.
+
+     parallel   cyan     abundant: verification, grows with every core
+     sequential violet   scarce: the one loop every node runs in order
+     skip       amber    a normal, billed outcome
+     off-chain  slate    ordinary servers, no consensus
+     shielded   pink     the confidential rail
+
+   SKIP IS AMBER AND NEVER RED. A skip is the fold working exactly as
+   designed — the certificate was included, billed and not applied — and a
+   reader who learns otherwise on this page has been taught the wrong chain.
+   The explorer makes the same choice for the same reason. */
+:root {
+  --par:        #6ee7ff;
+  --par-soft:   rgba(110, 231, 255, 0.10);
+  --par-line:   rgba(110, 231, 255, 0.38);
+
+  --seq:        #a78bfa;
+  --seq-soft:   rgba(139, 92, 246, 0.14);
+  --seq-line:   rgba(139, 92, 246, 0.45);
+
+  --skip:       #f0b45a;
+  --skip-soft:  rgba(240, 180, 90, 0.10);
+  --skip-line:  rgba(240, 180, 90, 0.38);
+
+  --off:        #93a0c0;
+  --off-soft:   rgba(140, 160, 255, 0.07);
+  --off-line:   rgba(140, 160, 255, 0.22);
+
+  --hide:       #f472b6;
+  --hide-soft:  rgba(244, 114, 182, 0.10);
+  --hide-line:  rgba(244, 114, 182, 0.36);
+
+  --info-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+/* The landing page hides overflow to contain its canvas; this page scrolls
+   for a living and has a sticky header. */
+body.infographic { overflow-x: hidden; }
+
+.info-wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+.info-section { padding: clamp(56px, 8vh, 88px) 0; border-top: 1px solid var(--glass-border); }
+
+.info-section h2 {
+  font-size: clamp(26px, 3.6vw, 38px);
+  margin-bottom: 14px;
+}
+
+.info-lead {
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: var(--ink-dim);
+  max-width: 62ch;
+  margin-bottom: 30px;
+}
+
+.info-eyebrow {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.info-hero { padding: 48px 0 8px; }
+.info-hero h1 {
+  font-size: clamp(34px, 5.6vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 22px;
+}
+
+.info-crumbs {
+  font-size: 13.5px;
+  color: var(--ink-faint);
+  margin-bottom: 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.info-crumbs a { color: var(--ink-dim); }
+.info-crumbs a:hover { color: var(--cyan); }
+
+/* ---------- the three-phase diagram ---------- */
+
+.lanes {
+  margin-top: 34px;
+  padding: 18px 18px 12px;
+  overflow: hidden;
+}
+.lanes svg { width: 100%; height: auto; display: block; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 18px;
+  font-size: 14px; color: var(--ink-dim);
+  margin-top: 14px;
+}
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 13px; height: 13px; border-radius: 4px; display: inline-block; flex-shrink: 0; }
+
+/* ---------- shared blocks ---------- */
+
+.info-grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.info-card { padding: 24px 26px; }
+.info-card h3 { font-size: 18px; margin-bottom: 10px; }
+.info-card p { color: var(--ink-dim); font-size: 15px; }
+.info-card p:last-child { margin-bottom: 0; }
+.info-card ul { margin: 10px 0 0; padding-left: 18px; color: var(--ink-dim); font-size: 15px; }
+.info-card li { margin-bottom: 7px; }
+.info-card li:last-child { margin-bottom: 0; }
+
+/* The accent rule that says which stage a card belongs to. */
+.info-card.par  { border-top: 3px solid var(--par); }
+.info-card.seq  { border-top: 3px solid var(--seq); }
+.info-card.off  { border-top: 3px solid var(--off-line); }
+.info-card.skip { border-top: 3px solid var(--skip); }
+.info-card.hide { border-top: 3px solid var(--hide); }
+
+.pill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-faint);
+}
+.pill.par { color: var(--par); border-color: var(--par-line); background: var(--par-soft); }
+.pill.seq { color: var(--seq); border-color: var(--seq-line); background: var(--seq-soft); }
+.pill.off { color: var(--off); border-color: var(--off-line); background: var(--off-soft); }
+
+code, .info-mono { font-family: var(--info-mono); font-size: 0.92em; }
+.info-section code {
+  background: rgba(140, 160, 255, 0.09);
+  padding: 0.1em 0.42em;
+  border-radius: 5px;
+  color: var(--ink);
+}
+
+/* ---------- the certificate ---------- */
+
+.cert {
+  padding: 24px 26px;
+  font-family: var(--info-mono);
+  font-size: 14.5px;
+  line-height: 1.9;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--ink);
+}
+.cert .k { color: var(--cyan); }
+.cert .c { color: var(--ink-faint); }
+.cert .h { color: var(--pink); }
+
+.cert-notes {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  margin-top: 20px;
+}
+.note {
+  font-size: 14.5px;
+  color: var(--ink-dim);
+  padding-left: 14px;
+  border-left: 3px solid var(--glass-border);
+}
+.note b {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.note.par  { border-color: var(--par); }
+.note.seq  { border-color: var(--seq); }
+.note.off  { border-color: var(--off-line); }
+.note.hide { border-color: var(--hide); }
+
+/* ---------- the two verbs ---------- */
+
+.verbs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+.verb { padding: 28px 30px; }
+.verb + .verb { border-left: 1px solid var(--glass-border); }
+.verb h3 { font-size: 25px; margin: 12px 0 8px; }
+.verb.par h3 { color: var(--par); }
+.verb.seq h3 { color: var(--seq); }
+.verb p { color: var(--ink-dim); font-size: 15px; }
+.verb ul { margin: 14px 0 0; padding-left: 18px; color: var(--ink-dim); font-size: 15px; }
+.verb li { margin-bottom: 7px; }
+.verb b { color: var(--ink); }
+
+/* ---------- the flow ---------- */
+
+.steps { display: grid; gap: 14px; }
+.step {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 18px;
+  padding: 20px 22px;
+  align-items: start;
+}
+.num {
+  width: 46px; height: 46px;
+  border-radius: 13px;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  border: 1px solid var(--glass-border);
+}
+.num.off { background: var(--off-soft); color: var(--off); }
+.num.par { background: var(--par-soft); color: var(--par); border-color: var(--par-line); }
+.num.seq { background: var(--seq-soft); color: var(--seq); border-color: var(--seq-line); }
+.step h3 { font-size: 18px; margin: 3px 0 6px; }
+.step p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+
+.branch { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+.branch div {
+  font-size: 14px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 190px;
+  border: 1px solid transparent;
+}
+.branch .ok { background: var(--seq-soft); color: var(--seq); border-color: var(--seq-line); }
+.branch .no { background: var(--skip-soft); color: var(--skip); border-color: var(--skip-line); }
+
+/* ---------- roles ---------- */
+
+.role dl {
+  margin: 12px 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 14px;
+  font-size: 14.5px;
+}
+.role dt { color: var(--ink-faint); }
+.role dd { margin: 0; color: var(--ink-dim); }
+
+/* ---------- privacy ---------- */
+
+.vis { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+.pool { padding: 24px 26px; margin-top: 18px; display: grid; gap: 14px; }
+.pool h3 { font-size: 18px; }
+.pool svg { width: 100%; height: auto; }
+.pool p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+
+/* ---------- gas ---------- */
+
+.gas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.bar {
+  height: 13px;
+  border-radius: 7px;
+  background: rgba(140, 160, 255, 0.09);
+  overflow: hidden;
+  margin: 14px 0 8px;
+}
+.bar i { display: block; height: 100%; border-radius: 7px; }
+.par-bar i { background: linear-gradient(90deg, var(--cyan), rgba(110, 231, 255, 0.55)); width: 96%; }
+.seq-bar i { background: linear-gradient(90deg, var(--violet), var(--seq)); width: 14%; }
+.tiny { font-size: 13.5px; color: var(--ink-faint); }
+
+/* ---------- the four layers ---------- */
+
+.final { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); overflow: hidden; }
+.fcol { padding: 24px 26px; border-left: 1px solid var(--glass-border); }
+.fcol:first-child { border-left: 0; }
+.fcol h3 { font-size: 18px; margin: 12px 0 8px; }
+.fcol p { font-size: 14.5px; color: var(--ink-dim); margin: 0; }
+
+.info-footer { padding: 40px 0 80px; }
+.info-footer p { color: var(--ink-faint); font-size: 14px; }
+.info-footer a { color: var(--ink-dim); text-decoration: underline; text-underline-offset: 3px; }
+.info-footer a:hover { color: var(--cyan); }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  .verbs, .vis, .gas { grid-template-columns: 1fr; }
+  .verb + .verb { border-left: 0; border-top: 1px solid var(--glass-border); }
+  .fcol { border-left: 0; border-top: 1px solid var(--glass-border); }
+  .fcol:first-child { border-top: 0; }
+}
+
+@media (max-width: 560px) {
+  .step { grid-template-columns: 1fr; gap: 12px; }
+  .info-card, .verb, .fcol, .pool, .cert { padding-left: 20px; padding-right: 20px; }
+}
+
+/* ---------- motion ----------
+   The three phases move so the reader can see that the middle one is many
+   things at once and the right-hand one is strictly one at a time. That is
+   the whole argument of the page, and it is the one thing a still picture
+   cannot say. Nothing here is required to understand it: the labels carry
+   the same content, which is why this is safe to switch off entirely. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .build-dot { animation: build 9s ease-in-out infinite; }
+  .build-dot:nth-child(2) { animation-delay: -4.5s; }
+  .cert-dot { animation: flow 5s linear infinite; }
+  .cert-dot:nth-child(2) { animation-delay: -0.7s; }
+  .cert-dot:nth-child(3) { animation-delay: -1.4s; }
+  .cert-dot:nth-child(4) { animation-delay: -2.1s; }
+  .cert-dot:nth-child(5) { animation-delay: -2.8s; }
+  .cert-dot:nth-child(6) { animation-delay: -3.5s; }
+  .cert-dot:nth-child(7) { animation-delay: -4.2s; }
+  .fold-dot { animation: foldflow 5s linear infinite; }
+  .fold-dot:nth-child(2) { animation-delay: -1.25s; }
+  .fold-dot:nth-child(3) { animation-delay: -2.5s; }
+  .fold-dot:nth-child(4) { animation-delay: -3.75s; }
+}
+
+@keyframes build {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  4%   { opacity: 1; }
+  12%  { transform: translate(185px, -60px); }
+  24%  { transform: translate(0, 0); }
+  36%  { transform: translate(185px, 10px); }
+  48%  { transform: translate(185px, -60px); }
+  60%  { transform: translate(185px, 80px); }
+  70%  { transform: translate(185px, 10px); opacity: 1; }
+  82%  { transform: translate(330px, 10px); opacity: 1; }
+  86%  { opacity: 0; }
+  100% { transform: translate(330px, 10px); opacity: 0; }
+}
+@keyframes flow {
+  0%   { transform: translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  55%  { opacity: 1; }
+  62%  { opacity: 0; }
+  100% { transform: translateX(440px); opacity: 0; }
+}
+@keyframes foldflow {
+  0%   { transform: translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(280px); opacity: 0; }
+}

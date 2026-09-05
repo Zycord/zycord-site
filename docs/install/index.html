@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation — Zycord Documentation</title>
+  <meta name="description" content="How to install Zycord: build zcd and zycordd from source with the pinned Go toolchain, which archive joins a network and which does not, and why an anonymously published binary carries no code-signing certificate." />
+  <link rel="canonical" href="https://zycord.com/docs/install/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Installation — Zycord Documentation" />
+  <meta property="og:description" content="How to install Zycord: build zcd and zycordd from source with the pinned Go toolchain, which archive joins a network and which does not, and why an anonymously published binary carries no code-signing certificate." />
+  <meta property="og:url" content="https://zycord.com/docs/install/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Installation — Zycord Documentation" />
+  <meta name="twitter:description" content="How to install Zycord: build zcd and zycordd from source with the pinned Go toolchain, which archive joins a network and which does not, and why an anonymously published binary carries no code-signing certificate." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Installation",
+      "description": "How to install Zycord: build zcd and zycordd from source with the pinned Go toolchain, which archive joins a network and which does not, and why an anonymously published binary carries no code-signing certificate.",
+      "url": "https://zycord.com/docs/install/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Installation",
+          "item": "https://zycord.com/docs/install/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/" aria-current="page">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Installation</span>
+          </div>
+          <h1>Installation</h1>
+          <p class="doc-lede">Getting the files onto a machine and knowing what you got. Running a node for real is <a href="/docs/running-a-node/">Running a node</a>; this page is about the install.</p>
+<p>Zycord is two command-line programs and one desktop application:</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Name</th><th>What it is</th></tr></thead>
+<tbody>
+<tr><td><code>zcd</code></td><td>The command-line tool: keys, wallets, genesis, the golden vectors, and <code>zcd ui</code>.</td></tr>
+<tr><td><code>zycordd</code></td><td>The node: validates, mines, serves peers, answers a read-only RPC.</td></tr>
+<tr><td><strong>Zycord Wallet</strong></td><td>A desktop window around the same wallet interface <code>zcd ui</code> serves.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout info">
+<div class="callout-title">Where the project is today</div>
+<p>The first tagged release has not been published, so <strong>building from source is currently
+the way in</strong>, and the section below is the one to read. The package-manager routes and the
+release archives described further down are the shape the project ships in once tagging begins;
+they are documented here because the manifests are in the repository and reviewable now, not
+because there is something to download yet. The
+<a href="{{ZYCORD_RELEASES_URL}}">releases page</a> is where they will appear.</p>
+</div>
+
+<h2 id="build-from-source">Build from source<a class="doc-anchor" href="#build-from-source" aria-label="Link to this section">#</a></h2>
+
+<p><strong>The Go version is <code>go1.26.2</code>, and it is part of the source.</strong> Two Go
+releases compile the same package into different machine code, so a binary is the output of a
+compiler as much as of a repository &mdash; a rebuild with a different Go is a different file from
+an identical tree. <code>make build</code> therefore pins it (<code>GOTOOLCHAIN=go1.26.2</code> in
+the <code>Makefile</code>) and <strong>refuses to build</strong> under anything else, rather than
+handing you a binary whose hash will not match and no reason why.</p>
+
+<pre><code>git clone {{ZYCORD_SOURCE_URL}}.git
+cd zycord
+make build</code></pre>
+
+<p>If you do not have <code>go1.26.2</code> you do not have to go and find it: the pin makes the
+<code>go</code> command fetch that exact toolchain on first use and check it against Go's own
+checksum database. That is the only thing in this build that touches the network.</p>
+
+<h3 id="which-binary-can-join-a-network">Which binary can join a network<a class="doc-anchor" href="#which-binary-can-join-a-network" aria-label="Link to this section">#</a></h3>
+
+<p>This is the most important paragraph on the page. RandomX is compiled behind a build tag, so
+there are two builds and <strong>only one of them can speak to a RandomX network</strong> &mdash;
+which is both mainnet and the public testnet.</p>
+
+<pre><code><span class="c"># Default: no cgo, no C toolchain, development engine only.</span>
+<span class="c"># Byte-for-byte reproducible. Runs a local devnet and nothing else.</span>
+make build           <span class="c">#  -> bin/zcd, bin/zycordd</span>
+
+<span class="c"># The network binary. cgo, so not reproducible.</span>
+make build-randomx   <span class="c">#  -> bin/zcd-randomx, bin/zycordd-randomx</span></code></pre>
+
+<p><strong>The two builds write different files on purpose.</strong> They used to write the same
+two paths, so whichever ran second replaced the other and the name told you nothing about which
+engine was inside it. Run <code>zcd-randomx</code> where the network is RandomX and <code>zcd</code>
+where it is not; both are present after building both.</p>
+
+<p>A binary built without the tag <strong>refuses to start</strong> on a network whose
+<code>pow_engine</code> it cannot compute. That refusal is the point: with no engine to fall back
+on but the development one, such a node would accept a single BLAKE3 pass as proof of work for
+every header it ever saw &mdash; every forgery valid, every fork weightless, and nothing logged.
+The reverse is not symmetric: the tagged binary carries both engines and runs a devnet correctly.</p>
+
+<p>Ask a binary which one you are holding:</p>
+
+<pre><code>zcd version</code></pre>
+
+<div class="callout">
+<div class="callout-title">There is no <code>go install</code> for this project</div>
+<p>And it is not an oversight. <code>go install</code> resolves a module path through the module
+proxy, and the root module is named <code>zycord</code> &mdash; no host, no dot in the first path
+element, which the toolchain rejects outright. The name is deliberate: <code>go.mod</code> claims
+no host, because a host is an identity surface. The clone above is the Go-toolchain route, and it
+is the stronger one anyway &mdash; you build the tag you checked out rather than whatever a proxy
+served.</p>
+</div>
+
+<h2 id="two-tiers-of-assurance-stated-rather-than-implied">Two tiers of assurance, stated rather than implied<a class="doc-anchor" href="#two-tiers-of-assurance-stated-rather-than-implied" aria-label="Link to this section">#</a></h2>
+
+<p>Once releases exist there will be two sets of archives, and <strong>they are disjoint
+sets</strong>. This is the table to read before deciding which to take.</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Artefact</th><th>Reproducible?</th><th>Joins mainnet?</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><code>zcd</code>, <code>zycordd</code> &mdash; built from source with <code>make build</code></td><td><strong>Yes</strong>, byte-identical</td><td><strong>No</strong></td><td>Pure Go, <code>CGO_ENABLED=0</code>, <code>-trimpath</code>, no build id &mdash; and therefore no RandomX engine. <strong>No longer shipped as a download</strong>; <code>SHA256SUMS.binaries</code> is published so you can build it and compare.</td></tr>
+<tr><td><code>zcd</code>, <code>zycordd</code> &mdash; <code>-randomx</code> archive</td><td>No</td><td><strong>Yes</strong></td><td>cgo: RandomX is C++, so a system C toolchain ends up in the output</td></tr>
+<tr><td>Zycord Wallet, Linux and macOS</td><td>No</td><td>n/a</td><td>cgo: a system C toolchain and a platform SDK end up in the output</td></tr>
+<tr><td>Zycord Wallet, Windows</td><td><strong>Yes</strong>, byte-identical</td><td>n/a</td><td>No cgo: Wails reaches WebView2 through pure Go</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Releases ship <strong>only</strong> the <code>-randomx</code> archives &mdash; a release that
+hands out an archive which cannot join a network is a release that hands out a footgun. They are
+checksummed by <code>SHA256SUMS.randomx</code> and are deliberately <strong>not</strong> in
+<code>SHA256SUMS.binaries</code>, because a cgo build is one nobody can rebuild byte for byte.
+<code>SHA256SUMS.binaries</code> lists what a build you make yourself should hash to. The point of stating that is that it is your decision rather
+than an assumption made for you.</p>
+
+<h2 id="why-your-operating-system-will-warn-you-and-why-there-is-no-certificate">Why your operating system will warn you, and why there is no certificate<a class="doc-anchor" href="#why-your-operating-system-will-warn-you-and-why-there-is-no-certificate" aria-label="Link to this section">#</a></h2>
+
+<p>An unsigned executable is blocked by SmartScreen on Windows and by Gatekeeper on macOS. The
+usual fix is a code-signing certificate. That fix is unavailable here <strong>by construction, not
+by budget</strong>, and the reason is worth understanding before you install anything &mdash; a
+user who knows why the warning appears is much harder to phish with a fake installer.</p>
+
+<p>An Authenticode certificate is a certificate authority attesting to a <strong>verified legal
+identity</strong>. That is its entire function; there is no version of it without a legal name in
+it. Apple Developer ID is the same problem with a different vendor. Zycord is published
+pseudonymously, and buying a certificate would undo that at once.</p>
+
+<p>So the pseudonym is kept. That is not a hole in the trust story; it selects a different one,
+and for this project a stronger one:</p>
+
+<div class="callout info">
+<p>A certificate asserts <em>"this came from entity X."</em><br />
+A reproducible build asserts <em>"this came from this source, and anyone can check."</em></p>
+</div>
+
+<p>For an anonymous network the second is the argument that carries, and it is not a slogan: CI
+rebuilds <code>zcd</code> twice on every push to <code>main</code> and every tag, and fails if the
+two binaries differ by a byte. You do not have to trust whoever built the binary you downloaded.
+You can build it yourself and compare hashes &mdash; and if they match, the question of who built
+it stops mattering. That procedure is <a href="/docs/verify/">Verifying a download</a>.</p>
+
+<h2 id="package-managers">Package managers<a class="doc-anchor" href="#package-managers" aria-label="Link to this section">#</a></h2>
+
+<p>Rather than fight SmartScreen and Gatekeeper, the project goes through the door they leave
+open. A package manager installs from a URL and a hash, requires no signature, and trips neither
+warning. The manifests are in the repository
+(<a href="{{ZYCORD_SOURCE_URL}}/tree/main/packaging">packaging/</a>) and reviewable now; the taps that serve
+them are published with the first release.</p>
+
+<h3 id="windows-scoop">Windows &mdash; Scoop<a class="doc-anchor" href="#windows-scoop" aria-label="Link to this section">#</a></h3>
+
+<p>Scoop does <strong>not</strong> strip the mark of the web; the mark is never attached in the
+first place. Mark-of-the-web is applied by browsers and by the Windows attachment-execution shell
+API, not by raw HTTP clients, and Scoop downloads through <code>[Net.HttpWebRequest]</code> or
+aria2. SmartScreen's application-reputation check fires on tagged files launched from Explorer; a
+file that was never tagged, launched through a shim from a terminal, does not reach that path at
+all. The manifest pins the release URL and the SHA-256, so Scoop verifies the download before it
+installs it.</p>
+
+<p><strong>What Scoop installs runs <code>--devnet</code> and refuses mainnet and the public
+testnet</strong> &mdash; see the two-tiers table above. To join a network on Windows, take the
+<code>-randomx</code> zip for x86-64 from <a href="/download/">the downloads page</a>; Windows on
+ARM has no such build and is devnet-only. <code>zcd version</code> prints which engine the binary
+carries.</p>
+
+<h4>Windows without Scoop</h4>
+
+<p>A <strong>portable zip is deliberate</strong>: there is no <code>.exe</code> installer and no
+MSI, because an unsigned installer is precisely what triggers the worst SmartScreen path &mdash;
+the full-screen "Windows protected your PC" block. Extracted files run from a terminal without
+it. The desktop wallet needs the <strong>WebView2 runtime</strong>, preinstalled on Windows 11 and
+current Windows 10; if it is missing the window will not open and <code>zcd ui</code> in a browser
+is the way round it.</p>
+
+<h3 id="macos-homebrew">macOS &mdash; Homebrew<a class="doc-anchor" href="#macos-homebrew" aria-label="Link to this section">#</a></h3>
+
+<p>Both packages are <strong>formulae</strong>, not casks, and that is the whole trick: a formula
+builds from source on your machine, so the binary is not a downloaded file and has no quarantine
+attribute. Gatekeeper never sees it. It also means you are not trusting the project's build at all
+&mdash; Homebrew fetches the source tarball, checks its SHA-256, and compiles it with your own
+toolchain.</p>
+
+<p><strong>The formula builds the pure-Go binaries, so what it installs runs <code>--devnet</code>
+and refuses mainnet and the public testnet.</strong> To join a network on macOS, take the
+<code>-randomx</code> archive for your architecture, or build it yourself with
+<code>make build-randomx</code>.</p>
+
+<p><strong>A cask is the opposite and this project does not ship one:</strong> a downloaded,
+quarantined <code>.app</code> with no signature, which works only by asking people to disable a
+security feature. Homebrew is closing that path deliberately &mdash;
+<code>--no-quarantine</code> is deprecated in Homebrew 5.x.</p>
+
+<h4>macOS from a release zip</h4>
+
+<p>The <code>.app</code> inside <strong>is</strong> quarantined and macOS will refuse to open it.
+To open it anyway: double-click it and dismiss the refusal; go to <strong>System Settings &rarr;
+Privacy &amp; Security</strong>, scroll to <strong>Security</strong>; next to "Zycord Wallet was
+blocked", click <strong>Open Anyway</strong>; confirm and authenticate.</p>
+
+<div class="callout warn">
+<div class="callout-title">Do not follow older advice to Control-click and choose Open</div>
+<p><strong>macOS 15 (Sequoia) removed that shortcut.</strong> Control-click no longer overrides
+Gatekeeper, and System Settings is now the only route.</p>
+</div>
+
+<p>The command-line tarball has no such problem: <code>zcd</code> and <code>zycordd</code> are run
+from a terminal, where <code>xattr -d com.apple.quarantine</code> clears the first-launch check in
+one command.</p>
+
+<h3 id="linux">Linux<a class="doc-anchor" href="#linux" aria-label="Link to this section">#</a></h3>
+
+<p>No gatekeeper of any kind. Verify the checksum and the signature first &mdash; see
+<a href="/docs/verify/">Verifying a download</a> &mdash; then:</p>
+
+<pre><code>tar xzf zycord-&lt;version&gt;-linux-amd64-randomx.tar.gz
+sudo install -m755 zycord-&lt;version&gt;-linux-amd64-randomx/zcd      /usr/local/bin/
+sudo install -m755 zycord-&lt;version&gt;-linux-amd64-randomx/zycordd  /usr/local/bin/
+zcd version    <span class="c"># must name randomx-v1</span></code></pre>
+
+<p>That is the only node archive a release ships; there is no longer a plain one to pick by
+mistake. On Debian and Ubuntu the <code>.deb</code> does more than move files &mdash; it brings a
+systemd unit and an unprivileged account &mdash; and both routes, with the installer script, are
+laid out on <a href="/download/#on-a-server-from-the-terminal">the downloads page</a>. The desktop
+wallet on Linux ships as an <strong>AppImage</strong>, because <code>libwebkit2gtk</code> has a
+different package name on every distribution.</p>
+
+<h2 id="on-a-server">On a server<a class="doc-anchor" href="#on-a-server" aria-label="Link to this section">#</a></h2>
+
+<div class="callout warn">
+<div class="callout-title">Never <code>curl | sh</code></div>
+<p>Piping an unverified script into a shell is the wrong posture for software that holds money,
+and it is the wrong posture even when the script is this project's &mdash; the whole argument of
+this page is that you should not have to trust the publisher. <a href="{{ZYCORD_SOURCE_URL}}/blob/main/packaging/install.sh">packaging/install.sh</a>
+downloads, <strong>verifies the checksum and the signature, and only then installs</strong>. Fetch
+it, read it, then run it.</p>
+</div>
+
+<p><code>install.sh</code> installs the <strong>attested</strong> archive &mdash; the pure-Go one
+&mdash; because that is the tier its checksum-and-signature walk is about, and a script that
+verified a signature and then installed something else would be theatre. So the binaries it puts
+in <code>/usr/local/bin</code> refuse mainnet and the public testnet, and the script says so as
+the last thing it prints. For a server meant to join a network, unpack the <code>-randomx</code>
+archive by hand.</p>
+
+<p>To use the wallet interface on a server, <strong>do not expose a port</strong>. <code>zcd
+ui</code> binds loopback and refuses anything else; forward it over ssh. The procedure is under
+<a href="/docs/running-a-node/#the-wallet-interface-over-an-ssh-tunnel">Running a node</a>.</p>
+
+<h2 id="what-none-of-this-protects-you-from">What none of this protects you from<a class="doc-anchor" href="#what-none-of-this-protects-you-from" aria-label="Link to this section">#</a></h2>
+
+<p>Stated plainly, because a security page that only lists its strengths is an advertisement.</p>
+
+<ul>
+<li><strong>A malicious repository.</strong> Reproducible builds prove a binary matches its source. They say nothing about whether the source is honest. Read it, or read the <a href="{{ZYCORD_SOURCE_URL}}/tree/main/docs/adversarial">adversarial reviews</a> of people who tried to break it.</li>
+<li><strong>A fake release page.</strong> If somebody stands up a convincing clone and you never verify a signature, hashes matching that page's own checksum file prove nothing. The project key fingerprint <code>E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29</code> is the anchor.</li>
+<li><strong>A compromised machine.</strong> A wallet cannot defend a host that is already lost.</li>
+<li><strong>A lying node.</strong> <code>zcd</code> and the wallet are not full nodes; they believe what a node tells them. That is why the wallet refuses a node whose chain id disagrees with the network you asserted, and why <code>--confirm-rpc</code> exists &mdash; see <a href="/docs/wallet/">Wallet</a>.</li>
+<li><strong>Anyone selling you ZCD.</strong> There is no mainnet coin yet. Genesis has not happened.</li>
+</ul>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/architecture/"><span class="dir">Previous</span><span class="ttl">Architecture</span></a>
+        <a class="next" href="/docs/verify/"><span class="dir">Next</span><span class="ttl">Verifying a download</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#build-from-source">Build from source</a>
+        <a class="lvl-3" href="#which-binary-can-join-a-network">Which binary can join a network</a>
+        <a class="lvl-2" href="#two-tiers-of-assurance-stated-rather-than-implied">Two tiers of assurance, stated rather than implied</a>
+        <a class="lvl-2" href="#why-your-operating-system-will-warn-you-and-why-there-is-no-certificate">Why your operating system will warn you, and why there is no certificate</a>
+        <a class="lvl-2" href="#package-managers">Package managers</a>
+        <a class="lvl-3" href="#windows-scoop">Windows &mdash; Scoop</a>
+        <a class="lvl-3" href="#macos-homebrew">macOS &mdash; Homebrew</a>
+        <a class="lvl-3" href="#linux">Linux</a>
+        <a class="lvl-2" href="#on-a-server">On a server</a>
+        <a class="lvl-2" href="#what-none-of-this-protects-you-from">What none of this protects you from</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

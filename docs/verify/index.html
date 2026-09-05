@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verifying a download — Zycord Documentation</title>
+  <meta name="description" content="Verify a Zycord download: SHA-256 checksums, the GPG signature and its fingerprint anchor, and the reproducible rebuild that proves a binary contains the published source and nothing else." />
+  <link rel="canonical" href="https://zycord.com/docs/verify/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Verifying a download — Zycord Documentation" />
+  <meta property="og:description" content="Verify a Zycord download: SHA-256 checksums, the GPG signature and its fingerprint anchor, and the reproducible rebuild that proves a binary contains the published source and nothing else." />
+  <meta property="og:url" content="https://zycord.com/docs/verify/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Verifying a download — Zycord Documentation" />
+  <meta name="twitter:description" content="Verify a Zycord download: SHA-256 checksums, the GPG signature and its fingerprint anchor, and the reproducible rebuild that proves a binary contains the published source and nothing else." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Verifying a download",
+      "description": "Verify a Zycord download: SHA-256 checksums, the GPG signature and its fingerprint anchor, and the reproducible rebuild that proves a binary contains the published source and nothing else.",
+      "url": "https://zycord.com/docs/verify/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Verifying a download",
+          "item": "https://zycord.com/docs/verify/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/" aria-current="page">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Verifying a download</span>
+          </div>
+          <h1>Verifying a download</h1>
+          <p class="doc-lede">A reproducible build asserts <em>this came from this source, and anyone can check</em> &mdash; which is the assurance an anonymously published project can offer in place of a code-signing certificate. Here is how to collect on it.</p>
+<p>Three checks, and they answer different questions. Run them in this order; each one is
+worth less without the one before it.</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Check</th><th>What it proves</th><th>What it does not</th></tr></thead>
+<tbody>
+<tr><td>Checksum</td><td>The file was not altered in transit.</td><td>Anything about who produced it, or what is in it.</td></tr>
+<tr><td>Signature</td><td>The checksum list came from the holder of the project key.</td><td>That the key belongs to anyone you have reason to trust.</td></tr>
+<tr><td><strong>Rebuild</strong></td><td>The binary contains this source and nothing else.</td><td>That the source is honest &mdash; read it, or read the reviews.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="the-checksum">The checksum<a class="doc-anchor" href="#the-checksum" aria-label="Link to this section">#</a></h2>
+
+<pre><code>curl -fsSLO {{ZYCORD_RELEASES_URL}}/download/v&lt;version&gt;/SHA256SUMS.randomx
+sha256sum --check --ignore-missing SHA256SUMS.randomx
+
+<span class="c"># on macOS:</span>
+shasum -a 256 --check --ignore-missing SHA256SUMS.randomx</code></pre>
+
+<div class="callout">
+<div class="callout-title"><code>--ignore-missing</code> is not optional, and not leniency</div>
+<p>Releases now ship <strong>only</strong> the <code>-randomx</code> archives, so
+<code>SHA256SUMS.randomx</code> is the list that covers what you downloaded;
+<code>SHA256SUMS.deb</code> and <code>SHA256SUMS.desktop</code> cover the Debian packages and the
+desktop wallet. Each covers several files and you downloaded one. Without the flag, the five you do not have are reported as
+<code>FAILED open or read</code> and the command exits non-zero for a perfectly good download, on
+the very page that tells you a mismatch means a compromised binary. A check whose normal result is
+a failure is a check people learn to ignore.</p>
+</div>
+
+<h2 id="the-signature">The signature<a class="doc-anchor" href="#the-signature" aria-label="Link to this section">#</a></h2>
+
+<div class="callout warn">
+<div class="callout-title">No signature is published yet, and this section describes the procedure for when one is</div>
+<p>Releases currently ship <code>zycord-release-key.asc</code> &mdash; the public key &mdash; but
+nothing signed with it beyond the updater's manifest: none of the checksum files has a detached
+signature, and none is clearsigned. <strong>The <code>gpg --verify</code> below therefore fails
+today with a missing file, and that is the release's gap rather than your mistake.</strong> Until it is closed, the
+check that actually carries the trust argument is <a href="#the-rebuild-the-check-that-actually-replaces-a-certificate">the
+rebuild</a>: it needs no signature at all, because you produce the bytes yourself and compare.</p>
+</div>
+
+<p>When a checksum signature is published it is made with the project key. The full fingerprint
+is:</p>
+
+<pre><code>E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29</code></pre>
+
+<p>It is published in the <a href="/docs/whitepaper/">whitepaper header</a>, in the
+<a href="https://doi.org/10.5281/zenodo.22167490">archived deposit</a>, and in the genesis announcement. <strong>It never rotates
+silently:</strong> a key that changes without a signed statement from the old one is
+indistinguishable from a compromise, and should be treated as one.</p>
+
+<div class="callout info">
+<div class="callout-title">The fingerprint is the anchor, not the key file</div>
+<p>Get the key from wherever is convenient and then check what you got against the line above. A
+key file whose fingerprint is that one is the project key no matter which host handed it to you,
+and one whose fingerprint is anything else is worthless no matter how trustworthy the host
+looked.</p>
+</div>
+
+<p>Three places carry it. Any of them will do:</p>
+
+<pre><code><span class="c"># 1. The repository, if you have a clone. No network, no keyserver.</span>
+gpg --import packaging/zycord-release-key.asc
+
+<span class="c"># 2. The release page, as an asset beside the archives.</span>
+curl -fsSLO {{ZYCORD_RELEASES_URL}}/download/v&lt;version&gt;/zycord-release-key.asc
+gpg --import zycord-release-key.asc
+
+<span class="c"># 3. A keyserver. Use this one.</span>
+gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys E72439CEDD8511F9D607550B87FD60D5EB4A0B29</code></pre>
+
+<p>Then confirm what entered your keyring, before you rely on it:</p>
+
+<pre><code>gpg --fingerprint E72439CEDD8511F9D607550B87FD60D5EB4A0B29</code></pre>
+
+<div class="callout warn">
+<div class="callout-title">Do not use <code>keys.openpgp.org</code> for this key</div>
+<p>It is the default keyserver in several GnuPG builds, and it serves a stripped copy: the bare
+public-key packet, with no user ID and no self-signature. GnuPG refuses that copy &mdash;
+<code>gpg: key 87FD60D5EB4A0B29: new key but contains no user ID - skipped</code> &mdash; and the
+key never enters the keyring, so the verify below fails with what looks like a bad signature and
+is in fact a missing key. That server strips user IDs by policy until an address is confirmed
+through it, which is not something a pseudonymous project can do.</p>
+</div>
+
+<pre><code>gpg --verify SHA256SUMS.randomx.asc SHA256SUMS.randomx</code></pre>
+
+<p class="doc-note"><strong>Today this reports <code>No such file or directory</code></strong>,
+because no release has published that file yet. See the note at the top of this section.</p>
+
+<p><code>gpg</code> will add that the key is not certified with a trusted signature. <strong>That
+is expected and it is not a failure.</strong> It means you have not told your keyring that you
+personally vouch for this key, which is exactly what the fingerprint is there to settle. What
+matters is that the signature verifies, and that the key it verified against is the fingerprint
+printed above.</p>
+
+<h3 id="the-whitepaper-is-signed-too">The whitepaper is signed too<a class="doc-anchor" href="#the-whitepaper-is-signed-too" aria-label="Link to this section">#</a></h3>
+
+<p>The PDF served from this site has a detached signature beside it, made by the same key:</p>
+
+<pre><code>curl -fsSLO https://zycord.com/assets/zycord-whitepaper.pdf
+curl -fsSLO https://zycord.com/assets/zycord-whitepaper.pdf.asc
+gpg --verify zycord-whitepaper.pdf.asc zycord-whitepaper.pdf</code></pre>
+
+<h2 id="the-rebuild-the-check-that-actually-replaces-a-certificate">The rebuild &mdash; the check that actually replaces a certificate<a class="doc-anchor" href="#the-rebuild-the-check-that-actually-replaces-a-certificate" aria-label="Link to this section">#</a></h2>
+
+<p>A hash tells you the file was not altered in transit. It says nothing about what the publisher
+put in it. This does:</p>
+
+<pre><code>git clone {{ZYCORD_SOURCE_URL}}.git
+cd zycord
+git checkout v&lt;version&gt;
+make build
+sha256sum bin/zcd bin/zycordd</code></pre>
+
+<p>Compare against <code>SHA256SUMS.binaries</code> from the release. <strong>They must match
+exactly.</strong> If they do, the binary you downloaded contains this source and nothing else
+&mdash; a claim no certificate has ever made about anything.</p>
+
+<h3 id="the-go-toolchain-is-part-of-what-you-are-reproducing">The Go toolchain is part of what you are reproducing<a class="doc-anchor" href="#the-go-toolchain-is-part-of-what-you-are-reproducing" aria-label="Link to this section">#</a></h3>
+
+<p>It is <code>go1.26.2</code>. The same source compiled by two different Go releases is two
+different binaries; that is not a subtlety, it is measurable &mdash; this repository's own release
+workflow once recorded three separate SHA-256 values for one commit and one set of flags, one per
+Go version. So <code>make build</code> pins <code>GOTOOLCHAIN=go1.26.2</code> and stops with an
+explanation if it cannot use that toolchain, instead of producing a mismatch that looks like the
+tampering this whole page is here to detect.</p>
+
+<p>Two consequences worth having:</p>
+
+<ul>
+<li>You do not have to trust the version written above. <strong>The released binary states
+it:</strong> <code>go version -m zcd</code> prints the toolchain that built it, next to the module
+and the build flags. If that line and the <code>Makefile</code>'s pin ever disagree, the binary
+was not built the way this page says.</li>
+<li>Checking out an older tag checks out its pin along with its source, so rebuilding an old
+release keeps working after the project moves to a newer Go.</li>
+</ul>
+
+<h3 id="line-endings-are-part-of-the-source-here">Line endings are part of the source here<a class="doc-anchor" href="#line-endings-are-part-of-the-source-here" aria-label="Link to this section">#</a></h3>
+
+<p><code>wallet/webui</code> embeds the wallet frontend with <code>//go:embed</code>, so those
+files' line endings are bytes in the binary: a checkout converted to CRLF builds a different
+<code>zcd</code> from the same commit &mdash; a mismatch with an innocent cause and a frightening
+appearance. A <code>.gitattributes</code> carrying <code>* text=auto eol=lf</code> gives LF in the
+working tree on every platform and every git configuration, so a <strong>fresh</strong> clone
+gives the same answer everywhere.</p>
+
+<p>Two cases it does not cover: rebuilding a tag older than that file (set
+<code>core.autocrlf=input</code> before checking out), and an existing clone made with
+<code>core.autocrlf=true</code>, which does not heal on pull.</p>
+
+<div class="callout warn">
+<div class="callout-title">The <code>-randomx</code> archives are not reproducible, by construction</div>
+<p>RandomX is C++, so a cgo build carries a system C toolchain into the output and nobody can
+rebuild it byte for byte. Those archives are checksummed by <code>SHA256SUMS.randomx</code> and
+are deliberately absent from <code>SHA256SUMS.binaries</code>, which lists what a build <em>you</em>
+make from source should hash to. This is the one place where the
+tier that joins a network and the tier that is attested do not overlap &mdash; see the two-tiers
+table under <a href="/docs/install/#two-tiers-of-assurance-stated-rather-than-implied">Installation</a>.
+Stating it is the point: it is your decision rather than an assumption made for you.</p>
+</div>
+
+<h2 id="check-the-implementation-against-the-protocol">Check the implementation against the protocol<a class="doc-anchor" href="#check-the-implementation-against-the-protocol" aria-label="Link to this section">#</a></h2>
+
+<p>Separately from checking a binary's provenance, you can check that it implements the protocol.
+The golden vectors <em>are</em> the protocol; an independent implementation that passes them is a
+peer, not a fork.</p>
+
+<pre><code>zcd vectors            <span class="c"># check this build against spec/vectors</span>
+zcd genesis --testnet  <span class="c"># rebuild block 0 and print its id</span>
+zcd params --testnet   <span class="c"># print the frozen parameters</span></code></pre>
+
+<p><code>zcd genesis</code> is the command that matters most: a launch announcement commits, weeks
+in advance, to the code tag, the parameter hash and the genesis id &mdash; and this rebuilds all
+of them in milliseconds, from source, on any machine. The public testnet's values are on the
+<a href="/docs/testnet/">testnet page</a>; a build that prints different ones is a build on a
+different chain, and it will not connect.</p>
+
+<h2 id="independent-attestations">Independent attestations<a class="doc-anchor" href="#independent-attestations" aria-label="Link to this section">#</a></h2>
+
+<p>One person rebuilding a tag proves the tag is reproducible. Several strangers rebuilding it and
+signing the result proves rather more, and it is the pattern serious projects converged on for
+exactly this reason. See <a href="{{ZYCORD_SOURCE_URL}}/tree/main/attestations">attestations/</a> for the
+current signatures on each release and how to add your own.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/install/"><span class="dir">Previous</span><span class="ttl">Installation</span></a>
+        <a class="next" href="/docs/running-a-node/"><span class="dir">Next</span><span class="ttl">Running a node</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#the-checksum">The checksum</a>
+        <a class="lvl-2" href="#the-signature">The signature</a>
+        <a class="lvl-3" href="#the-whitepaper-is-signed-too">The whitepaper is signed too</a>
+        <a class="lvl-2" href="#the-rebuild-the-check-that-actually-replaces-a-certificate">The rebuild &mdash; the check that actually replaces a certificate</a>
+        <a class="lvl-3" href="#the-go-toolchain-is-part-of-what-you-are-reproducing">The Go toolchain is part of what you are reproducing</a>
+        <a class="lvl-3" href="#line-endings-are-part-of-the-source-here">Line endings are part of the source here</a>
+        <a class="lvl-2" href="#check-the-implementation-against-the-protocol">Check the implementation against the protocol</a>
+        <a class="lvl-2" href="#independent-attestations">Independent attestations</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

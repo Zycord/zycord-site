@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running a node — Zycord Documentation</title>
+  <meta name="description" content="Operate a Zycord node: the read-only RPC surface, reachability and peering, the wallet interface over an ssh tunnel, peer identity and anonymity, and the data directory." />
+  <link rel="canonical" href="https://zycord.com/docs/running-a-node/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Running a node — Zycord Documentation" />
+  <meta property="og:description" content="Operate a Zycord node: the read-only RPC surface, reachability and peering, the wallet interface over an ssh tunnel, peer identity and anonymity, and the data directory." />
+  <meta property="og:url" content="https://zycord.com/docs/running-a-node/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Running a node — Zycord Documentation" />
+  <meta name="twitter:description" content="Operate a Zycord node: the read-only RPC surface, reachability and peering, the wallet interface over an ssh tunnel, peer identity and anonymity, and the data directory." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Running a node",
+      "description": "Operate a Zycord node: the read-only RPC surface, reachability and peering, the wallet interface over an ssh tunnel, peer identity and anonymity, and the data directory.",
+      "url": "https://zycord.com/docs/running-a-node/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Running a node",
+          "item": "https://zycord.com/docs/running-a-node/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/" aria-current="page">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Running a node</span>
+          </div>
+          <h1>Running a node</h1>
+          <p class="doc-lede">The operator's guide to <code>zycordd</code>. The protocol it speaks is the <a href="/docs/protocol/">wire specification</a>; this page is about running it.</p>
+<h2 id="the-one-line-version">The one-line version<a class="doc-anchor" href="#the-one-line-version" aria-label="Link to this section">#</a></h2>
+
+<pre><code>zycordd --devnet --dir ./devnet</code></pre>
+
+<p>That is a full node: it validates every block from genesis, serves peers, and answers a
+read-only RPC on <code>127.0.0.1:9420</code>. To join the network that is actually running, see
+<a href="/docs/testnet/">Public testnet</a> &mdash; and note that it needs the
+<code>-randomx</code> binary.</p>
+
+<h2 id="what-the-node-does-not-have">What the node does not have<a class="doc-anchor" href="#what-the-node-does-not-have" aria-label="Link to this section">#</a></h2>
+
+<p>There is <strong>no key material in the node process, ever</strong>. It accepts no seed, no
+passphrase and no key file. Signing happens in <code>zcd</code>, and the node's only write
+endpoint &mdash; <code>/submit</code> &mdash; grants no authority: a submitted certificate is
+validated exactly as one arriving from a stranger would be.</p>
+
+<p>There is also <strong>no privileged endpoint, because there is nothing to privilege</strong>.
+No key can pause, upgrade, censor or mint, so there is no call to expose.</p>
+
+<div class="callout warn">
+<div class="callout-title">If you put the RPC behind a proxy, rate-limit at the proxy</div>
+<p>The limiter keys on the transport peer and never on <code>X-Forwarded-For</code>: a limiter
+that trusts a header the client sets is a limiter the client turns off. Behind a proxy every
+request therefore arrives with the proxy's address, so the per-client limit stops being per-client
+and becomes one shared bucket of 600 a minute for everybody at once &mdash; and a single caller
+can empty it for all of them. That is arguably worse than no limit at all, and nothing in the
+response says so: callers get a plain 429 whether they caused it or someone else did.</p>
+</div>
+
+<h2 id="the-read-only-surface">The read-only surface<a class="doc-anchor" href="#the-read-only-surface" aria-label="Link to this section">#</a></h2>
+
+<p>Anything that watches the chain from outside &mdash; an explorer, a monitor, an indexer &mdash;
+reads it here. The node hands over bytes and never interpretation.</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Endpoint</th><th>Answers</th></tr></thead>
+<tbody>
+<tr><td><code>/status</code>, <code>/head</code></td><td>Tip identity, height, state root</td></tr>
+<tr><td><code>/block?height=N</code> or <code>?id=0x&hellip;</code></td><td>One block as JSON, with <code>canonical</code>, <code>orphaned</code> and <code>confirmations</code></td></tr>
+<tr><td><code>/block?&hellip;&amp;format=ssz</code></td><td>The same block as canonical SSZ bytes, <code>application/octet-stream</code></td></tr>
+<tr><td><code>/params</code></td><td>The active parameter set and its consensus root</td></tr>
+<tr><td><code>/cell</code>, <code>/balance</code></td><td>Tip state</td></tr>
+<tr><td><code>/fees</code></td><td>Base fees, and the elastic ceilings in force</td></tr>
+<tr><td><code>/mempool</code></td><td>Pool counters; <code>?limit=N</code> adds up to 1000 pending ids, lowest first</td></tr>
+<tr><td><code>/network</code>, <code>/metrics</code></td><td>Connection shape and counters</td></tr>
+<tr><td><code>/submit</code></td><td>The only write, and it grants nothing</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<div class="callout-title">The ceilings are not parameters</div>
+<p>Whitepaper &sect;8.1 makes the block's byte, gas and certificate ceilings functions of
+<em>T</em>, the sequential target, and <em>T</em> is consensus state the epoch controller moves.
+<code>/params</code> therefore carries only the genesis values &mdash;
+<code>block_byte_limit_genesis</code> and friends &mdash; which are where <em>T</em> starts and the
+floor it can decay back to, <strong>never the limit in force</strong>. Those numbers stay real
+forever, so reading one for "the block size limit" is wrong silently, and by up to the distance
+between the 2.5 MB genesis value and the 8 MB capacity wall. <code>/fees</code> serves the live
+<em>T</em> and the four ceilings derived from it, so the derivation can be checked rather than
+trusted.</p>
+</div>
+
+<h3 id="why-the-bytes-matter">Why the bytes matter<a class="doc-anchor" href="#why-the-bytes-matter" aria-label="Link to this section">#</a></h3>
+
+<p><code>blake3("zcd/block/v1" &Vert; header_bytes)</code> is the block id, so an observer that
+re-derives ids from what it was served either agrees with the network or finds out immediately. It
+is also how per-certificate outcomes are obtained: whether a certificate was applied, skipped and
+billed, or dropped is computed inside the fold and <strong>never persisted</strong>, because one
+row per certificate forever, in a store that lives in memory, is not something a node can be asked
+to carry. An observer that wants the outcomes folds the block itself.</p>
+
+<h3 id="what-is-not-here-and-will-not-be">What is not here, and will not be<a class="doc-anchor" href="#what-is-not-here-and-will-not-be" aria-label="Link to this section">#</a></h3>
+
+<ul>
+<li><strong>No arbitrary state iteration.</strong> No address list, no prefix scan, no rich list.</li>
+<li><strong>No historical state.</strong> <code>/cell</code> and <code>/balance</code> read the tip; "balance at height H" implies retained history the node does not keep.</li>
+<li><strong>No admin, reindex or debug call</strong>, because there is nothing to privilege.</li>
+</ul>
+
+<p>Aggregation belongs to whatever is watching, computed once at ingest into its own database.</p>
+
+<h3 id="status-codes">Status codes<a class="doc-anchor" href="#status-codes" aria-label="Link to this section">#</a></h3>
+
+<p>Reads answer <code>GET</code> and <code>HEAD</code> and refuse every other verb with
+<code>405</code>. A well-formed question with a negative answer &mdash; a height the chain has not
+reached, an unknown id, the body of a block that lost a reorg &mdash; is <code>404</code>; only a
+malformed request is <code>400</code>. A record the node wrote and can no longer read back is
+<code>500</code>, not <code>400</code>: the fault is the node's disk, and telling a caller its
+request was malformed invites it to stop retrying a request that was always well-formed. A poller
+should never have to read prose to tell absence from error, or its own bug from the node's.</p>
+
+<h3 id="reorgs">Reorgs<a class="doc-anchor" href="#reorgs" aria-label="Link to this section">#</a></h3>
+
+<p>Height lookup answers for the canonical chain only. A block that loses a reorg keeps its header
+and loses its body, so its id still resolves, comes back marked <code>orphaned</code>, and still
+carries the parent link back to the fork point &mdash; which makes <strong>id lookup the only
+reorg-safe path</strong>.</p>
+
+<h2 id="reachability-and-why-it-matters-more-than-it-looks">Reachability, and why it matters more than it looks<a class="doc-anchor" href="#reachability-and-why-it-matters-more-than-it-looks" aria-label="Link to this section">#</a></h2>
+
+<p>Zycord does not do NAT traversal. A node with <code>--listen</code> on a reachable port is
+somewhere others can bootstrap <em>from</em>, and the share of such nodes is the falsifiable
+condition the whole no-traversal decision rests on.</p>
+
+<pre><code><span class="c"># periphery: nothing to configure</span>
+zycordd --testnet --dir ./testnet
+
+<span class="c"># core: bind a port, and make sure it is actually reachable</span>
+zycordd --testnet --dir ./testnet \
+  --listen 0.0.0.0:9421 --advertise &lt;public-address&gt;:9421</code></pre>
+
+<div class="callout warn">
+<div class="callout-title">Advertise an address that answers, or none at all</div>
+<p><code>--advertise</code> falls back to <code>--listen</code>, so <code>--listen
+0.0.0.0:9421</code> with no <code>--advertise</code> publishes <code>0.0.0.0:9421</code>, which
+nobody can dial. A wrong address propagates through peer exchange and costs every node that tries
+it a dial. If you cannot forward a port, leave <code>--listen</code> off and be periphery.</p>
+</div>
+
+<h3 id="checking-whether-it-worked">Checking whether it worked<a class="doc-anchor" href="#checking-whether-it-worked" aria-label="Link to this section">#</a></h3>
+
+<pre><code>curl -s localhost:9420/network</code></pre>
+
+<pre><code>{"enabled":true,"peers":8,"listening":true,"inbound":5,"outbound":3,"reachable":true}</code></pre>
+
+<p><strong><code>listening: true</code> with <code>inbound: 0</code></strong> after the node has
+been up for a few minutes means the port is not actually reachable: the process is bound and
+waiting, and nothing is arriving. That looks healthy in every other view, which is why this
+endpoint exists.</p>
+
+<h3 id="bootstrap-addresses-from-a-file">Bootstrap addresses from a file<a class="doc-anchor" href="#bootstrap-addresses-from-a-file" aria-label="Link to this section">#</a></h3>
+
+<pre><code>zycordd --testnet --dir ./testnet --peers-file peers.txt</code></pre>
+
+<p>One address per line; <code>#</code> comments and blank lines are ignored, and the list is
+merged with the network's built-in seeds. <code>--peers</code> takes the same thing as a
+comma-separated argument, and <code>--no-seeds</code> drops the built-ins while keeping both.</p>
+
+<h2 id="the-wallet-interface-over-an-ssh-tunnel">The wallet interface, over an ssh tunnel<a class="doc-anchor" href="#the-wallet-interface-over-an-ssh-tunnel" aria-label="Link to this section">#</a></h2>
+
+<p>A node holds no key and never will. The wallet is a separate process, and on a server it is
+<code>zcd ui</code>:</p>
+
+<pre><code>zcd ui --key wallet.json --no-open</code></pre>
+
+<p>That prints a URL and serves it on <code>127.0.0.1:9430</code>. <strong>It binds loopback and
+refuses anything else, with no flag to override.</strong> The process behind that listener holds
+an unlocked private key and authenticates with a bearer token in a URL, which is adequate for a
+socket only the local machine can open and is not adequate for anything else. Reaching it from
+elsewhere is ssh's job, and ssh is better at it than this would be:</p>
+
+<pre><code><span class="c"># on your own machine</span>
+ssh -L 9430:127.0.0.1:9430 &lt;host&gt;</code></pre>
+
+<p>Then open the URL the server printed. <strong>The token rides in the URL <em>fragment</em></strong>,
+so it never reaches the server, a log, or a <code>Referer</code> header &mdash; treat the URL as
+the secret it is. It is new on every run, and <kbd>Ctrl-C</kbd> wipes the key and stops serving.</p>
+
+<p>The local end of the forward does not have to be port 9430: the interface checks the
+<em>hostname</em> in the <code>Host</code> header and deliberately not the port. The hostname is
+what matters &mdash; it is what blocks DNS rebinding, which is the real attack against a server on
+loopback, since any page in your browser can make requests to <code>127.0.0.1</code> and the one
+thing it cannot forge is the name it was navigated to.</p>
+
+<div class="callout warn">
+<div class="callout-title">Do not put a reverse proxy in front of <code>zcd ui</code></div>
+<p>The advice above about the node's RPC is about a surface that holds no key and grants no
+authority. <strong>This one holds a key.</strong> There is no version of exposing it that is a
+good idea, and the tunnel costs one flag.</p>
+</div>
+
+<p>Two other shapes worth knowing:</p>
+
+<ul>
+<li><code>zcd ui --locked</code> starts without asking for a passphrase in the terminal; the browser asks instead. Useful when the terminal is shared or logged.</li>
+<li><code>zcd ui --lock-after 5m</code> shortens the idle lock, which wipes the key in place &mdash; the seed is overwritten, not merely dereferenced.</li>
+</ul>
+
+<h2 id="peer-identity-and-anonymity">Peer identity and anonymity<a class="doc-anchor" href="#peer-identity-and-anonymity" aria-label="Link to this section">#</a></h2>
+
+<p>The node generates a fresh Ed25519 peer key on every start and <strong>never writes it to
+disk</strong>. It is derived from nothing &mdash; not from your wallet, not from a seed, not from
+anything else on the machine. Restarting rotates it.</p>
+
+<div class="callout">
+<p>If you are running a node in a way that matters to you, the thing that deanonymises you is not
+the key. It is the address. <strong>A bootstrap node you run on infrastructure traceable to you is
+a deanonymisation vector that no amount of key hygiene fixes.</strong></p>
+</div>
+
+<h2 id="data-directory">Data directory<a class="doc-anchor" href="#data-directory" aria-label="Link to this section">#</a></h2>
+
+<pre><code>data/
+  chain/       blocks, state, and the write-ahead log
+  peers.json   the persisted peer store</code></pre>
+
+<p>The peer store is persisted on purpose: a node that starts from a blank slate after every
+restart hands an attacker a fresh chance to fill it. Deleting it is safe but throws that away.</p>
+
+<p>The node survives being killed at any moment &mdash; that is what the write-ahead log is for,
+and it is tested by killing nodes at random under network chaos. It does <strong>not</strong>
+survive its data directory being edited underneath it: on start it recomputes the state root and
+refuses to run if the stored one disagrees.</p>
+
+<h2 id="choosing-a-network">Choosing a network<a class="doc-anchor" href="#choosing-a-network" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Flag</th><th>Network</th><th>Chain id</th><th>Engine</th></tr></thead>
+<tbody>
+<tr><td><em>(none)</em></td><td>mainnet</td><td>1</td><td><code>randomx-v1</code></td></tr>
+<tr><td><code>--testnet</code></td><td>public testnet</td><td>2</td><td><code>randomx-v1</code></td></tr>
+<tr><td><code>--devnet</code></td><td>local devnet</td><td>1337</td><td>development engine</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>The parameters are embedded in the binary, not read from a path.</strong> Every
+participant of a public network has to carry the same bytes or they are not on one network, and a
+file passed by <code>--params</code> is a file that drifts. A different network is a different
+network: the two disconnect at the handshake, and a data directory holding the wrong chain is
+refused at startup rather than silently mixed.</p>
+
+<h2 id="recovering-a-damaged-data-directory">Recovering a damaged data directory<a class="doc-anchor" href="#recovering-a-damaged-data-directory" aria-label="Link to this section">#</a></h2>
+
+<p><code>zycordd</code> carries a repair path for a data directory that a node refuses to start
+against. The full procedure &mdash; the three damage classes, the four refusals and which one you
+have, the exit codes, and when to give up and resync &mdash; is in
+<a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/RUNNING.md">docs/RUNNING.md</a>, which is authoritative for it.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/verify/"><span class="dir">Previous</span><span class="ttl">Verifying a download</span></a>
+        <a class="next" href="/docs/mining/"><span class="dir">Next</span><span class="ttl">Mining</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#the-one-line-version">The one-line version</a>
+        <a class="lvl-2" href="#what-the-node-does-not-have">What the node does not have</a>
+        <a class="lvl-2" href="#the-read-only-surface">The read-only surface</a>
+        <a class="lvl-3" href="#why-the-bytes-matter">Why the bytes matter</a>
+        <a class="lvl-3" href="#what-is-not-here-and-will-not-be">What is not here, and will not be</a>
+        <a class="lvl-3" href="#status-codes">Status codes</a>
+        <a class="lvl-3" href="#reorgs">Reorgs</a>
+        <a class="lvl-2" href="#reachability-and-why-it-matters-more-than-it-looks">Reachability, and why it matters more than it looks</a>
+        <a class="lvl-3" href="#checking-whether-it-worked">Checking whether it worked</a>
+        <a class="lvl-3" href="#bootstrap-addresses-from-a-file">Bootstrap addresses from a file</a>
+        <a class="lvl-2" href="#the-wallet-interface-over-an-ssh-tunnel">The wallet interface, over an ssh tunnel</a>
+        <a class="lvl-2" href="#peer-identity-and-anonymity">Peer identity and anonymity</a>
+        <a class="lvl-2" href="#data-directory">Data directory</a>
+        <a class="lvl-2" href="#choosing-a-network">Choosing a network</a>
+        <a class="lvl-2" href="#recovering-a-damaged-data-directory">Recovering a damaged data directory</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

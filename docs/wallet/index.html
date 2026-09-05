@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet — Zycord Documentation</title>
+  <meta name="description" content="Zycord wallet guide: one-shot versus persistent addresses, the eight rules a wallet must enforce to avoid losing money the protocol deliberately permits you to lose, and how to distrust a node you do not run." />
+  <link rel="canonical" href="https://zycord.com/docs/wallet/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Wallet — Zycord Documentation" />
+  <meta property="og:description" content="Zycord wallet guide: one-shot versus persistent addresses, the eight rules a wallet must enforce to avoid losing money the protocol deliberately permits you to lose, and how to distrust a node you do not run." />
+  <meta property="og:url" content="https://zycord.com/docs/wallet/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Wallet — Zycord Documentation" />
+  <meta name="twitter:description" content="Zycord wallet guide: one-shot versus persistent addresses, the eight rules a wallet must enforce to avoid losing money the protocol deliberately permits you to lose, and how to distrust a node you do not run." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Wallet",
+      "description": "Zycord wallet guide: one-shot versus persistent addresses, the eight rules a wallet must enforce to avoid losing money the protocol deliberately permits you to lose, and how to distrust a node you do not run.",
+      "url": "https://zycord.com/docs/wallet/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wallet",
+          "item": "https://zycord.com/docs/wallet/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/" aria-current="page">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Wallet</span>
+          </div>
+          <h1>Wallet</h1>
+          <p class="doc-lede">Keys, addresses and sending &mdash; plus the behavioural contract every wallet on this protocol has to meet. Each rule describes a way to lose money that the protocol permits, and that a wallet must therefore prevent.</p>
+<h2 id="the-commands">The commands<a class="doc-anchor" href="#the-commands" aria-label="Link to this section">#</a></h2>
+
+<pre><code>zcd wallet new     --out KEYFILE                        <span class="c"># create an encrypted key file</span>
+zcd wallet address --key KEYFILE                        <span class="c"># show an address</span>
+zcd wallet balance --key KEYFILE                        <span class="c"># ask a node for a balance</span>
+zcd wallet send    --key KEYFILE --to ADDR --amount N
+zcd wallet sweep   --key KEYFILE --to ADDR --one-shot
+zcd wallet retire  --key KEYFILE [--addr ADDR]
+zcd ui             --key KEYFILE                        <span class="c"># the same wallet in a browser</span></code></pre>
+
+<p>The graphical wallet is not a second implementation. <code>zcd wallet</code>, <code>zcd
+ui</code> and the desktop application are <strong>three interfaces over one
+<code>wallet/session</code></strong>: each builds its certificate there, and the rule checks run
+inside that call. A graphical wallet is therefore structurally incapable of being more permissive
+than the CLI &mdash; not because whoever wrote it was careful, but because there is no second code
+path on which it could be.</p>
+
+<h2 id="two-kinds-of-address">Two kinds of address<a class="doc-anchor" href="#two-kinds-of-address" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Version</th><th>Kind</th><th>Use it for</th><th>Reusable?</th></tr></thead>
+<tbody>
+<tr><td><code>0x01</code></td><td>One-shot</td><td>A single expected payment. Derive a fresh one per payment received.</td><td><strong>No.</strong> A debit burns it permanently.</td></tr>
+<tr><td><code>0x02</code></td><td>Persistent</td><td>Merchants, donation addresses, hot wallets, <strong>mining payouts</strong>.</td><td>Yes, forever. Can never enter the spent registry.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>One-shot versus persistent is a <em>wallet policy surfaced as an address bit</em>, not two
+ledgers. Wallets default to <code>0x01</code> per payment received, because that is what makes a
+payment unlinkable to the next; anyone who wants an account uses <code>0x02</code>.</p>
+
+<h2 id="the-eight-rules">The eight rules<a class="doc-anchor" href="#the-eight-rules" aria-label="Link to this section">#</a></h2>
+
+<p>These accumulated one adversarial finding at a time. Every rule below describes a way to lose
+money or fees that the protocol <em>permits</em> &mdash; deliberately, because the alternative was
+worse &mdash; and that a wallet must therefore prevent. <strong>The reference wallet implements
+them. It does not merely document them.</strong> The complete argument for each, with the finding
+that motivated it, is in <a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/WALLET.md">docs/WALLET.md</a>.</p>
+
+<h3 id="rule-1-sweep-whole-cells">Rule 1 &mdash; sweep whole cells<a class="doc-anchor" href="#rule-1-sweep-whole-cells" aria-label="Link to this section">#</a></h3>
+
+<p>When spending from a <code>0x01</code> address, move the <strong>entire</strong> balance
+&mdash; to the payee and to a change address you control. The certificate carries a
+<code>MARK_SPENT</code> of that address, and after it applies every read and write under the
+address fails permanently. <strong>There is no second transaction.</strong></p>
+
+<p>The chain now softens this: whatever a burned address still holds moves to the certificate's
+own <code>RefundTo</code> cell at commit &mdash; for the address's native balance and for every
+cell the certificate itself names. So under-sweeping no longer destroys drops; it delivers them to
+your change address.</p>
+
+<div class="callout warn">
+<div class="callout-title">The obligation that comes with it</div>
+<p>A certificate has one <code>RefundTo</code> and may burn one-shot addresses belonging to
+several signers, so a residual under <em>your</em> cell can be delivered to <em>theirs</em>.
+<strong>Never co-sign a certificate that burns a one-shot address of yours and refunds to an
+address you do not control.</strong></p>
+</div>
+
+<p><strong>What this rule cannot save:</strong> a balance in an asset the certificate never
+mentions. The assets under an address are not derivable from a slot, so reaching an unnamed asset
+would mean scanning the whole cell table in the one stage that does not parallelise. <strong>Name
+every asset in the certificate that burns the address.</strong></p>
+
+<h3 id="rule-2-refundto-must-be-an-address-you-can-still-use">Rule 2 &mdash; <code>RefundTo</code> must be an address you can still use<a class="doc-anchor" href="#rule-2-refundto-must-be-an-address-you-can-still-use" aria-label="Link to this section">#</a></h3>
+
+<p>It must name either a <strong>persistent</strong> address you control or a <strong>fresh</strong>
+one-shot address that this certificate does not burn. Settling into a burned cell strands the
+remainder: the fold burns it rather than writing it into a cell nobody can read, and reports it as
+<code>refund_burned</code> rather than <code>refunded</code>, so a wallet reconciling a balance can
+tell.</p>
+
+<h3 id="rule-3-one-address-one-expected-payment">Rule 3 &mdash; one address, one expected payment<a class="doc-anchor" href="#rule-3-one-address-one-expected-payment" aria-label="Link to this section">#</a></h3>
+
+<p>Two obligations, one on each side:</p>
+
+<ul>
+<li><strong>Receiving.</strong> Derive a fresh <code>0x01</code> address per payment you expect. Never publish one twice. Do not sweep or retire an address you disclosed within the last <code>ttl_max</code> blocks unless you accept that a payment in flight to it will skip and bill its sender.</li>
+<li><strong>Sending.</strong> Refuse to pay a one-shot address you can see has already been credited or spent. If a payee hands you an address a second time, treat it as an error, not a convenience.</li>
+</ul>
+
+<p>For anything paid more than once &mdash; a merchant, a donation address, <strong>a mining
+payout</strong> &mdash; use a persistent (<code>0x02</code>) address. <strong>This is the single
+rule that removes the exposure rather than narrowing it.</strong></p>
+
+<h3 id="rule-4-dependent-chains-confirm-or-accept-the-risk">Rule 4 &mdash; dependent chains: confirm, or accept the risk<a class="doc-anchor" href="#rule-4-dependent-chains-confirm-or-accept-the-risk" aria-label="Link to this section">#</a></h3>
+
+<p>Increment <code>Seq</code> for every certificate that depends on a previous one. Within one
+block the fold commits a signer's certificates in <code>Seq</code> order, so a dependent chain in
+the same block is safe. <strong>Across blocks it is not:</strong> broadcast <code>Seq = n+1</code>
+only after <code>Seq = n</code> has confirmed, or accept that the dependent one may commit alone
+and skip. This is not a protocol defect &mdash; the signer accepted staleness risk by signing.</p>
+
+<h3 id="rule-5-set-the-maximum-generously-and-the-priority-honestly">Rule 5 &mdash; set the maximum generously and the priority honestly<a class="doc-anchor" href="#rule-5-set-the-maximum-generously-and-the-priority-honestly" aria-label="Link to this section">#</a></h3>
+
+<p>Each market takes two prices. The <strong>maximum</strong> is a solvency bound: once the base
+fee passes it the certificate is unincludable and must be re-signed. The <strong>priority</strong>
+is what a miner is actually paid.</p>
+
+<ul>
+<li>Raising the maximum <strong>costs nothing in fees</strong> &mdash; the safety buffer is free.</li>
+<li>But the deposit reserves <code>gas &times; max</code>, so the maximum bounds how much balance is locked for one fold step. Size it against the balance actually available.</li>
+<li>A certificate with a long TTL needs more headroom than one with a short TTL, because the base fee has more blocks in which to move.</li>
+</ul>
+
+<p><strong>The escape hatch for small balances</strong> is to shrink the <em>window</em>, not the
+safety: sign with a short TTL and re-sign on expiry, trading lockup for latency. The wrong
+response is to keep the long TTL and shrink the maximum, which makes the certificate strandable
+exactly when the market moves &mdash; the case the buffer existed for.</p>
+
+<h3 id="rule-6-sort-moves-canonically">Rule 6 &mdash; sort moves canonically<a class="doc-anchor" href="#rule-6-sort-moves-canonically" aria-label="Link to this section">#</a></h3>
+
+<p>The protocol imposes no order on a transfer's moves, so without a canonical order a retry of
+the same logical payment produces a different id and the wallet cannot tell "already sent" from
+"sent twice". <code>wallet.Transfer</code> sorts by asset, source, destination, then amount, so a
+retry reproduces the id.</p>
+
+<p>A retry does <strong>not</strong> have to reproduce the signature: the id's preimage excludes
+the signature list, so a retry re-signed at a fresh nonce is the same id and the network refuses it
+as the duplicate it is. <strong>Idempotency is a property the protocol provides</strong>, for every
+wallet rather than for the careful ones.</p>
+
+<h3 id="rule-7-never-hand-out-a-seed">Rule 7 &mdash; never hand out a seed<a class="doc-anchor" href="#rule-7-never-hand-out-a-seed" aria-label="Link to this section">#</a></h3>
+
+<p>The seed is the key. Anyone who reads it owns everything both of its addresses hold &mdash; the
+one-shot and the persistent, which are unrelated on chain but derived from the same key.</p>
+
+<p>Key files are <strong>always encrypted</strong>: Argon2id over the passphrase, AES-256-GCM over
+the seed, both with their parameters stored in the file so that a user locked out of this binary
+can recover with any language's standard library. There is no flag to write one unencrypted.
+Passphrases are read from the terminal without echo, <strong>never from a flag</strong> &mdash; a
+passphrase on a command line is in the shell history and in the process table.</p>
+
+<p>Writing holds two properties at once, and both are about the same sentence &mdash; losing one
+is losing money:</p>
+
+<ul>
+<li><strong>Never silently overwrite.</strong> A key file already at the destination is left untouched and the write fails.</li>
+<li><strong>Never leave a torn one.</strong> The seed goes to a temporary file in the same directory, is fsynced there, and only then is published under its final name in a single filesystem operation.</li>
+</ul>
+
+<p>Both hold on every filesystem the CLI was measured against, <strong>FAT32 and exFAT
+included</strong> &mdash; the formats a cold-storage USB backup is most likely to use.</p>
+
+<div class="callout warn">
+<div class="callout-title">An encrypted key file on a FAT-formatted stick is protected by its passphrase and by nothing else</div>
+<p>FAT32 and exFAT have no Unix permission bits, so the <code>0600</code> a key file is created
+with does not survive on them &mdash; the mount options decide. On Linux the default
+<code>fmask</code> typically leaves it world-readable; macOS mounts such volumes
+<code>noowners</code>, which reports <code>0700</code> and enforces nothing. Choose the passphrase
+accordingly. They also have no journal, so if a publish is interrupted on FAT and reports failure,
+check the destination before rerunning.</p>
+</div>
+
+<h3 id="rule-8-refuse-what-the-network-will-refuse">Rule 8 &mdash; refuse what the network will refuse<a class="doc-anchor" href="#rule-8-refuse-what-the-network-will-refuse" aria-label="Link to this section">#</a></h3>
+
+<p>A wallet that reports success for something the network can only discard has moved the failure
+somewhere the user will never look. Two shapes of this, both found in the field:</p>
+
+<ul>
+<li><strong>Bytes no peer can decode.</strong> The codec is an authority in its own right, with rules the validator does not restate. The builder now asserts the property directly: whatever it emits, the decoder accepts.</li>
+<li><strong>A transfer the fold can only skip.</strong> A transfer above the source's balance breaks no rule, so every node admits it &mdash; and nothing <em>refuses</em> a producer that includes it anyway, at which point the fold settles it at <code>skip_fee</code>, burned out of the deposit and paid to nobody. The bad case is not "no effect", it is "the fee was burned and the value never moved".</li>
+</ul>
+
+<p><code>zcd wallet send --force</code> bypasses <em>that one</em> refusal and nothing else,
+because a deposit expected to land inside the TTL window makes the same certificate apply and the
+wallet cannot see the future. It cannot make an invalid certificate valid; it can only submit a
+valid one that may skip &mdash; and a skip is not free.</p>
+
+<h2 id="trusting-a-node-you-do-not-run">Trusting a node you do not run<a class="doc-anchor" href="#trusting-a-node-you-do-not-run" aria-label="Link to this section">#</a></h2>
+
+<p><code>zcd</code> and the wallet are not full nodes. They believe what a node tells them, and a
+CLI that talks RPC to a node it does not itself validate has to trust <em>something</em> about
+that node's answers &mdash; that is not a bug to fix, it is what a wallet is. Three mitigations,
+each for a specific lie:</p>
+
+<div class="doc-table-wrap">
+<table>
+<thead><tr><th>Mitigation</th><th>What it catches</th></tr></thead>
+<tbody>
+<tr><td><code>--devnet</code> / <code>--testnet</code> / <code>--params</code></td><td>The operator asserts which network they mean to sign for, and every node asked is checked against that assertion. Network identity is never taken from a node alone. This applies to <code>balance</code> too, not only to the commands that sign.</td></tr>
+<tr><td><code>--confirm-rpc NODE</code></td><td>Names a second, independent node. Every address's balance <em>and spent flag</em> must be reported identically by both before anything proceeds. A node whose <code>chain_id</code> disagrees is refused, and a <code>--confirm-rpc</code> naming the endpoint <code>--rpc</code> already names is refused outright &mdash; a node cross-checking itself agrees with itself.</td></tr>
+<tr><td>The typed confirmation</td><td>Before submitting, <code>zcd wallet sweep</code> prints the exact numbers and requires you to type <code>sweep</code>. <code>--yes</code> skips this prompt only, never the checks above it.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="checklist-for-a-wallet-implementation">Checklist for a wallet implementation<a class="doc-anchor" href="#checklist-for-a-wallet-implementation" aria-label="Link to this section">#</a></h2>
+
+<p>If you are writing a wallet against this protocol, this is the contract:</p>
+
+<ul>
+<li>Spending from <code>0x01</code> moves the whole balance, counting the deposit reservation as part of it &mdash; including on programs with no moves at all.</li>
+<li><code>RETIRE</code> refuses a target that still holds a balance.</li>
+<li>The node's report of a balance is not treated as beyond question: network identity asserted by the operator, a second source cross-checkable, and the exact numbers confirmed before an irreversible sweep.</li>
+<li><code>RefundTo</code> is validated as persistent-or-fresh before signing.</li>
+<li>Receiving derives a fresh address per expected payment; sending refuses a one-shot address already credited or spent.</li>
+<li>Merchant and payout addresses default to <code>0x02</code>.</li>
+<li><code>Seq</code> increments per dependent certificate, and the wallet waits for confirmation before broadcasting the next &mdash; or says out loud that it is not.</li>
+<li>Fee maxima are sized from available balance and TTL, not hardcoded.</li>
+<li>Moves are sorted canonically, so a retry reproduces the certificate id.</li>
+<li>Key files are encrypted, written durably with no silent overwrite, and passphrases never reach a flag.</li>
+<li>Nothing is signed that its own encoding cannot be decoded back from, and nothing is submitted that the source balance cannot cover &mdash; with any override named, narrow, and reported in the preview.</li>
+</ul>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/mining/"><span class="dir">Previous</span><span class="ttl">Mining</span></a>
+        <a class="next" href="/docs/testnet/"><span class="dir">Next</span><span class="ttl">Public testnet</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-2" href="#the-commands">The commands</a>
+        <a class="lvl-2" href="#two-kinds-of-address">Two kinds of address</a>
+        <a class="lvl-2" href="#the-eight-rules">The eight rules</a>
+        <a class="lvl-3" href="#rule-1-sweep-whole-cells">Rule 1 &mdash; sweep whole cells</a>
+        <a class="lvl-3" href="#rule-2-refundto-must-be-an-address-you-can-still-use">Rule 2 &mdash; RefundTo must be an address you can still use</a>
+        <a class="lvl-3" href="#rule-3-one-address-one-expected-payment">Rule 3 &mdash; one address, one expected payment</a>
+        <a class="lvl-3" href="#rule-4-dependent-chains-confirm-or-accept-the-risk">Rule 4 &mdash; dependent chains: confirm, or accept the risk</a>
+        <a class="lvl-3" href="#rule-5-set-the-maximum-generously-and-the-priority-honestly">Rule 5 &mdash; set the maximum generously and the priority honestly</a>
+        <a class="lvl-3" href="#rule-6-sort-moves-canonically">Rule 6 &mdash; sort moves canonically</a>
+        <a class="lvl-3" href="#rule-7-never-hand-out-a-seed">Rule 7 &mdash; never hand out a seed</a>
+        <a class="lvl-3" href="#rule-8-refuse-what-the-network-will-refuse">Rule 8 &mdash; refuse what the network will refuse</a>
+        <a class="lvl-2" href="#trusting-a-node-you-do-not-run">Trusting a node you do not run</a>
+        <a class="lvl-2" href="#checklist-for-a-wallet-implementation">Checklist for a wallet implementation</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

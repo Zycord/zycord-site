@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Zycord Documentation</title>
+  <meta name="description" content="Frequently asked questions about Zycord: premine and allocations, exchanges and pools, how it differs from parallel-EVM chains, RandomX and botnets, known problems, and why there is no official Discord." />
+  <link rel="canonical" href="https://zycord.com/docs/faq/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="FAQ — Zycord Documentation" />
+  <meta property="og:description" content="Frequently asked questions about Zycord: premine and allocations, exchanges and pools, how it differs from parallel-EVM chains, RandomX and botnets, known problems, and why there is no official Discord." />
+  <meta property="og:url" content="https://zycord.com/docs/faq/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FAQ — Zycord Documentation" />
+  <meta name="twitter:description" content="Frequently asked questions about Zycord: premine and allocations, exchanges and pools, how it differs from parallel-EVM chains, RandomX and botnets, known problems, and why there is no official Discord." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "FAQ",
+      "description": "Frequently asked questions about Zycord: premine and allocations, exchanges and pools, how it differs from parallel-EVM chains, RandomX and botnets, known problems, and why there is no official Discord.",
+      "url": "https://zycord.com/docs/faq/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FAQ",
+          "item": "https://zycord.com/docs/faq/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When exchange?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Never asked for, never paid for, never announced. Testnet coins are worth nothing by design. Where the mainnet coin trades is the market's business, not the author's \u2014 there is no company to sign a listing deal and no fund to pay for one. Anyone selling you ZCD today is scamming you: mainnet genesis has not happened."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are there pools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "None exist at launch and none are official. The node solo-mines out of the box, and at genesis difficulty that is the sensible way in. If pools appear they are third parties; apply the scepticism you would anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Bounties? Airdrop? Signature campaign?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, no, and no. Nothing here pays for promotion. If someone offers you Zycord for shilling, it is not coming from this project."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this another \u201c1M TPS\u201d chain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The claim is narrower and falsifiable: verification needs no state, therefore it parallelizes without bound, therefore per-node cost can fall as the network grows. The network ships at about 90 certificates per second and the ceiling only rises on sustained real usage \u2014 nobody, including the author, can raise it by decree. The measured numbers are in \u00a715 of the whitepaper, with the source to re-run them. If your machine disagrees, post the figures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from a \u201cparallel EVM\u201d like Monad or Sei?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Those parallelize execution inside a node \u2014 every node still re-executes every transaction, so the state-I/O wall stays exactly where it was. Here validity is a pure function of a transaction's bytes, so verification splits across the whole network instead of being repeated by all of it, and the only sequential stage touches memory rather than a database. Different wall, not a faster car into the same one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why RandomX? Botnets will come.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They will; every CPU-minable coin has fought them and this project does not expect to be the exception. The trade is taken with open eyes: a distribution skewed by botnets is still broader than one decided in a sale, and keeping the laptop you already own competitive is the entire reason RandomX exists."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when transactions conflict?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The later one in fold order is skipped, its fee is burned, and the block stays valid \u2014 nothing ever \u201cfails\u201d halfway. Payments, mints and tips use commutative deltas and cannot conflict at all; only exact-read contract state (order books, AMMs) contends, and that is what application sequencers exist to serialize off-chain in Era 1."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are there smart contracts at launch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No \u2014 Era 0 is native assets plus mining, on purpose. No admin keys means no pause button, so the genesis surface is kept small enough to audit completely. The parallel EVM arrives in Era 1 with a delta-first standard library pre-deployed. Solidity, its compilers and its auditors carry over; raw wallet compatibility is not claimed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the known problems?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Named in the whitepaper rather than left for you to discover: the spent-address registry grows forever (shared with every nullifier-set design, and the binding constraint at high throughput); bodies are chain data, so a block producer at the top of the capacity curve is datacenter-class on bandwidth alone; sequencers see their own application's order flow first \u2014 its MEV is captured by the application, explicitly; verification sampling is roadmap, not launch; and \u00a712 lists the confidential-payment open questions by name."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a Discord or a Telegram?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Community channels are welcome and will be built by the community \u2014 volunteers are wanted for exactly that. But none of them is official, by design: a chat has an admin, and an admin can silence people and erase history. Every official announcement goes in the forum thread, signed with the project key, and nowhere else. If someone in a chat says \u201cofficial announcement\u201d without a signed post in that thread, it is a lie."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who are you?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Simstoshi. That is the whole answer, and it is the point: nothing in this design requires trusting the author. No admin keys to abuse, no allocation to dump, no operator load-bearing for safety \u2014 and a forced-inclusion path that keeps the network alive even if every operator disappears, author included. Every official release and announcement is signed with E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a premine, a founder allocation or an investor round?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and it is checkable rather than promised. zcd genesis prints allocations 0, and you can run it yourself against the published parameter file before the network exists. The treasury accrues 3% of every block subsidy into a cell that has no key, no address and no quorum at genesis and cannot be opened before Era 2; if nobody ever shows up publicly to claim it, the coins are simply never issued. A premine is an allocation \u2014 coins, an address, and a key that exist at genesis and belong to someone. Genesis here contains none of the three."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I verify that a binary is really yours?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Do better than that: verify it is really the published source. Rebuild the tag and compare hashes \u2014 if they match, the question of who built it stops mattering. The procedure is Verifying a download. Note that the -randomx archives are cgo and cannot be byte-reproduced; that tier is stated explicitly rather than blurred."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I mine on a GPU or an ASIC?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RandomX is designed to make that unprofitable relative to a CPU, which is the whole point. Mine on the machine you already own. Budget about 3.3 GiB of RAM for a mining node and about 1 GiB for one that only verifies \u2014 the numbers are here."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I start my node before genesis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It waits, and that is the intended way to use it. The node refuses to build a block whose timestamp its own clock has not reached, prints how long is left, and begins mining on its own. It peers and syncs throughout. There is nothing to schedule and nothing to restart."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the testnet coin the same as the mainnet coin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The public testnet has its own chain id, its coins are worth nothing by design, and it can be reset from genesis. It exists to measure mainnet's behaviour \u2014 which is why it carries mainnet's gas schedule unchanged."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where do I report a security issue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In SECURITY.md, which states the disclosure process. The project would rather have the report than the benefit of the doubt: the adversarial review record is published unedited precisely so that finding something and saying so is the normal thing to do here."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/">Glossary</a>
+        <a href="/docs/faq/" aria-current="page">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>FAQ</span>
+          </div>
+          <h1>Frequently asked questions</h1>
+          <p class="doc-lede">Short answers, including to the questions a project would rather not be asked. The known problems are named here and in the whitepaper rather than left for you to discover.</p>
+<p>These are the questions that actually get asked, answered the way they were answered
+in <a href="https://bitcointalk.org/index.php?topic=5592720.0">the launch thread</a>. If yours is not here, ask it there &mdash; that thread
+is not self-moderated, so nothing in it can be deleted.</p>
+
+<h3 id="when-exchange">When exchange?<a class="doc-anchor" href="#when-exchange" aria-label="Link to this section">#</a></h3>
+<p>Never asked for, never paid for, never announced. Testnet coins are worth nothing by design. Where the mainnet coin trades is the market's business, not the author's &mdash; there is no company to sign a listing deal and no fund to pay for one. <strong>Anyone selling you ZCD today is scamming you:</strong> mainnet genesis has not happened.</p>
+<h3 id="are-there-pools">Are there pools?<a class="doc-anchor" href="#are-there-pools" aria-label="Link to this section">#</a></h3>
+<p>None exist at launch and none are official. The node solo-mines out of the box, and at genesis difficulty that is the sensible way in. If pools appear they are third parties; apply the scepticism you would anywhere.</p>
+<h3 id="bounties-airdrop-signature-campaign">Bounties? Airdrop? Signature campaign?<a class="doc-anchor" href="#bounties-airdrop-signature-campaign" aria-label="Link to this section">#</a></h3>
+<p>No, no, and no. Nothing here pays for promotion. If someone offers you Zycord for shilling, it is not coming from this project.</p>
+<h3 id="is-this-another-1m-tps-chain">Is this another &ldquo;1M TPS&rdquo; chain?<a class="doc-anchor" href="#is-this-another-1m-tps-chain" aria-label="Link to this section">#</a></h3>
+<p>The claim is narrower and falsifiable: verification needs no state, therefore it parallelizes without bound, therefore per-node cost can fall as the network grows. The network ships at about <strong>90 certificates per second</strong> and the ceiling only rises on sustained real usage &mdash; nobody, including the author, can raise it by decree. The measured numbers are in <a href="/docs/whitepaper/#15-measurements">&sect;15 of the whitepaper</a>, with the source to re-run them. If your machine disagrees, post the figures.</p>
+<h3 id="how-is-this-different-from-a-parallel-evm-like-monad-or-sei">How is this different from a &ldquo;parallel EVM&rdquo; like Monad or Sei?<a class="doc-anchor" href="#how-is-this-different-from-a-parallel-evm-like-monad-or-sei" aria-label="Link to this section">#</a></h3>
+<p>Those parallelize execution <em>inside</em> a node &mdash; every node still re-executes every transaction, so the state-I/O wall stays exactly where it was. Here validity is a pure function of a transaction's bytes, so verification splits across the whole network instead of being repeated by all of it, and the only sequential stage touches memory rather than a database. <strong>Different wall, not a faster car into the same one.</strong></p>
+<h3 id="why-randomx-botnets-will-come">Why RandomX? Botnets will come.<a class="doc-anchor" href="#why-randomx-botnets-will-come" aria-label="Link to this section">#</a></h3>
+<p>They will; every CPU-minable coin has fought them and this project does not expect to be the exception. The trade is taken with open eyes: a distribution skewed by botnets is still broader than one decided in a sale, and keeping the laptop you already own competitive is the entire reason RandomX exists.</p>
+<h3 id="what-happens-when-transactions-conflict">What happens when transactions conflict?<a class="doc-anchor" href="#what-happens-when-transactions-conflict" aria-label="Link to this section">#</a></h3>
+<p>The later one in fold order is <a href="/docs/glossary/#skip">skipped</a>, its fee is burned, and the block stays valid &mdash; nothing ever &ldquo;fails&rdquo; halfway. Payments, mints and tips use commutative deltas and cannot conflict at all; only exact-read contract state (order books, AMMs) contends, and that is what application sequencers exist to serialize off-chain in Era 1.</p>
+<h3 id="are-there-smart-contracts-at-launch">Are there smart contracts at launch?<a class="doc-anchor" href="#are-there-smart-contracts-at-launch" aria-label="Link to this section">#</a></h3>
+<p>No &mdash; Era 0 is native assets plus mining, on purpose. No admin keys means no pause button, so the genesis surface is kept small enough to audit completely. The parallel EVM arrives in Era 1 with a delta-first standard library pre-deployed. Solidity, its compilers and its auditors carry over; raw wallet compatibility is not claimed.</p>
+<h3 id="what-are-the-known-problems">What are the known problems?<a class="doc-anchor" href="#what-are-the-known-problems" aria-label="Link to this section">#</a></h3>
+<p>Named in the whitepaper rather than left for you to discover: the <strong>spent-address registry grows forever</strong> (shared with every nullifier-set design, and the binding constraint at high throughput); <strong>bodies are chain data</strong>, so a block producer at the top of the capacity curve is datacenter-class on bandwidth alone; <strong>sequencers see their own application's order flow first</strong> &mdash; its MEV is captured by the application, explicitly; <strong>verification sampling is roadmap, not launch</strong>; and <a href="/docs/whitepaper/#12-confidential-payments">&sect;12</a> lists the confidential-payment open questions by name.</p>
+<h3 id="is-there-a-discord-or-a-telegram">Is there a Discord or a Telegram?<a class="doc-anchor" href="#is-there-a-discord-or-a-telegram" aria-label="Link to this section">#</a></h3>
+<p>Community channels are welcome and will be built <em>by the community</em> &mdash; volunteers are wanted for exactly that. But <strong>none of them is official, by design</strong>: a chat has an admin, and an admin can silence people and erase history. Every official announcement goes in <a href="https://bitcointalk.org/index.php?topic=5592720.0">the forum thread</a>, signed with the project key, and nowhere else. <strong>If someone in a chat says &ldquo;official announcement&rdquo; without a signed post in that thread, it is a lie.</strong></p>
+<h3 id="who-are-you">Who are you?<a class="doc-anchor" href="#who-are-you" aria-label="Link to this section">#</a></h3>
+<p>Simstoshi. That is the whole answer, and it is the point: nothing in this design requires trusting the author. No admin keys to abuse, no allocation to dump, no operator load-bearing for safety &mdash; and a forced-inclusion path that keeps the network alive even if every operator disappears, author included. Every official release and announcement is signed with <code>E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29</code>.</p>
+<h3 id="is-there-a-premine-a-founder-allocation-or-an-investor-round">Is there a premine, a founder allocation or an investor round?<a class="doc-anchor" href="#is-there-a-premine-a-founder-allocation-or-an-investor-round" aria-label="Link to this section">#</a></h3>
+<p>No, and it is checkable rather than promised. <code>zcd genesis</code> prints <code>allocations 0</code>, and you can run it yourself against the published parameter file before the network exists. The treasury accrues 3% of every block subsidy into a cell that has <strong>no key, no address and no quorum at genesis</strong> and cannot be opened before Era 2; if nobody ever shows up publicly to claim it, the coins are simply never issued. A premine is an allocation &mdash; coins, an address, and a key that exist at genesis and belong to someone. Genesis here contains none of the three.</p>
+<h3 id="how-do-i-verify-that-a-binary-is-really-yours">How do I verify that a binary is really yours?<a class="doc-anchor" href="#how-do-i-verify-that-a-binary-is-really-yours" aria-label="Link to this section">#</a></h3>
+<p>Do better than that: verify it is really <em>the published source</em>. Rebuild the tag and compare hashes &mdash; if they match, the question of who built it stops mattering. The procedure is <a href="/docs/verify/">Verifying a download</a>. Note that the <code>-randomx</code> archives are cgo and cannot be byte-reproduced; that tier is stated explicitly rather than blurred.</p>
+<h3 id="can-i-mine-on-a-gpu-or-an-asic">Can I mine on a GPU or an ASIC?<a class="doc-anchor" href="#can-i-mine-on-a-gpu-or-an-asic" aria-label="Link to this section">#</a></h3>
+<p>RandomX is designed to make that unprofitable relative to a CPU, which is the whole point. Mine on the machine you already own. Budget about 3.3 GiB of RAM for a mining node and about 1 GiB for one that only verifies &mdash; <a href="/docs/mining/#what-it-costs-to-run">the numbers are here</a>.</p>
+<h3 id="what-happens-if-i-start-my-node-before-genesis">What happens if I start my node before genesis?<a class="doc-anchor" href="#what-happens-if-i-start-my-node-before-genesis" aria-label="Link to this section">#</a></h3>
+<p>It waits, and that is the intended way to use it. The node refuses to build a block whose timestamp its own clock has not reached, prints how long is left, and <strong>begins mining on its own</strong>. It peers and syncs throughout. There is nothing to schedule and nothing to restart.</p>
+<h3 id="is-the-testnet-coin-the-same-as-the-mainnet-coin">Is the testnet coin the same as the mainnet coin?<a class="doc-anchor" href="#is-the-testnet-coin-the-same-as-the-mainnet-coin" aria-label="Link to this section">#</a></h3>
+<p>No. The public testnet has its own chain id, its coins are worth nothing by design, and it can be reset from genesis. It exists to measure mainnet's behaviour &mdash; which is why it carries mainnet's gas schedule unchanged.</p>
+<h3 id="where-do-i-report-a-security-issue">Where do I report a security issue?<a class="doc-anchor" href="#where-do-i-report-a-security-issue" aria-label="Link to this section">#</a></h3>
+<p>In <a href="{{ZYCORD_SOURCE_URL}}/blob/main/SECURITY.md">SECURITY.md</a>, which states the disclosure process. The project would rather have the report than the benefit of the doubt: the <a href="{{ZYCORD_SOURCE_URL}}/tree/main/docs/adversarial">adversarial review record</a> is published unedited precisely so that finding something and saying so is the normal thing to do here.</p>
+
+<h2 id="still-unanswered">Still unanswered?<a class="doc-anchor" href="#still-unanswered" aria-label="Link to this section">#</a></h2>
+
+<div class="doc-cards">
+  <a class="doc-card" href="/docs/whitepaper/">
+    <span class="doc-card-kicker">The argument</span>
+    <h3>Whitepaper</h3>
+    <p>Including the open questions, named rather than buried.</p>
+  </a>
+  <a class="doc-card" href="https://bitcointalk.org/index.php?topic=5592720.0">
+    <span class="doc-card-kicker">Ask</span>
+    <h3>The forum thread</h3>
+    <p>Not self-moderated. Criticism stays where it was posted.</p>
+  </a>
+  <a class="doc-card" href="{{ZYCORD_SOURCE_URL}}/issues">
+    <span class="doc-card-kicker">Report</span>
+    <h3>Issue tracker</h3>
+    <p>Bugs, reproductions, and measurements that disagree with the published ones.</p>
+  </a>
+</div>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/glossary/"><span class="dir">Previous</span><span class="ttl">Glossary</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-3" href="#when-exchange">When exchange?</a>
+        <a class="lvl-3" href="#are-there-pools">Are there pools?</a>
+        <a class="lvl-3" href="#bounties-airdrop-signature-campaign">Bounties? Airdrop? Signature campaign?</a>
+        <a class="lvl-3" href="#is-this-another-1m-tps-chain">Is this another &ldquo;1M TPS&rdquo; chain?</a>
+        <a class="lvl-3" href="#how-is-this-different-from-a-parallel-evm-like-monad-or-sei">How is this different from a &ldquo;parallel EVM&rdquo; like Monad or Sei?</a>
+        <a class="lvl-3" href="#why-randomx-botnets-will-come">Why RandomX? Botnets will come.</a>
+        <a class="lvl-3" href="#what-happens-when-transactions-conflict">What happens when transactions conflict?</a>
+        <a class="lvl-3" href="#are-there-smart-contracts-at-launch">Are there smart contracts at launch?</a>
+        <a class="lvl-3" href="#what-are-the-known-problems">What are the known problems?</a>
+        <a class="lvl-3" href="#is-there-a-discord-or-a-telegram">Is there a Discord or a Telegram?</a>
+        <a class="lvl-3" href="#who-are-you">Who are you?</a>
+        <a class="lvl-3" href="#is-there-a-premine-a-founder-allocation-or-an-investor-round">Is there a premine, a founder allocation or an investor round?</a>
+        <a class="lvl-3" href="#how-do-i-verify-that-a-binary-is-really-yours">How do I verify that a binary is really yours?</a>
+        <a class="lvl-3" href="#can-i-mine-on-a-gpu-or-an-asic">Can I mine on a GPU or an ASIC?</a>
+        <a class="lvl-3" href="#what-happens-if-i-start-my-node-before-genesis">What happens if I start my node before genesis?</a>
+        <a class="lvl-3" href="#is-the-testnet-coin-the-same-as-the-mainnet-coin">Is the testnet coin the same as the mainnet coin?</a>
+        <a class="lvl-3" href="#where-do-i-report-a-security-issue">Where do I report a security issue?</a>
+        <a class="lvl-2" href="#still-unanswered">Still unanswered?</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

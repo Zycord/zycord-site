@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zycord — Parallel Verification, Fair Mining, Zero Premine</title>
+  <meta name="description" content="Zycord is a peer-to-peer network of self-certifying state transitions: parallel verification from block 0, RandomX mining on any CPU, and a launch with no premine, no founder allocation, and no investor round." />
+  <link rel="canonical" href="https://zycord.com/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="keywords" content="Zycord, ZCD, proof of work, RandomX, CPU mining, no premine, fair launch, parallel verification, self-certifying state transitions, blockchain, cryptocurrency" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Zycord — Parallel Verification, Fair Mining, Zero Premine" />
+  <meta property="og:description" content="Every transaction carries its own proof of validity, so verifying one needs no history and no shared state. RandomX CPU mining, no premine, no founder allocation, no investor round." />
+  <meta property="og:url" content="https://zycord.com/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Zycord — a peer-to-peer network of self-certifying state transitions" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Zycord — Parallel Verification, Fair Mining, Zero Premine" />
+  <meta name="twitter:description" content="Every transaction carries its own proof of validity. RandomX CPU mining, no premine, no founder allocation, no investor round." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script>document.documentElement.classList.add("js");</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://zycord.com/#website",
+      "name": "Zycord",
+      "url": "https://zycord.com/",
+      "inLanguage": "en",
+      "description": "A peer-to-peer network of self-certifying state transitions.",
+      "publisher": { "@id": "https://zycord.com/#author" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://zycord.com/#author",
+      "name": "Simstoshi",
+      "description": "Anonymous author of the Zycord protocol."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Zycord",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, macOS, Windows",
+      "url": "https://zycord.com/",
+      "downloadUrl": "{{ZYCORD_RELEASES_URL}}",
+      "softwareHelp": "https://zycord.com/docs/",
+      "codeRepository": "{{ZYCORD_SOURCE_URL}}",
+      "license": "https://opensource.org/licenses/MIT",
+      "author": { "@id": "https://zycord.com/#author" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Zycord: A Peer-to-Peer Network of Self-Certifying State Transitions",
+      "author": { "@id": "https://zycord.com/#author" },
+      "url": "https://zycord.com/docs/whitepaper/",
+      "sameAs": "https://doi.org/10.5281/zenodo.22167490",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "DOI",
+        "value": "10.5281/zenodo.22167490"
+      },
+      "inLanguage": "en",
+      "version": "1.0"
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+  <!-- Animated quantum-ring background -->
+  <canvas id="strings-bg" aria-hidden="true"></canvas>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="34" height="34">
+            <defs>
+              <linearGradient id="mark-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#mark-grad)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">ZYCORD</span>
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#community">Community</a>
+        <a href="/download/">Download</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a class="nav-only-narrow" href="{{ZYCORD_SOURCE_URL}}">Source on GitHub</a>
+      </nav>
+      <a class="btn-icon" href="{{ZYCORD_SOURCE_URL}}" aria-label="Source code on GitHub" title="Source code on GitHub">
+        <svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.011.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a class="btn btn-small btn-primary" href="#node">I Want to Mine</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow reveal">Peer-to-peer network &middot; Self-certifying certificates &middot; Zero premine</p>
+        <h1 class="hero-title reveal">
+          <span class="grad-text">Verifying a transaction shouldn't require the whole network.</span>
+        </h1>
+        <p class="hero-sub reveal">
+          Zycord is a peer-to-peer network where every transaction carries its own proof of
+          validity. No node has to replay the history to confirm one part — just the
+          transaction's own bytes, checkable by any machine, in parallel. Proof-of-work
+          mining with RandomX, no premine, no founder allocation, no investor round.
+        </p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary btn-large" href="#node">I Want to Mine</a>
+          <a class="btn btn-ghost btn-large" href="/docs/whitepaper/">Read the Whitepaper</a>
+        </div>
+        <div class="hero-stats reveal">
+          <div class="stat">
+            <span class="stat-value" data-static="0%">0%</span>
+            <span class="stat-label">premined, allocated to founders,<br/> or sold before launch</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" data-static="883K">883K</span>
+            <span class="stat-label">state operations per second,<br/> per CPU core</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" data-static="~2s">~2s</span>
+            <span class="stat-label">to validate and apply a whole<br/> block of certificates</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" data-static="RandomX">RandomX</span>
+            <span class="stat-label">CPU mining</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 01 ============ -->
+    <section class="section" id="overview">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 01 — The problem</p>
+          <h2>Every fast blockchain gets heavier <span class="grad-text">as the network grows</span></h2>
+        </div>
+        <div class="about-grid">
+          <div class="glass card reveal">
+            <p class="card-lead">
+              Most blockchains make every computer on the network replay every transaction
+              against the same global state. It works — until the network really grows: then
+              every node has to become a bigger machine, and fewer and fewer people can keep
+              up. Zycord exists to solve that specific problem, not to promise being
+              generically "faster".
+            </p>
+            <p>
+              The core idea: every transaction — called a certificate here — already carries
+              what it read and what it wrote of the network's state. Checking whether it's
+              valid becomes a matter of checking its own bytes, without consulting the whole
+              history. Any machine can do that check on its own, in parallel, using several
+              processor cores at once.
+            </p>
+            <p>
+              The only step that has to happen in order, one at a time, is applying the final
+              result to the ledger — and that step is simple enough to run almost for free:
+              comparing and writing values, with no signature checks, no code execution, no
+              heavy cryptography along the way.
+            </p>
+          </div>
+          <div class="about-side reveal">
+            <div class="glass mini-card">
+              <span class="mini-icon" aria-hidden="true">◈</span>
+              <h3>No premine</h3>
+              <p>No coin exists before block 0. No founder, investor, or early adopter gets a special allocation.</p>
+            </div>
+            <div class="glass mini-card">
+              <span class="mini-icon" aria-hidden="true">◎</span>
+              <h3>Accessible mining</h3>
+              <p>RandomX runs well on ordinary CPUs — no ASIC farm to compete with you.</p>
+            </div>
+            <div class="glass mini-card">
+              <span class="mini-icon" aria-hidden="true">∿</span>
+              <h3>Parallel processing</h3>
+              <p>Validation depends only on the transaction's own bytes — never on the whole network history. That's what opens room to run in parallel, with no queue.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 02 ============ -->
+    <section class="section" id="launch">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 02 — Launch</p>
+          <h2>Four eras, <span class="grad-text">zero premine</span></h2>
+          <p class="section-sub">
+            The network is born by proof of work and evolves toward proof of stake through
+            thresholds measured on-chain — block height and sustained stake — never by
+            calendar date or by vote.
+          </p>
+        </div>
+
+        <div class="issuance-grid">
+          <div class="glass issuance reveal">
+            <span class="tag tag-live">Public testnet &middot; genesis</span>
+            <h3>30 August 2026 &mdash; 00:00 UTC</h3>
+            <p>
+              The testnet carries mainnet's consensus rules under its own chain id, so what
+              it measures is mainnet's behaviour and not its own. It can be reset from
+              genesis; coins on it are worth nothing and are meant to be.
+            </p>
+          </div>
+          <div class="glass issuance reveal">
+            <span class="tag">Mainnet &middot; genesis</span>
+            <h3>15 September 2026 &mdash; 00:00 UTC</h3>
+            <p>
+              Block 0, and the first block anyone can mine. No premine, no founder
+              allocation, no investor round, no admin keys &mdash; the absence of privilege
+              is checkable line by line in genesis rather than promised.
+            </p>
+          </div>
+        </div>
+
+        <div class="eras">
+          <article class="glass era reveal">
+            <div class="era-top">
+              <span class="era-tag era-live">Era 0</span>
+              <span class="era-when">genesis, RandomX</span>
+            </div>
+            <h3>Mine &amp; Tip</h3>
+            <p>Proof-of-work mining with RandomX — CPU, no ASIC. Native assets (issue, mint, transfer, tip) already work, and every certificate is self-insured: you can use the network with no counterparty from the very first block.</p>
+          </article>
+          <article class="glass era reveal">
+            <div class="era-top">
+              <span class="era-tag">Era 1</span>
+              <span class="era-when">stake ≥ 1% sustained</span>
+            </div>
+            <h3>Payments</h3>
+            <p>Staked validators start finalizing checkpoints alongside miners. Professional underwriters, application sequencers, and the Solidity-compatible virtual machine come online — and the forced-inclusion queue guarantees nobody gets left out.</p>
+          </article>
+          <article class="glass era reveal">
+            <div class="era-top">
+              <span class="era-tag">Era 2</span>
+              <span class="era-when">stake ≥ 10% for 30 epochs</span>
+            </div>
+            <h3>Platform</h3>
+            <p>A committee of validators starts proposing blocks; the proof-of-work mining reward retires gradually, on a ramp, never all at once. The treasury vault opens under public control of 5 parties, 3 signatures required.</p>
+          </article>
+          <article class="glass era reveal">
+            <div class="era-top">
+              <span class="era-tag era-cond">Era S</span>
+              <span class="era-when">after 2+ public audits</span>
+            </div>
+            <h3>Shielded</h3>
+            <p>Payments with hidden value and disposable addresses go live — only after independent audits are published and a public adversarial testing period. It doesn't switch on before it's ready.</p>
+          </article>
+        </div>
+
+        <div class="issuance-grid">
+          <div class="glass issuance reveal">
+            <h3>Issuance with no cliffs</h3>
+            <p>
+              The block reward drops gradually, in small steps each epoch — no sudden cut all
+              at once, like Bitcoin's halving. After about 12 years, it settles into a small,
+              permanent tail that pays for security forever.
+            </p>
+          </div>
+          <div class="glass issuance reveal">
+            <h3>A treasury with no key and no owner</h3>
+            <p>
+              3% of every block reward goes into a vault — but it stays locked until Era 2,
+              with no key, no address, no quorum defined at genesis. If nobody shows up
+              publicly to claim it with transparency, that money simply never gets spent.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 03 ============ -->
+    <section class="section" id="features">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 03 — Differentiators</p>
+          <h2>What already runs from block 0 <span class="grad-text">— and what comes later</span></h2>
+          <p class="section-sub">
+            Each card shows which era of the protocol turns that feature on. Nothing here is
+            sold as ready before it's ready.
+          </p>
+        </div>
+        <div class="features-grid">
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M8 24 C 16 10, 32 38, 40 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="8" cy="24" r="3" fill="currentColor"/><circle cx="40" cy="24" r="3" fill="currentColor"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>Genuinely parallel processing</h3>
+            <p>Every certificate already arrives proving on its own that it's valid — no need to consult the network's history. Hundreds of payments to the same wallet process at the same time, with no queue and nobody blocking anybody.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M8 16 H40 M8 24 H40 M8 32 H40" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="currentColor"/><circle cx="30" cy="24" r="3" fill="currentColor"/><circle cx="22" cy="32" r="3" fill="currentColor"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>Capacity that grows with real usage</h3>
+            <p>The TPS ceiling isn't fixed or decided by vote: it doubles every year of full, sustained usage. The design's structural limit — 1.1 million TPS — is reachable over the next decade, as real usage calls for it.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M10 12 V36 M24 12 V36 M38 12 V36" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M10 20 H24 M24 30 H38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>Fair fees</h3>
+            <p>Two separate markets — one for state changes, one for verification — adjust on their own as usage rises or falls, with no fixed auction. A certificate fee that fails is burned, never kept by whoever assembles the block.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><rect x="7" y="14" width="14" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="27" y="22" width="14" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M14 10 V14 M34 18 V22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>No-surprise launch</h3>
+            <p>Zero premine, zero founder allocation, zero investor round, zero admin key. The genesis block is public and reproducible before the network even exists.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M24 7 C 30 15, 40 17, 40 26 C 40 35, 33 41, 24 41 C 15 41, 8 35, 8 26 C 8 17, 18 15, 24 7 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M18 26 L23 31 L31 21" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0 · 1</span>
+            <h3>Miner today, operator tomorrow</h3>
+            <p>Whoever mines and bonds their reward from Era 0 gets priority in the first sequencer rotations when Era 1 arrives. Miners don't get discarded as the network evolves — they become part of the operation.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M8 24 H34" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M26 16 L34 24 L26 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 10 V38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-later">Era 1</span>
+            <h3>Censorship resistance</h3>
+            <p>If an application sequencer tries to ignore you, there's a forced-inclusion queue: your transaction gets in regardless, guaranteed. Arrives in Era 1, alongside the Solidity-compatible virtual machine.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M24 15 V26" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="32" r="1.8" fill="currentColor"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>Mine with what you already have</h3>
+            <p>Mining uses RandomX, built to run well on an ordinary processor — the same one already in your computer. No specialized hardware needed to start participating from block 0.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="15" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M17 24 H31 M24 17 V31" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-later">Era 1</span>
+            <h3>Solidity-compatible</h3>
+            <p>Anyone who already writes contracts on Ethereum can port them to zEVM with few changes — same language, same tools, same auditors. Activates in Era 1, alongside the application sequencers.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M17 16 L9 24 L17 32 M31 16 L39 24 L31 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 12 L21 36" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-later">Era S</span>
+            <h3>Privacy in payments</h3>
+            <p>Each payment's value stays hidden, and whoever receives it gets a new address every transaction — nothing to trace by repetition. This layer only takes effect after independent audits are published: privacy that arrives ready, not privacy that arrives fast.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><rect x="12" y="22" width="24" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M17 22 V15 C17 10, 31 10, 31 15 V22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="24" cy="30" r="2.2" fill="currentColor"/></svg>
+            </div>
+            <span class="feature-era is-later">Era 1</span>
+            <h3>Room for heavy cryptography</h3>
+            <p>A heavy proof — zero-knowledge, post-quantum signature — never competes for space with a simple payment: it pays in a market of its own. What doesn't fit in a contract on an ordinary chain today fits here.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M8 32 A16 16 0 0 1 40 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M24 32 L32 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="32" r="2" fill="currentColor"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>294K TPS measured. Only 90 released at genesis.</h3>
+            <p>The system's one sequential step — the one that decides what actually counts — already runs at 294,000 TPS on a single core of an ordinary desktop. At launch, the network releases only 90: the ceiling grows with measured trust in the network, not with hardware limits. The bottleneck was never the machine.</p>
+          </article>
+          <article class="glass feature reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="26" r="14" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M24 26 V17" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M24 26 L30 29" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M19 8 H29" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="feature-era is-live">Era 0</span>
+            <h3>99.5% of block time runs in parallel</h3>
+            <p>Out of roughly 2 seconds to validate and apply a block of 2,900 certificates, only 9.9 milliseconds is the part that can't be parallelized. The system's real bottleneck measures under 1% of total time — the rest is verification, and verification scales with hardware.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 04 ============ -->
+    <section class="section" id="why">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 04 — Why</p>
+          <h2>Trust that doesn't ask <span class="grad-text">you to trust anyone</span></h2>
+          <p class="section-sub">Four reasons to take this launch seriously — and none of them ask you to take a promise on faith.</p>
+        </div>
+        <ul class="why-list">
+          <li class="glass reveal">
+            <span class="why-num">01</span>
+            <div>
+              <h3>Why trust without trusting anyone</h3>
+              <p>The whitepaper doesn't hide its open questions — it lists them, gives measured numbers from a real implementation, and signs with a public key. You don't need to take a promise on faith: you can check the code, the test vectors, and the adversarial review history, published unedited.</p>
+            </div>
+          </li>
+          <li class="glass reveal">
+            <span class="why-num">02</span>
+            <div>
+              <h3>Why now, and not later</h3>
+              <p>The network runs on testnet before any mainnet date is announced — and when it is, it's announced in the open, well ahead of time, so anyone can reach block 0. There's no silent presale and no privileged waitlist.</p>
+            </div>
+          </li>
+          <li class="glass reveal">
+            <span class="why-num">03</span>
+            <div>
+              <h3>Why mine here</h3>
+              <p>RandomX was designed to keep ordinary hardware competitive — CPU, not an ASIC farm. Whoever mines and bonds the reward from the start gets priority when the network opens its first operator slots, in Era 1.</p>
+            </div>
+          </li>
+          <li class="glass reveal">
+            <span class="why-num">04</span>
+            <div>
+              <h3>Why this solves a real problem</h3>
+              <p>Every fast blockchain today makes every computer on the network replay every transaction against the same state. The more people use it, the bigger the machine every node has to be — and the fewer people can run one. Here, verifying a transaction doesn't require the whole history — just the transaction's own bytes.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 05 ============ -->
+    <section class="section" id="verify">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 05 — See for yourself</p>
+          <h2>Don't take our word for it. <span class="grad-text">Check it.</span></h2>
+          <p class="section-sub">
+            Documentation, and soon the complete source code — all published for anyone to
+            audit before trusting it.
+          </p>
+        </div>
+        <div class="explore-grid">
+          <a class="glass explore-card reveal" href="/docs/whitepaper/">
+            <div class="explore-top">
+              <h3>Read the whitepaper</h3>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </div>
+            <p>Self-certifying certificates, deterministic fold, two fee markets — the full specification, with the academic references the design leans on.</p>
+            <span class="tag tag-live">Document &middot; v1.0</span>
+          </a>
+          <a class="glass explore-card reveal" href="{{ZYCORD_SOURCE_URL}}/tree/main/docs/adversarial">
+            <div class="explore-top">
+              <h3>Read the criticism this design received</h3>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </div>
+            <p>The complete adversarial review history is published unedited — the reviews that found real defects and the tests that measured success while measuring nothing, side by side. No criticism gets left out.</p>
+            <span class="tag tag-live">Review &middot; unedited</span>
+          </a>
+          <a class="glass explore-card reveal" href="https://bitcointalk.org/index.php?topic=5592720.0">
+            <div class="explore-top">
+              <h3>The community lives on Bitcointalk</h3>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </div>
+            <p>No <em>official</em> Discord and no <em>official</em> Telegram — no channel with an admin who could silence someone or erase the history later. Community-run channels are welcome and explicitly unofficial. Official announcements are signed and posted in one public forum thread, with dated, ownerless posts, the way anonymous projects have done it since 2009.</p>
+            <span class="tag tag-live">Forum &middot; official</span>
+          </a>
+          <a class="glass explore-card reveal" href="https://testnet.zycord.com">
+            <div class="explore-top">
+              <h3>Watch the testnet produce blocks</h3>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </div>
+            <p>The block explorer for the running testnet. Every block, every certificate, and — the page no other chain's explorer can render — whether each certificate was applied, or skipped and billed, and which declared read stopped holding.</p>
+            <span class="tag tag-live">Testnet &middot; live</span>
+          </a>
+          <a class="glass explore-card reveal" href="{{ZYCORD_SOURCE_URL}}">
+            <div class="explore-top">
+              <h3>Source code &amp; testnet</h3>
+              <span class="explore-arrow" aria-hidden="true">→</span>
+            </div>
+            <p>Reference implementation, golden test vectors, and instructions to run your own node — published before any mainnet date, under the MIT licence.</p>
+            <span class="tag tag-live">Public &middot; MIT</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 06 ============ -->
+    <section class="section" id="node">
+      <div class="section-inner">
+        <div class="glass download-panel reveal">
+          <div class="download-copy">
+            <p class="section-eyebrow">// 06 — Join</p>
+            <h2>Run your own <span class="grad-text">node, no permission needed</span></h2>
+            <p class="section-sub">
+              Reference client, RandomX mining binary, and a light wallet — published together
+              with the testnet, before any mainnet date is set.
+            </p>
+            <p class="section-sub">
+              Download it, start it, and leave it running. A node started before the network's
+              first block waits for it and begins mining on its own — there is nothing to
+              schedule, restart or reconfigure when the hour arrives.
+            </p>
+            <span class="tag tag-inline">🟢Testnet</span>
+            <div class="download-buttons">
+              <a class="btn btn-primary" href="/download/">Downloads &mdash; every platform</a>
+              <a class="btn btn-ghost" href="/docs/mining/">How to mine</a>
+              <a class="btn btn-ghost" href="{{ZYCORD_SOURCE_URL}}">View Source Code</a>
+              <a class="btn btn-ghost" href="https://testnet.zycord.com">Open the Explorer</a>
+            </div>
+            <p class="section-sub">
+              Each release ships two sets of archives and they are not interchangeable. The
+              <strong>-randomx</strong> builds are the ones that join a network, and they are
+              published for Linux, macOS and Windows on x86-64. The plain builds are
+              byte-for-byte reproducible so that anyone can rebuild the tag and compare — they
+              carry no mining engine and run only a local devnet, which is all that Windows on
+              ARM has. <a href="/download/">The downloads page</a> names which is which.
+            </p>
+          </div>
+          <div class="download-visual" aria-hidden="true">
+            <div class="coin">
+              <svg viewBox="0 0 120 120" width="180" height="180">
+                <defs>
+                  <linearGradient id="coin-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#6ee7ff"/>
+                    <stop offset="55%" stop-color="#8b5cf6"/>
+                    <stop offset="100%" stop-color="#f472b6"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="54" fill="none" stroke="url(#coin-grad)" stroke-width="3"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="url(#coin-grad)" stroke-width="1" opacity="0.5"/>
+                <path d="M30 45 C 45 30, 75 60, 90 45 M30 60 C 45 45, 75 75, 90 60 M30 75 C 45 60, 75 90, 90 75"
+                      fill="none" stroke="url(#coin-grad)" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 07 ============ -->
+    <section class="section" id="community">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <p class="section-eyebrow">// 07 — Community</p>
+          <h2>Designed from day one <span class="grad-text">not to depend on me</span></h2>
+          <p class="section-sub">
+            I am an anonymous developer. I will launch this network and maintain it for as long as
+            it takes — but the goal is for the community to take over every part of it.
+          </p>
+        </div>
+
+        <div class="community-grid">
+          <div class="glass card reveal">
+            <h3>Donations</h3>
+            <p>
+              Donations fund development. Eras 0 and 1 are <strong>donation-funded only</strong>:
+              proposals public before payment, milestones and budget up front, release against
+              delivered work, and unspent amounts returned to the fund.
+            </p>
+            <p>
+              I take no allocation and hold no privilege over any other user. There is no premine,
+              no founder allocation and no investor round — so these addresses are the only way
+              I am paid for this work.
+            </p>
+            <dl class="donate">
+              <div class="donate-row">
+                <dt>BTC</dt>
+                <dd><code>bc1q99k4mfydge2glhwa3wf2nmjwc67xrtfqjvygwc</code></dd>
+              </div>
+              <div class="donate-row">
+                <dt>ETH</dt>
+                <dd><code>0x14825761bf3F2D53165F3aD6EbEFFECDbb33a097</code></dd>
+              </div>
+              <div class="donate-row">
+                <dt>ZCD</dt>
+                <dd><span class="donate-pending">published after mainnet genesis</span></dd>
+              </div>
+            </dl>
+            <p class="donate-note">
+              <strong>These are the only two addresses.</strong> They are pinned in the signed
+              attestation in the announcement thread, so a repost showing different ones is
+              provably not this project —
+              <a href="https://bitcointalk.org/index.php?topic=5592720.0">check the signed post</a>
+              before you send anything.
+            </p>
+          </div>
+
+          <div class="glass card reveal">
+            <h3>I am looking for volunteers</h3>
+            <p>
+              Every part of this is work the community can own, and most of it is work I cannot do
+              alone or should not do at all:
+            </p>
+            <ul class="volunteer-list">
+              <li><strong>Community channels</strong> — Telegram, Discord, Reddit. Community-run and explicitly unofficial: a chat has an admin, and an admin can silence people and erase history, which is why no channel is ever official here.</li>
+              <li><strong>Translations</strong> of the documentation and the whitepaper.</li>
+              <li><strong>Documentation</strong> — guides, corrections, and anything that makes the <a href="/docs/">docs</a> easier to arrive at cold.</li>
+              <li><strong>Pools.</strong> None exist and none are official; if you build one, it is a third party and should say so.</li>
+              <li><strong>Above all, people willing to attack the design and publish what they find.</strong> The <a href="{{ZYCORD_SOURCE_URL}}/tree/main/docs/adversarial">adversarial review record</a> is published unedited for exactly this reason.</li>
+            </ul>
+            <p>
+              Post in the announcement thread. It is not self-moderated, so nothing in it can be
+              deleted — including criticism of me.
+            </p>
+            <div class="community-cta">
+              <a class="btn btn-primary" href="https://bitcointalk.org/index.php?topic=5592720.0">Post in the thread</a>
+              <a class="btn btn-ghost" href="{{ZYCORD_SOURCE_URL}}/issues">Open an issue</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">ZYCORD</span>
+        <p>A peer-to-peer network of self-certifying state transitions.</p>
+        <div class="footer-notice">
+          <h4>Official announcements</h4>
+          <p>
+            They live in
+            <a href="https://bitcointalk.org/index.php?topic=5592720.0">the announcement
+            thread</a> and only there, signed
+            <code>E724 39CE DD85 11F9 D607 550B 87FD 60D5 EB4A 0B29</code>.
+            Nothing here pays for promotion &mdash; no bounties, no airdrop, no signature
+            campaign. If someone offers you Zycord for shilling, it is not coming from this
+            project.
+          </p>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Network</h4>
+          <a href="#overview">Overview</a>
+          <a href="#features">Differentiators</a>
+          <a href="#launch">Launch</a>
+          <a href="#why">Why</a>
+          <a href="#verify">Verify</a>
+        </div>
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <a href="/docs/">All documentation</a>
+          <a href="/docs/whitepaper/">Whitepaper</a>
+          <a href="/docs/architecture/">Architecture</a>
+          <a href="/docs/glossary/">Glossary</a>
+          <a href="/docs/faq/">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Join</h4>
+          <a href="/docs/install/">Install</a>
+          <a href="/docs/running-a-node/">Run a node</a>
+          <a href="/docs/mining/">Mine</a>
+          <a href="/docs/testnet/">Public testnet</a>
+          <a href="/docs/verify/">Verify a download</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="{{ZYCORD_SOURCE_URL}}">Source code</a>
+          <a href="/download/">Downloads</a>
+          <a href="https://testnet.zycord.com">Testnet explorer</a>
+          <a href="https://bitcointalk.org/index.php?topic=5592720.0">Announcement thread</a>
+          <a href="#community">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Vires in Numeris.</span>
+      <a class="footer-github" href="{{ZYCORD_SOURCE_URL}}">
+        <svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.011.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>Source on GitHub</span>
+      </a>
+      <span>Strength in numbers, not in name.</span>
+    </div>
+  </footer>
+
+  <script src="/js/strings.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

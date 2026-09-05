@@ -1,0 +1,730 @@
+/* ============================================================
+   ZYCORD — documentation
+   Shares the landing page's tokens (css/style.css) and adds the
+   three-column reading shell: nav, prose, contents.
+   ============================================================ */
+
+:root {
+  --doc-sidebar: 264px;
+  --doc-toc: 232px;
+  --doc-measure: 74ch;
+  --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+/* The landing page hides overflow to contain its canvas. Documentation
+   scrolls for a living, and a sticky sidebar needs a real scroll root. */
+body.docs { overflow-x: hidden; }
+
+/* ---------- skip link ---------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 18px;
+  background: var(--violet);
+  color: #fff;
+  border-radius: 0 0 10px 0;
+  font-size: 0.9rem;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- documentation header ---------- */
+
+.doc-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: rgba(4, 5, 10, 0.82);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.doc-nav-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.doc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.doc-brand .doc-brand-sub {
+  color: var(--ink-faint);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.doc-nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 0.9rem;
+}
+
+.doc-nav-links a { color: var(--ink-dim); transition: color 0.2s ease; }
+.doc-nav-links a:hover { color: var(--ink); }
+
+.doc-nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 7px 12px;
+  color: var(--ink-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* ---------- shell ---------- */
+
+.doc-shell {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: var(--doc-sidebar) minmax(0, 1fr) var(--doc-toc);
+  gap: 48px;
+  align-items: start;
+}
+
+/* ---------- sidebar ---------- */
+
+.doc-sidebar {
+  position: sticky;
+  top: var(--nav-h);
+  max-height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  padding: 36px 0 64px;
+  font-size: 0.9rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 160, 255, 0.22) transparent;
+}
+
+.doc-sidebar::-webkit-scrollbar { width: 8px; }
+.doc-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(140, 160, 255, 0.18);
+  border-radius: 8px;
+}
+
+.doc-sidebar h2 {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+  margin: 26px 0 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.doc-sidebar h2:first-child { margin-top: 0; }
+
+.doc-sidebar a {
+  display: block;
+  padding: 6px 12px;
+  margin-left: -12px;
+  border-radius: 8px;
+  color: var(--ink-dim);
+  border-left: 2px solid transparent;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.doc-sidebar a:hover { color: var(--ink); background: rgba(140, 160, 255, 0.07); }
+
+.doc-sidebar a[aria-current="page"] {
+  color: var(--ink);
+  background: rgba(139, 92, 246, 0.14);
+  border-left-color: var(--violet);
+  font-weight: 600;
+}
+
+/* ---------- article ---------- */
+
+.doc-main { padding: 40px 0 96px; min-width: 0; }
+
+.doc-article { max-width: var(--doc-measure); }
+
+.doc-crumbs {
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.doc-crumbs a { color: var(--ink-dim); }
+.doc-crumbs a:hover { color: var(--cyan); }
+.doc-crumbs span[aria-hidden] { color: var(--ink-faint); }
+
+.doc-article h1 {
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+
+.doc-lede {
+  font-size: 1.12rem;
+  color: var(--ink-dim);
+  line-height: 1.7;
+  margin-bottom: 30px;
+  max-width: 68ch;
+}
+
+.doc-article h2 {
+  font-size: 1.55rem;
+  margin: 56px 0 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--glass-border);
+  scroll-margin-top: calc(var(--nav-h) + 20px);
+}
+
+.doc-article h3 {
+  font-size: 1.16rem;
+  margin: 34px 0 12px;
+  color: var(--ink);
+  scroll-margin-top: calc(var(--nav-h) + 20px);
+}
+
+.doc-article h4 {
+  font-size: 1rem;
+  margin: 26px 0 10px;
+  color: var(--ink-dim);
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.doc-article p { margin: 0 0 18px; color: #c8cfe4; }
+.doc-article strong { color: var(--ink); font-weight: 600; }
+.doc-article em { color: var(--ink-dim); }
+
+.doc-article ul, .doc-article ol { margin: 0 0 20px; padding-left: 22px; color: #c8cfe4; }
+.doc-article li { margin-bottom: 9px; }
+.doc-article li::marker { color: var(--ink-faint); }
+
+.doc-article a:not(.btn):not(.doc-card) {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-decoration-color: rgba(110, 231, 255, 0.35);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+.doc-article a:not(.btn):not(.doc-card):hover { text-decoration-color: var(--cyan); }
+
+/* anchor handles: visible on hover, never in the tab order twice */
+.doc-anchor {
+  margin-left: 10px;
+  color: var(--ink-faint) !important;
+  text-decoration: none !important;
+  opacity: 0;
+  font-weight: 400;
+  transition: opacity 0.2s ease;
+}
+h2:hover .doc-anchor, h3:hover .doc-anchor, .doc-anchor:focus { opacity: 1; }
+
+/* ---------- code ---------- */
+
+.doc-article code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: rgba(140, 160, 255, 0.1);
+  border: 1px solid rgba(140, 160, 255, 0.12);
+  padding: 1px 6px;
+  border-radius: 5px;
+  color: #b9e9ff;
+  word-break: break-word;
+}
+
+.doc-article pre {
+  background: rgba(6, 8, 16, 0.82);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  margin: 0 0 22px;
+  font-size: 0.87rem;
+  line-height: 1.62;
+  position: relative;
+}
+
+.doc-article pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #d3dcf2;
+  font-size: 1em;
+  white-space: pre;
+  word-break: normal;
+}
+
+.doc-article pre .c { color: var(--ink-faint); }   /* comment */
+.doc-article pre .k { color: #c4b5fd; }            /* command / keyword */
+.doc-article pre .s { color: #7dd3a0; }            /* string / value */
+
+.copy-btn {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  background: rgba(20, 24, 40, 0.9);
+  border: 1px solid var(--glass-border);
+  color: var(--ink-faint);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+pre:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+.copy-btn:hover { color: var(--ink); border-color: var(--glass-border-hover); }
+
+/* ---------- tables ---------- */
+
+.doc-table-wrap { overflow-x: auto; margin: 0 0 24px; }
+
+.doc-article table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  min-width: 460px;
+}
+
+.doc-article th, .doc-article td {
+  text-align: left;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--glass-border);
+  vertical-align: top;
+}
+
+.doc-article th {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  border-bottom-color: rgba(140, 160, 255, 0.28);
+}
+
+.doc-article td { color: #c8cfe4; }
+.doc-article tbody tr:hover { background: rgba(140, 160, 255, 0.04); }
+
+/* ---------- callouts ---------- */
+
+.callout {
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--violet);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 0 0 24px;
+  background: rgba(139, 92, 246, 0.07);
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout .callout-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.86rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.callout.warn { border-left-color: var(--pink); background: rgba(244, 114, 182, 0.07); }
+.callout.info { border-left-color: var(--cyan); background: rgba(110, 231, 255, 0.06); }
+
+/* ---------- cards ---------- */
+
+.doc-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 16px;
+  margin: 0 0 32px;
+}
+
+.doc-card {
+  display: block;
+  padding: 20px 22px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  transition: border-color 0.28s ease, transform 0.28s ease;
+  text-decoration: none !important;
+}
+.doc-card:hover { border-color: var(--glass-border-hover); transform: translateY(-3px); }
+
+.doc-card h3 {
+  margin: 0 0 7px;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+.doc-card p { margin: 0; font-size: 0.88rem; color: var(--ink-dim); line-height: 1.6; }
+
+.doc-card .doc-card-kicker {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ---------- table of contents ---------- */
+
+.doc-toc {
+  position: sticky;
+  top: var(--nav-h);
+  max-height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  padding: 40px 0 64px;
+  font-size: 0.82rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 160, 255, 0.22) transparent;
+}
+
+.doc-toc h2 {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.doc-toc a {
+  display: block;
+  padding: 5px 0 5px 13px;
+  border-left: 2px solid var(--glass-border);
+  color: var(--ink-faint);
+  transition: color 0.18s ease, border-color 0.18s ease;
+  line-height: 1.45;
+}
+.doc-toc a:hover { color: var(--ink-dim); }
+.doc-toc a.is-active { color: var(--cyan); border-left-color: var(--cyan); }
+.doc-toc a.lvl-3 { padding-left: 26px; font-size: 0.95em; }
+
+/* ---------- prev / next ---------- */
+
+.doc-pager {
+  display: flex;
+  gap: 14px;
+  margin-top: 64px;
+  padding-top: 28px;
+  border-top: 1px solid var(--glass-border);
+  flex-wrap: wrap;
+}
+
+.doc-pager a {
+  flex: 1 1 220px;
+  padding: 15px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  text-decoration: none !important;
+  transition: border-color 0.25s ease;
+}
+.doc-pager a:hover { border-color: var(--glass-border-hover); }
+.doc-pager .dir {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 5px;
+}
+.doc-pager .ttl { color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: 0.96rem; }
+.doc-pager .next { text-align: right; margin-left: auto; }
+
+/* ---------- footer ---------- */
+
+.doc-footer {
+  border-top: 1px solid var(--glass-border);
+  padding: 34px 24px 48px;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+.doc-footer-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.doc-footer a { color: var(--ink-dim); }
+.doc-footer a:hover { color: var(--cyan); }
+.doc-footer .doc-footer-links { margin-left: auto; display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1180px) {
+  .doc-shell { grid-template-columns: var(--doc-sidebar) minmax(0, 1fr); gap: 40px; }
+  .doc-toc { display: none; }
+}
+
+@media (max-width: 860px) {
+  .doc-shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .doc-nav-toggle { display: block; }
+  .doc-nav-links { display: none; }
+
+  .doc-sidebar {
+    display: none;
+    position: static;
+    max-height: none;
+    padding: 20px 0 8px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .doc-sidebar.is-open { display: block; }
+
+  .doc-main { padding: 28px 0 72px; }
+  .doc-article h2 { margin-top: 44px; }
+  .doc-footer-inner { flex-direction: column; align-items: flex-start; }
+  .doc-footer .doc-footer-links { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doc-card, .copy-btn, .doc-toc a, .doc-sidebar a { transition: none; }
+  .doc-card:hover { transform: none; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  .doc-nav, .doc-sidebar, .doc-toc, .doc-pager, .doc-footer, .copy-btn, .skip-link { display: none !important; }
+  .doc-shell { display: block; padding: 0; }
+  body { background: #fff; color: #111; }
+  .doc-article { max-width: none; }
+  .doc-article p, .doc-article li, .doc-article td { color: #222; }
+  .doc-article h1, .doc-article h2, .doc-article h3 { color: #000; }
+  .doc-article pre { background: #f5f5f5; border-color: #ddd; }
+  .doc-article pre code { color: #111; }
+}
+
+/* ============================================================
+   Downloads
+   ============================================================ */
+
+/* An author rule that sets `display` outranks the browser's own
+   `[hidden] { display: none }`, so anything given a display value here would
+   ignore the attribute and show regardless. That is not hypothetical: it put
+   a "your system" badge on all six rows of the downloads table at once. */
+[hidden] { display: none !important; }
+
+.dl-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 22px;
+  padding: 16px 20px;
+  margin-bottom: 26px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(140, 160, 255, 0.05);
+}
+
+.dl-version { margin: 0; font-size: 0.95rem; color: var(--ink-dim); }
+.dl-version strong { color: var(--ink); font-family: var(--font-display); }
+.dl-when { color: var(--ink-faint); font-size: 0.86rem; margin-left: 6px; }
+.dl-links { margin: 0 0 0 auto; font-size: 0.86rem; color: var(--ink-faint); }
+
+/* ---------- the tables ---------- */
+
+.dl-table { width: 100%; min-width: 560px; }
+.dl-table-narrow { min-width: 380px; }
+
+.dl-table thead th {
+  font-size: 0.82rem;
+  vertical-align: bottom;
+  line-height: 1.4;
+}
+
+.dl-th-sub {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.76rem;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+  text-transform: none;
+}
+
+.dl-table tbody th {
+  font-weight: 500;
+  white-space: nowrap;
+  padding-right: 24px;
+}
+
+.dl-os { color: var(--ink); font-family: var(--font-display); font-weight: 600; }
+
+.dl-table tbody th small {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: var(--ink-faint);
+  letter-spacing: 0;
+  white-space: normal;
+}
+
+/* The row the visitor is probably on. A hint, so it is a tint and a label
+   rather than anything that hides the rest. */
+.dl-table tr.is-yours { background: rgba(139, 92, 246, 0.09); }
+.dl-table tr.is-yours th { color: var(--ink); }
+
+.dl-yours {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(110, 231, 255, 0.35);
+  color: var(--cyan);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* ---------- the links ---------- */
+
+.dl-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+.dl-link:hover { border-color: var(--glass-border-hover); transform: translateY(-1px); }
+
+.dl-verb { font-weight: 600; font-size: 0.9rem; }
+.dl-size { font-size: 0.78rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+/* The archive that joins a network is the one most people want, and the
+   contrast between the two columns is doing real work: taking the wrong one
+   gives you a node that refuses to start. */
+.dl-join {
+  background: linear-gradient(100deg, rgba(110, 231, 255, 0.16), rgba(139, 92, 246, 0.16));
+  border-color: rgba(139, 92, 246, 0.4);
+}
+.dl-join .dl-verb { color: var(--ink); }
+.dl-join:hover { background: linear-gradient(100deg, rgba(110, 231, 255, 0.24), rgba(139, 92, 246, 0.24)); }
+
+.dl-wallet .dl-verb, .dl-aux .dl-verb { color: var(--ink-dim); }
+.dl-aux { padding: 6px 13px; }
+.dl-aux .dl-verb { font-family: var(--mono); font-size: 0.8rem; font-weight: 500; }
+
+.dl-none { color: var(--ink-faint); font-size: 0.85rem; font-style: italic; }
+
+/* Shown only once the script has resolved a real archive name. */
+.dl-filename {
+  display: none;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  word-break: break-all;
+}
+.is-resolved .dl-filename:not(:empty) { display: block; }
+
+/* A row whose asset this release does not carry: dimmed, still reachable,
+   because "absent from this build" is something a reader should be able to
+   see rather than have hidden from them. */
+.dl-missing { opacity: 0.55; }
+
+.dl-note {
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  margin-top: -8px;
+}
+
+@media (max-width: 860px) {
+  .dl-head { flex-direction: column; align-items: flex-start; }
+  .dl-links { margin-left: 0; }
+  .dl-table tbody th { white-space: normal; padding-right: 14px; }
+}
+
+/* An inline correction: something the surrounding instructions say that is
+   not true of the current release. Marked rather than silently edited out,
+   because a reader who already ran the command needs to know why it failed. */
+.doc-note {
+  font-size: 0.88rem;
+  color: var(--ink-dim);
+  border-left: 2px solid rgba(244, 114, 182, 0.5);
+  padding: 2px 0 2px 14px;
+  margin-top: -10px;
+}
+
+/* ============================================================
+   Faucet signpost
+
+   The faucet itself is a feature of the explorer and carries its own
+   styles there. What is left here is a page that explains it and
+   points at it, so all it needs is a call to action.
+   ============================================================ */
+
+.fx-cta { margin: 26px 0 10px; }
+
+.fx-hint { font-size: 0.86rem; color: var(--ink-faint); margin-top: 0; }
+.fx-hint code { font-size: 0.8rem; }
+
+/* ---------- featured card ----------
+   One card, above the reading order rather than inside it: the diagrammed
+   summary is the shortest route into everything the rest of this page lists,
+   and a reader who takes it arrives at the whitepaper already knowing what the
+   words mean. It is wider and carries the gradient hairline so it does not
+   read as the first of four equals. */
+
+.doc-card-feature {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 16px;
+  padding: 26px 28px;
+}
+
+.doc-card-feature::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--grad);
+}
+
+.doc-card-kicker {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.doc-card-feature h3 { font-size: 1.25rem; }

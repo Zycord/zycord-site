@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glossary — Zycord Documentation</title>
+  <meta name="description" content="Zycord terminology defined: certificate, fold, skip, drop, underwriter, cell, one-shot and persistent addresses, guarded delta, epoch beacon, TTL, the two gas markets, eras, and the spent-address registry." />
+  <link rel="canonical" href="https://zycord.com/docs/glossary/" />
+  <link rel="icon" href="/assets/zycord-mark.svg" type="image/svg+xml" />
+  <meta name="author" content="Simstoshi" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zycord" />
+  <meta property="og:title" content="Glossary — Zycord Documentation" />
+  <meta property="og:description" content="Zycord terminology defined: certificate, fold, skip, drop, underwriter, cell, one-shot and persistent addresses, guarded delta, epoch beacon, TTL, the two gas markets, eras, and the spent-address registry." />
+  <meta property="og:url" content="https://zycord.com/docs/glossary/" />
+  <meta property="og:image" content="https://zycord.com/assets/zycord-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Glossary — Zycord Documentation" />
+  <meta name="twitter:description" content="Zycord terminology defined: certificate, fold, skip, drop, underwriter, cell, one-shot and persistent addresses, guarded delta, epoch beacon, TTL, the two gas markets, eras, and the spent-address registry." />
+  <meta name="twitter:image" content="https://zycord.com/assets/zycord-card.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/docs.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Glossary",
+      "description": "Zycord terminology defined: certificate, fold, skip, drop, underwriter, cell, one-shot and persistent addresses, guarded delta, epoch beacon, TTL, the two gas markets, eras, and the spent-address registry.",
+      "url": "https://zycord.com/docs/glossary/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Simstoshi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zycord",
+        "url": "https://zycord.com/"
+      },
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Zycord",
+          "item": "https://zycord.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://zycord.com/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Glossary",
+          "item": "https://zycord.com/docs/glossary/"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "Zycord glossary",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "Certificate",
+          "description": "The only transaction type in Zycord. A certificate carries the state it read and the state it wrote, plus the program that connects them, the signatures authorizing it, an underwriter, a TTL, and a bid in each of the two fee markets. Because it carries its own inputs and outputs, checking whether it"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Fold",
+          "description": "The deterministic loop that advances the ledger. It walks a block's certificates in a total order, and for each one checks whether its declared reads still hold: if they do it commits the writes, and if they do not it skips. The fold performs comparisons, additions and writes on a hot key-value work"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Skip",
+          "description": "What happens to a certificate whose declared reads no longer hold. Its fee is billed to its underwriter, and the block remains valid. Skip is semantics, not failure: inclusion and application are different events, which is what allows a block producer to be blind \u2014 it can never produce an invalid bl"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Drop",
+          "description": "A non-billed non-event, and the term the implementation adds to the whitepaper's vocabulary. A certificate that reaches application with its deposit already consumed is dropped: not billed, not marked seen, and free to resubmit against a fresh deposit. Honest users therefore lose nothing to races on"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Underwriter",
+          "description": "The party whose bonded funds answer for a certificate. No certificate exists without one. Skipping must not be free, or the mempool drowns \u2014 but the skipped certificate never touched the sender's balance, so there is nothing to charge the sender. The underwriter is what gives every conflict an owner"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cell",
+          "description": "The value at a slot \u2014 an unsigned 256-bit integer stored big-endian in 32 bytes. Zero is absence: a slot never written and a slot written to zero are the same slot. That is a consensus requirement, not a convenience: it keeps the state root a function of the state rather than of the history that pro"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "One-shot address (0x01)",
+          "description": "An address whose signing authority is burned permanently by its first debit. Paying a newly derived one-shot address is the zero-contention fast path, and deriving a fresh one per payment is what makes a payment unlinkable to the next. The cost is that \u201cspend some of it\u201d is not a thing a one-shot ad"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Persistent address (0x02)",
+          "description": "A reusable address. It can never enter the spent registry, so it has no burn-grief surface at all. Merchants, donation addresses and mining payouts must use one; zycordd --payout refuses anything else."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Spent-address registry",
+          "description": "The permanent consensus set of one-shot addresses whose authority has been burned. Cell values under a spent address may be pruned after the undo horizon, but the registry entry never is \u2014 it is what stops the address being resurrected. About 33 bytes per address, forever: the protocol's honest open"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Valid vs. applicable",
+          "description": "Two predicates that a conventional chain conflates. Valid is stateless, parallel, and checkable by anyone from the certificate's bytes alone. Applicable is stateful, sequential, and decided only by position in the ledger. Two valid certificates may declare the same input value for the same slot; at "
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Guarded delta",
+          "description": "An access discipline in which a certificate asserts a predicate on a slot \u2014 balance \u2265 10 \u2014 without reading the value into the computation, and writes a signed delta. Any number of guarded debits and credits to the same slot commute, so a skip occurs only on a real overdraft and not merely because th"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Pure delta",
+          "description": "A signed delta with no guard. It can never conflict and never skip. Tips, counters, accumulators, reward tallies."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Exact read",
+          "description": "The SLOAD-style discipline: the read returns the slot's value into the computation and pins the certificate to it. Arbitrary logic, conflicts on hot slots, and the domain of application sequencers."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Epoch beacon",
+          "description": "A reserved slot the protocol writes once per epoch. Programs must not read ambient values like the timestamp or the height directly \u2014 that would make execution a function of something other than the declared reads \u2014 so they read the beacon like any other slot, ideally with a range guard. It is proof"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Epoch",
+          "description": "2,880 blocks \u2014 about a day at 30-second blocks. The unit on which the subsidy steps down, the sequential capacity target moves, and the beacon is refreshed."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TTL",
+          "description": "The height by which a certificate must be committed to be valid. Consensus-bounded at 240 blocks (about two hours), which is what keeps the seen set prunable. Including a seen or expired certificate makes the block invalid \u2014 so a signature is billable at most once, and only at a position its signer "
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Sequential and parallel gas",
+          "description": "Fees split into two markets: one for sequential state mutation, which is scarce, and one for parallel verification, which is not. A signature check therefore does not compete in the same auction as a storage write, which is what makes heavy cryptography cheap by design."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Era",
+          "description": "A stage of the launch, triggered by thresholds measured on-chain \u2014 block height and sustained stake \u2014 never by calendar date or by vote. Era 0 is mining and native assets; Era 1 adds bonds, sequencers and the virtual machine; Era 2 moves proposal to a stake committee; Era S adds confidential payment"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "RandomX",
+          "description": "The proof-of-work function, optimised for general-purpose CPUs so that ordinary hardware stays competitive. It is a consensus parameter, not a setting: a binary that cannot compute a network's pow_engine refuses to start rather than falling back."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Treasury",
+          "description": "The protocol address's own balance cell, credited 3% of every block subsidy from block 0. It has no key, no address and no quorum at genesis and cannot be opened before Era 2, when a 3-of-5 key set may be pinned by hard fork. If nobody ever shows up publicly to claim it, the coins are never issued."
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "State root",
+          "description": "The commitment to the whole of state at a height. A node recomputes it on start and refuses to run if the stored one disagrees, and it doubles as a production-time differential guard between nodes: two implementations that reach different roots from one block sequence have found a bug in one of them"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs">
+
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <header class="doc-nav">
+    <div class="doc-nav-inner">
+      <a class="doc-brand" href="/">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="28" height="28">
+            <defs>
+              <linearGradient id="doc-mark" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7ff"/>
+                <stop offset="55%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#f472b6"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12 C 14 4, 26 20, 34 12 M6 20 C 14 12, 26 28, 34 20 M6 28 C 14 20, 26 36, 34 28"
+                  fill="none" stroke="url(#doc-mark)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        ZYCORD <span class="doc-brand-sub">docs</span>
+      </a>
+      <button class="doc-nav-toggle" aria-expanded="false" aria-controls="doc-sidebar">Contents</button>
+      <nav class="doc-nav-links" aria-label="Site">
+        <a href="/">Home</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://testnet.zycord.com">Explorer</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="/download/">Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="doc-shell">
+      <nav class="doc-sidebar" id="doc-sidebar" aria-label="Documentation">
+        <h2>Get it</h2>
+        <a href="/download/">Downloads</a>
+        <a href="/faucet/">Testnet faucet</a>
+        <h2>Start here</h2>
+        <a href="/docs/how-it-works/">How the network works</a>
+        <a href="/docs/">Documentation</a>
+        <a href="/docs/whitepaper/">Whitepaper</a>
+        <a href="/docs/architecture/">Architecture</a>
+        <h2>Run it</h2>
+        <a href="/docs/install/">Installation</a>
+        <a href="/docs/verify/">Verifying a download</a>
+        <a href="/docs/running-a-node/">Running a node</a>
+        <a href="/docs/mining/">Mining</a>
+        <a href="/docs/wallet/">Wallet</a>
+        <a href="/docs/testnet/">Public testnet</a>
+        <h2>Reference</h2>
+        <a href="/docs/protocol/">Wire protocol</a>
+        <a href="/docs/glossary/" aria-current="page">Glossary</a>
+        <a href="/docs/faq/">FAQ</a>
+      </nav>
+
+      <main class="doc-main" id="content">
+        <article class="doc-article">
+          <div class="doc-crumbs">
+        <a href="/">Zycord</a><span aria-hidden="true">/</span><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Glossary</span>
+          </div>
+          <h1>Glossary</h1>
+          <p class="doc-lede">Certificate, fold, skip, underwriter, cell. Several of these mean something narrower here than elsewhere, and a couple name events most chains have no word for.</p>
+<p>The vocabulary this protocol uses, in the sense it uses it. Several of these words
+mean something narrower here than they do elsewhere, and two of them &mdash; <a href="#skip">skip</a>
+and <a href="#drop">drop</a> &mdash; name events most chains have no word for because they have no
+equivalent.</p>
+
+<h3 id="certificate">Certificate<a class="doc-anchor" href="#certificate" aria-label="Link to this section">#</a></h3>
+<p>The only transaction type in Zycord. A certificate carries the state it <em>read</em> and the state it <em>wrote</em>, plus the program that connects them, the signatures authorizing it, an underwriter, a TTL, and a bid in each of the two fee markets. Because it carries its own inputs and outputs, checking whether it is <a href="#valid">valid</a> requires no state at all.</p>
+<h3 id="fold">Fold<a class="doc-anchor" href="#fold" aria-label="Link to this section">#</a></h3>
+<p>The deterministic loop that advances the ledger. It walks a block's certificates in a total order, and for each one checks whether its declared reads still hold: if they do it commits the writes, and if they do not it <a href="#skip">skips</a>. The fold performs comparisons, additions and writes on a hot key-value working set &mdash; <strong>no code execution, no signature verification, no re-execution</strong>, and no elliptic-curve arithmetic. It is the only stage of the system that does not parallelize.</p>
+<h3 id="skip">Skip<a class="doc-anchor" href="#skip" aria-label="Link to this section">#</a></h3>
+<p>What happens to a certificate whose declared reads no longer hold. Its fee is billed to its underwriter, and <strong>the block remains valid</strong>. Skip is semantics, not failure: inclusion and application are different events, which is what allows a block producer to be blind &mdash; it can never produce an invalid block by including a stale certificate.</p>
+<h3 id="drop">Drop<a class="doc-anchor" href="#drop" aria-label="Link to this section">#</a></h3>
+<p>A non-billed non-event, and the term the implementation adds to the whitepaper's vocabulary. A certificate that reaches application with its deposit already consumed is dropped: not billed, not marked seen, and free to resubmit against a fresh deposit. Honest users therefore lose nothing to races on their own deposit cell.</p>
+<h3 id="underwriter">Underwriter<a class="doc-anchor" href="#underwriter" aria-label="Link to this section">#</a></h3>
+<p>The party whose bonded funds answer for a certificate. <strong>No certificate exists without one.</strong> Skipping must not be free, or the mempool drowns &mdash; but the skipped certificate never touched the sender's balance, so there is nothing to charge the sender. The underwriter is what gives every conflict an owner. In Era 0 the only mode is <em>self-insured</em>: the sender attaches a small deposit from an unencumbered cell.</p>
+<h3 id="cell">Cell<a class="doc-anchor" href="#cell" aria-label="Link to this section">#</a></h3>
+<p>The value at a slot &mdash; an unsigned 256-bit integer stored big-endian in 32 bytes. <strong>Zero is absence:</strong> a slot never written and a slot written to zero are the same slot. That is a consensus requirement, not a convenience: it keeps the state root a function of the state rather than of the history that produced it.</p>
+<h3 id="one-shot">One-shot address (<code>0x01</code>)<a class="doc-anchor" href="#one-shot" aria-label="Link to this section">#</a></h3>
+<p>An address whose signing authority is burned permanently by its first debit. Paying a newly derived one-shot address is the zero-contention fast path, and deriving a fresh one per payment is what makes a payment unlinkable to the next. The cost is that <em>&ldquo;spend some of it&rdquo;</em> is not a thing a one-shot address can do &mdash; see <a href="/docs/wallet/#rule-1-sweep-whole-cells">wallet rule 1</a>.</p>
+<h3 id="persistent">Persistent address (<code>0x02</code>)<a class="doc-anchor" href="#persistent" aria-label="Link to this section">#</a></h3>
+<p>A reusable address. It can never enter the spent registry, so it has no burn-grief surface at all. Merchants, donation addresses and <strong>mining payouts</strong> must use one; <code>zycordd --payout</code> refuses anything else.</p>
+<h3 id="spent-registry">Spent-address registry<a class="doc-anchor" href="#spent-registry" aria-label="Link to this section">#</a></h3>
+<p>The permanent consensus set of one-shot addresses whose authority has been burned. Cell <em>values</em> under a spent address may be pruned after the undo horizon, but the registry entry never is &mdash; it is what stops the address being resurrected. About 33 bytes per address, forever: <strong>the protocol's honest open problem</strong>, shared structurally with every nullifier-set design.</p>
+<h3 id="valid">Valid vs. applicable<a class="doc-anchor" href="#valid" aria-label="Link to this section">#</a></h3>
+<p>Two predicates that a conventional chain conflates. <strong>Valid</strong> is stateless, parallel, and checkable by anyone from the certificate's bytes alone. <strong>Applicable</strong> is stateful, sequential, and decided only by position in the ledger. Two valid certificates may declare the same input value for the same slot; at most one can be applicable.</p>
+<h3 id="guarded-delta">Guarded delta<a class="doc-anchor" href="#guarded-delta" aria-label="Link to this section">#</a></h3>
+<p>An access discipline in which a certificate asserts a predicate on a slot &mdash; <code>balance &ge; 10</code> &mdash; <em>without reading the value into the computation</em>, and writes a signed delta. Any number of guarded debits and credits to the same slot commute, so a skip occurs only on a real overdraft and not merely because the balance changed. This single discipline covers transfers, supply-capped mints, allowances and vault shares.</p>
+<h3 id="pure-delta">Pure delta<a class="doc-anchor" href="#pure-delta" aria-label="Link to this section">#</a></h3>
+<p>A signed delta with no guard. It can never conflict and never skip. Tips, counters, accumulators, reward tallies.</p>
+<h3 id="exact-read">Exact read<a class="doc-anchor" href="#exact-read" aria-label="Link to this section">#</a></h3>
+<p>The <code>SLOAD</code>-style discipline: the read returns the slot's value into the computation and pins the certificate to it. Arbitrary logic, conflicts on hot slots, and the domain of application sequencers.</p>
+<h3 id="epoch-beacon">Epoch beacon<a class="doc-anchor" href="#epoch-beacon" aria-label="Link to this section">#</a></h3>
+<p>A reserved slot the protocol writes once per epoch. Programs must not read ambient values like the timestamp or the height directly &mdash; that would make execution a function of something other than the declared reads &mdash; so they read the beacon like any other slot, ideally with a range guard. It is proof-of-work output and is <strong>unfit for high-value lotteries</strong> until a VRF arrives.</p>
+<h3 id="epoch">Epoch<a class="doc-anchor" href="#epoch" aria-label="Link to this section">#</a></h3>
+<p>2,880 blocks &mdash; about a day at 30-second blocks. The unit on which the subsidy steps down, the sequential capacity target moves, and the beacon is refreshed.</p>
+<h3 id="ttl">TTL<a class="doc-anchor" href="#ttl" aria-label="Link to this section">#</a></h3>
+<p>The height by which a certificate must be committed to be valid. Consensus-bounded at 240 blocks (about two hours), which is what keeps the seen set prunable. Including a seen or expired certificate makes the <em>block</em> invalid &mdash; so a signature is billable at most once, and only at a position its signer accepted by signing.</p>
+<h3 id="two-markets">Sequential and parallel gas<a class="doc-anchor" href="#two-markets" aria-label="Link to this section">#</a></h3>
+<p>Fees split into two markets: one for sequential state mutation, which is scarce, and one for parallel verification, which is not. A signature check therefore does not compete in the same auction as a storage write, which is what makes heavy cryptography cheap by design.</p>
+<h3 id="era">Era<a class="doc-anchor" href="#era" aria-label="Link to this section">#</a></h3>
+<p>A stage of the launch, triggered by thresholds measured on-chain &mdash; block height and sustained stake &mdash; <strong>never by calendar date or by vote</strong>. Era 0 is mining and native assets; Era 1 adds bonds, sequencers and the virtual machine; Era 2 moves proposal to a stake committee; Era S adds confidential payments, and only after published audits.</p>
+<h3 id="randomx">RandomX<a class="doc-anchor" href="#randomx" aria-label="Link to this section">#</a></h3>
+<p>The proof-of-work function, optimised for general-purpose CPUs so that ordinary hardware stays competitive. It is a <strong>consensus parameter, not a setting</strong>: a binary that cannot compute a network's <code>pow_engine</code> refuses to start rather than falling back.</p>
+<h3 id="treasury">Treasury<a class="doc-anchor" href="#treasury" aria-label="Link to this section">#</a></h3>
+<p>The protocol address's own balance cell, credited 3% of every block subsidy from block 0. It has <strong>no key, no address and no quorum at genesis</strong> and cannot be opened before Era 2, when a 3-of-5 key set may be pinned by hard fork. If nobody ever shows up publicly to claim it, the coins are never issued.</p>
+<h3 id="state-root">State root<a class="doc-anchor" href="#state-root" aria-label="Link to this section">#</a></h3>
+<p>The commitment to the whole of state at a height. A node recomputes it on start and refuses to run if the stored one disagrees, and it doubles as a production-time differential guard between nodes: two implementations that reach different roots from one block sequence have found a bug in one of them.</p>
+
+<h2 id="where-each-term-is-defined-normatively">Where each term is defined normatively<a class="doc-anchor" href="#where-each-term-is-defined-normatively" aria-label="Link to this section">#</a></h2>
+
+<p>This page is a reading aid. The definitions that bind are in
+<a href="{{ZYCORD_SOURCE_URL}}/tree/main/spec">the specification and the golden vectors</a>; the reasoning is in
+the <a href="/docs/whitepaper/">whitepaper</a>, and the implementation's own vocabulary section is
+in <a href="{{ZYCORD_SOURCE_URL}}/blob/main/docs/ARCHITECTURE.md">docs/ARCHITECTURE.md</a>.</p>
+        </article>
+      <nav class="doc-pager" aria-label="Pagination">
+        <a class="prev" href="/docs/protocol/"><span class="dir">Previous</span><span class="ttl">Wire protocol</span></a>
+        <a class="next" href="/docs/faq/"><span class="dir">Next</span><span class="ttl">FAQ</span></a>
+      </nav>
+      </main>
+
+      <nav class="doc-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <a class="lvl-3" href="#certificate">Certificate</a>
+        <a class="lvl-3" href="#fold">Fold</a>
+        <a class="lvl-3" href="#skip">Skip</a>
+        <a class="lvl-3" href="#drop">Drop</a>
+        <a class="lvl-3" href="#underwriter">Underwriter</a>
+        <a class="lvl-3" href="#cell">Cell</a>
+        <a class="lvl-3" href="#one-shot">One-shot address (0x01)</a>
+        <a class="lvl-3" href="#persistent">Persistent address (0x02)</a>
+        <a class="lvl-3" href="#spent-registry">Spent-address registry</a>
+        <a class="lvl-3" href="#valid">Valid vs. applicable</a>
+        <a class="lvl-3" href="#guarded-delta">Guarded delta</a>
+        <a class="lvl-3" href="#pure-delta">Pure delta</a>
+        <a class="lvl-3" href="#exact-read">Exact read</a>
+        <a class="lvl-3" href="#epoch-beacon">Epoch beacon</a>
+        <a class="lvl-3" href="#epoch">Epoch</a>
+        <a class="lvl-3" href="#ttl">TTL</a>
+        <a class="lvl-3" href="#two-markets">Sequential and parallel gas</a>
+        <a class="lvl-3" href="#era">Era</a>
+        <a class="lvl-3" href="#randomx">RandomX</a>
+        <a class="lvl-3" href="#treasury">Treasury</a>
+        <a class="lvl-3" href="#state-root">State root</a>
+        <a class="lvl-2" href="#where-each-term-is-defined-normatively">Where each term is defined normatively</a>
+      </nav>
+  </div>
+
+  <footer class="doc-footer">
+    <div class="doc-footer-inner">
+      <span>Zycord &middot; a peer-to-peer network of self-certifying state transitions.</span>
+      <div class="doc-footer-links">
+        <a href="/">Home</a>
+        <a href="/download/">Downloads</a>
+        <a href="/docs/">Documentation</a>
+        <a href="{{ZYCORD_SOURCE_URL}}">Source</a>
+        <a href="https://bitcointalk.org/index.php?topic=5592720.0">Forum</a>
+        <a href="https://doi.org/10.5281/zenodo.22167490">Whitepaper DOI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/docs.js"></script>
+</body>
+</html>

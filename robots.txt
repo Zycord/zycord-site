@@ -1,0 +1,21 @@
+# Zycord — https://zycord.com/
+#
+# Everything here is meant to be found. The documentation exists partly so that
+# someone searching for how this protocol works arrives at the protocol rather
+# than at somebody's summary of it.
+
+User-agent: *
+Allow: /
+
+# Nothing on this host is generated per-visitor, so there are no session URLs
+# to exclude and no crawl traps to guard. The one directory worth keeping out
+# of an index is the signature material, which is served for verification
+# rather than for reading.
+Disallow: /assets/*.asc$
+
+# The faucet's API. Nothing under it is a document -- it answers JSON to the
+# page at /faucet/ -- and a crawler walking it spends the same per-address rate
+# limit a visitor needs to make a claim.
+Disallow: /api/
+
+Sitemap: https://zycord.com/sitemap.xml
